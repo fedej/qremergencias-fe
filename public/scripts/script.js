@@ -1,19 +1,8 @@
-/*
-Theme: Flatfy Theme
-Author: Andrea Galanti
-Bootstrap Version
-Build: 1.0
-http://www.andreagalanti.it
-*/
-
-$(window).load(function() {
-	//Preloader
-	$('#status').delay(300).fadeOut();
+$(document).ready(function() {
+  $('#status').delay(300).fadeOut();
 	$('#preloader').delay(300).fadeOut('slow');
 	$('body').delay(550).css({'overflow':'visible'});
-})
 
-$(document).ready(function() {
 	//animated logo
 	$(".navbar-brand").hover(function () {
 		$(this).toggleClass("animated shake");
@@ -34,7 +23,6 @@ $(document).ready(function() {
 	//MagnificPopup
 	$('.image-link').magnificPopup({type:'image'});
 
-
 	// OwlCarousel N1
 	$("#owl-demo").owlCarousel({
 		autoPlay: 3000,
@@ -45,31 +33,23 @@ $(document).ready(function() {
 
 	// OwlCarousel N2
 	$("#owl-demo-1").owlCarousel({
-		  navigation : false, // Show next and prev buttons
-		  slideSpeed : 300,
-		  paginationSpeed : 400,
-		  singleItem:true
+	  navigation : false, // Show next and prev buttons
+	  slideSpeed : 300,
+	  paginationSpeed : 400,
+	  singleItem:true
 	});
 
-	//SmothScroll
+	// SmothScroll
 	$('a[href*=#]').click(function() {
 		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
 		&& location.hostname == this.hostname) {
-				var $target = $(this.hash);
-				$target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
-				if ($target.length) {
-						var targetOffset = $target.offset().top;
-						$('html,body').animate({scrollTop: targetOffset}, 600);
-						return false;
-				}
+			var $target = $(this.hash);
+			$target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
+			if ($target.length) {
+				var targetOffset = $target.offset().top;
+				$('html,body').animate({scrollTop: targetOffset}, 600);
+				return false;
+			}
 		}
 	});
-
-	//Subscribe
-	new UIMorphingButton( document.querySelector( '.morph-button' ) );
-	// for demo purposes only
-	[].slice.call( document.querySelectorAll( 'form button' ) ).forEach( function( bttn ) {
-		bttn.addEventListener( 'click', function( ev ) { ev.preventDefault(); } );
-	} );
-
 });
