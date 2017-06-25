@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var register = require('./routes/register');
+var requestReset = require('./routes/requestReset');
+var reset = require('./routes/reset');
 var users = require('./routes/users');
 var home = require('./routes/home');
 console.log(home);
@@ -27,6 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/register', register);
+app.use('/requestReset', requestReset);
+app.use('/reset', reset);
 app.use('/users', users);
 app.use('/home', home);
 
