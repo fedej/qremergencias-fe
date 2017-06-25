@@ -5,23 +5,28 @@ $(function() {
 
   var user = new User();
 
+  var frApi = new ApiDocumentation.UserfrontcontrollerApi();
+
   $('#btn-login').on('click', function() {
-    user.getToken(function(response) {
-      console.log(response);
-      user.login({ username: 'ale@gmail.com', password: 'Nasdaaas@123' }, response.token, function(response) {
-        console.log(response);
-        alert('Usuario logueado');
-      });
+
+    user.login({ username: $('#login-username').val(), password: $('#login-password').val()}, function(response) {
+      location.href = '/home';
     });
+
   });
 
   $('#btn-signup').on('click', function() {
-    user.getToken(function(response) {
-      console.log(response);
-      user.register({ email: 'maggialejs@gmail.com', password: 'Nasdaddd@123', role: 'role_admin' }, response.token, function(response) {
-        console.log(response);
-        alert('Usuario registrado');
-      });
+
+    var dto = new ApiDocumentation.CreateUserDTO();
+    ApiDocumentation.CreateUserDTO.constructFromObject({ email: $('#register-username').val(), password: $('#register-password').val(), role: 'ROLE_PACIENTE' }, dto);
+    frApi.registerUsingPOST(dto, function(error, data, response) {
+
+      if (error) {
+        alert(error);
+      }
+
+      location.href = '/home';
     });
+
   });
 });

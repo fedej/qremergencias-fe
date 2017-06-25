@@ -4,12 +4,6 @@ function User() {
 
 }
 
-User.prototype.getToken = function(callback) {
-  $.get(_host + '/qremergencias/api/token', function(data) {
-    callback(data);
-  });
-}
-
 User.prototype.register = function(credenciales, token, callback) {
   $.ajax({
     url: _host + '/qremergencias/api/userFront/register',
@@ -20,9 +14,6 @@ User.prototype.register = function(credenciales, token, callback) {
     },
     dataType: 'json',
     contentType: "application/json;charset=UTF-8",
-    headers: {
-      'X-CSRF-TOKEN': token,
-    },
     success: function(response) {
       callback(response);
     },
@@ -30,21 +21,23 @@ User.prototype.register = function(credenciales, token, callback) {
       callback(error);
     },
   });
-}
+};
 
-User.prototype.login = function(credenciales, token, callback) {
+User.prototype.login = function(credenciales, callback) {
+  var formData = new FormData();
+
+  for ( var key in credenciales ) {
+    formData.append(key, credenciales[key]);
+  }
+
   $.ajax({
-    url: _host + '/qremergencias/api/userFront/login',
+    url: _host + '/qremergencias/api/login',
     method: 'POST',
-    data: JSON.stringify(credenciales),
+    data: credenciales,
     xhrFields: {
       withCredentials: true,
     },
-    dataType: 'json',
-    contentType: "application/json;charset=UTF-8",
-    headers: {
-      'X-CSRF-TOKEN': token,
-    },
+    contentType: "application/x-www-form-urlencoded",
     success: function(response) {
       callback(response);
     },
@@ -52,4 +45,4 @@ User.prototype.login = function(credenciales, token, callback) {
       callback(error);
     },
   });
-}
+};
