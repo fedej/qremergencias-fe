@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var register = require('./routes/register');
 var users = require('./routes/users');
 var home = require('./routes/home');
+console.log(home);
 
 var app = express();
 
