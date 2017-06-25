@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  *
  */
+var HOST = '192.168.0.10';
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -46,7 +47,7 @@
      * @type {String}
      * @default https://localhost:8082/qremergencias
      */
-    this.basePath = 'http://localhost:8082/qremergencias'.replace(/\/+$/, '');
+    this.basePath = 'http://' + HOST + ':8082/qremergencias'.replace(/\/+$/, '');
 
     /**
      * The authentication methods to be included for all API calls.
