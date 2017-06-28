@@ -52,12 +52,10 @@ User.prototype.forgotPassword = function(username) {
   $.ajax({
     url: _host + '/qremergencias/api/userFront/sendForgotPassword',
     method: 'POST',
-    data: JSON.stringify(username),
+    data: username,
     xhrFields: {
       withCredentials: true,
     },
-    dataType: 'json',
-    contentType: "application/json;charset=UTF-8",
     success: function(response) {
       callback(response);
     },
