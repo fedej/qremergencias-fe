@@ -18,10 +18,25 @@ $(function() {
   });
 
   $('#btn-forgotPassword').on('click', function() {
-    var data = { username: $('#forgotPassword-username').val()};
+    var gcaptcha = "03AHJ_VutJo9e1BnpdN_WSaFcml4fUUjZqAMS-cEin6p_J88dsbHF31JgK6QUYa41uZxput-XzP0jXztOUDlLFHzJT1Rz_qtHBmL_ZfC4O0si4-oo6n3tuU1zR_QPXxb37rPc_v_uc3WC7nDtQF9m5witqbJ_n40_DJZYH3UcutpCJc9_Ke_vSbO5UUzKsp4xFxVqUQcls0QKJrtVomPqzg-ImIFGqb7mv9OYfBlAyWa94wwOSCVjAJy7ZdwEM5Ev4C_gtlbTMAJlpzWFLfVFl7lCl-C7UYu9jlFwfUt8QqfgyDk4xay8zOsjAouA19Fd_BLJAQdjZn_Jp0ZY8yK0pf0yQoi-FCT3oNtNV1OVJecNoUUaEZn-cDVKVrWtfksr9152SPPK2IEj_jRnZCsyhlq0maImq5Ia3HVr3ARpzrS-VRmPNRmjN_Abl-Lj_Knay7qUZrKhdAoqa8y1G_s27imPJg1ymLRvY0C-t0Y3ZeXV7aIhMWT8p57Re6fYbi_bgvMfDq4CUOCIPnKzr0FuL3Ir4o-qw_BOlKwYjm4xiMhhfu1cUIJalw26dJjhDgQhJIGBNokzPHW-iwl9ZX21dAJMc3KT2HARvk9OL0MkVXlA_fZjcFoyftdz8ricyl4lZrb13M-4DNm9u3R2ZxikeujZTNWuZJZIHKSDvp1jAMB4OdQaKjU0NbsVsW9BjF0EYKhu_txUfhtrekuj_O_UtcCs9i_7qXL4XvxoHM5x0Qiya-X2GNEZDj0skRoc5sEO0FZQI1JyLPGUlmWWqJ0X57cM10n6xgG3TBCy83_1iBd30C5F07r9tyJAsVzUQnSD_HPfFaB3b-50kWsmM5NwpzR6c4B544LHPQuQpNDMfC6LnRQnPX3IMihWr0UFPTzP96p5ND6tELAxABM8dxcXk2rilSe0f6k3lUizr6T2l4TYzxcAspmRuFSnGAfROH1Eggyr9W5nHLiJHMojA3CtmDOnBMbLDqRd3CA";
+    var data = { username: $('#forgotPassword-username').val(), "g-recaptcha-response": gcaptcha};
 
     user
       .forgotPassword(data, function(response) {
+        console.log(response);
+        // location.href = '/home';
+      });
+
+  });
+
+
+  $('#btn-reset-password').on('click', function() {
+    var token = new URLSearchParams(window.location.search).get('token');
+    var gcaptcha = "03AHJ_VutJo9e1BnpdN_WSaFcml4fUUjZqAMS-cEin6p_J88dsbHF31JgK6QUYa41uZxput-XzP0jXztOUDlLFHzJT1Rz_qtHBmL_ZfC4O0si4-oo6n3tuU1zR_QPXxb37rPc_v_uc3WC7nDtQF9m5witqbJ_n40_DJZYH3UcutpCJc9_Ke_vSbO5UUzKsp4xFxVqUQcls0QKJrtVomPqzg-ImIFGqb7mv9OYfBlAyWa94wwOSCVjAJy7ZdwEM5Ev4C_gtlbTMAJlpzWFLfVFl7lCl-C7UYu9jlFwfUt8QqfgyDk4xay8zOsjAouA19Fd_BLJAQdjZn_Jp0ZY8yK0pf0yQoi-FCT3oNtNV1OVJecNoUUaEZn-cDVKVrWtfksr9152SPPK2IEj_jRnZCsyhlq0maImq5Ia3HVr3ARpzrS-VRmPNRmjN_Abl-Lj_Knay7qUZrKhdAoqa8y1G_s27imPJg1ymLRvY0C-t0Y3ZeXV7aIhMWT8p57Re6fYbi_bgvMfDq4CUOCIPnKzr0FuL3Ir4o-qw_BOlKwYjm4xiMhhfu1cUIJalw26dJjhDgQhJIGBNokzPHW-iwl9ZX21dAJMc3KT2HARvk9OL0MkVXlA_fZjcFoyftdz8ricyl4lZrb13M-4DNm9u3R2ZxikeujZTNWuZJZIHKSDvp1jAMB4OdQaKjU0NbsVsW9BjF0EYKhu_txUfhtrekuj_O_UtcCs9i_7qXL4XvxoHM5x0Qiya-X2GNEZDj0skRoc5sEO0FZQI1JyLPGUlmWWqJ0X57cM10n6xgG3TBCy83_1iBd30C5F07r9tyJAsVzUQnSD_HPfFaB3b-50kWsmM5NwpzR6c4B544LHPQuQpNDMfC6LnRQnPX3IMihWr0UFPTzP96p5ND6tELAxABM8dxcXk2rilSe0f6k3lUizr6T2l4TYzxcAspmRuFSnGAfROH1Eggyr9W5nHLiJHMojA3CtmDOnBMbLDqRd3CA";
+    var data = { recaptchaResponse: gcaptcha, newPassword: $('#new-password').val(), token: token, confirmPassword: $('#confirm-password').val()};
+
+    user
+      .resetPassword(data, function(response) {
         console.log(response);
         // location.href = '/home';
       });

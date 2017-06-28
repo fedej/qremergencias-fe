@@ -14,12 +14,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/CreateUserDTO', 'model/LoginUserDTO', 'api/QremergenciascontrollerApi', 'api/UserfrontcontrollerApi'], factory);
+    define(['ApiClient', 'model/CreateUserDTO', 'api/UserfrontcontrollerApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/CreateUserDTO'), require('./model/LoginUserDTO'), require('./api/QremergenciascontrollerApi'), require('./api/UserfrontcontrollerApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/CreateUserDTO'), require('./api/UserfrontcontrollerApi'));
   }
-}(function(ApiClient, CreateUserDTO, LoginUserDTO, QremergenciascontrollerApi, UserfrontcontrollerApi) {
+}(function(ApiClient, CreateUserDTO, UserfrontcontrollerApi) {
   'use strict';
 
   /**
@@ -64,16 +64,6 @@
      * @property {module:model/CreateUserDTO}
      */
     CreateUserDTO: CreateUserDTO,
-    /**
-     * The LoginUserDTO model constructor.
-     * @property {module:model/LoginUserDTO}
-     */
-    LoginUserDTO: LoginUserDTO,
-    /**
-     * The QremergenciascontrollerApi service constructor.
-     * @property {module:api/QremergenciascontrollerApi}
-     */
-    QremergenciascontrollerApi: QremergenciascontrollerApi,
     /**
      * The UserfrontcontrollerApi service constructor.
      * @property {module:api/UserfrontcontrollerApi}
