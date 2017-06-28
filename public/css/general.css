@@ -77,9 +77,12 @@ margin: auto;
 	font-family: arvo;
 	font-weight: 300;
 	letter-spacing: 6px;
+	text-shadow: 2px 2px 0px #04B404;
 }
 
-.h3_home{font-weight: 300;}
+.h3_home{
+	font-weight: 300;
+	text-shadow: 2px 2px 0px #04B404;}
 
 /*own carousel */
 
@@ -141,14 +144,14 @@ filter: alpha(opacity=95) !important;
 }
 
 .mybutton_cyano{
-	border: 1px solid #4A90BE;
+	border: 1px solid #04B404;
 	color: #fff;
-	background-color:#4A90BE;
+	background-color:#04B404;
 }
 
 .mybutton_cyano:hover{
-	border: 1px solid #4A90BE;
-	color: #4A90BE !important;
+	border: 1px solid #04B404;
+	color: #04B404 !important;
 	background: rgba(204, 204, 204, 0);
 }
 
@@ -246,7 +249,7 @@ color: #ECEBEB;
 	padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
 	padding-bottom: 50px;
 	color: #f8f8f8;
-	background: url(../img/intro/intro5.jpg) no-repeat center center;
+	background: url(../img/intro/intro6.jpg) no-repeat center center;
 	background-size: cover;
 	text-align: center;
 }
