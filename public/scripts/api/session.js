@@ -46,3 +46,38 @@ User.prototype.login = function(credenciales, callback) {
     },
   });
 };
+
+User.prototype.forgotPassword = function(data, callback) {
+  $.ajax({
+    url: _host + '/qremergencias/api/userFront/sendForgotPassword',
+    method: 'POST',
+    data: data,
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function(response) {
+      callback(response);
+    },
+    error: function(error) {
+      callback(error);
+    },
+  });
+};
+
+User.prototype.resetPassword = function(data, callback) {
+  $.ajax({
+    url: _host + '/qremergencias/api/userFront/resetPassword',
+    method: 'POST',
+    data: data,
+    xhrFields: {
+      withCredentials: true,
+    },
+    dataType: 'json',
+    success: function(response) {
+      callback(response);
+    },
+    error: function(error) {
+      callback(error);
+    },
+  });
+};

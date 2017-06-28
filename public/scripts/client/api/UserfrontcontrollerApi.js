@@ -14,18 +14,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/CreateUserDTO', 'model/LoginUserDTO'], factory);
+    define(['ApiClient', 'model/CreateUserDTO'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/CreateUserDTO'), require('../model/LoginUserDTO'));
+    module.exports = factory(require('../ApiClient'), require('../model/CreateUserDTO'));
   } else {
     // Browser globals (root is window)
     if (!root.ApiDocumentation) {
       root.ApiDocumentation = {};
     }
-    root.ApiDocumentation.UserfrontcontrollerApi = factory(root.ApiDocumentation.ApiClient, root.ApiDocumentation.CreateUserDTO, root.ApiDocumentation.LoginUserDTO);
+    root.ApiDocumentation.UserfrontcontrollerApi = factory(root.ApiDocumentation.ApiClient, root.ApiDocumentation.CreateUserDTO);
   }
-}(this, function(ApiClient, CreateUserDTO, LoginUserDTO) {
+}(this, function(ApiClient, CreateUserDTO) {
   'use strict';
 
   /**
@@ -95,10 +95,104 @@
     }
 
     /**
+     * Callback function to receive the result of the confirmRegistrationUsingGET operation.
+     * @callback module:api/UserfrontcontrollerApi~confirmRegistrationUsingGETCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * confirmRegistration
+     * @param {String} token token
+     * @param {module:api/UserfrontcontrollerApi~confirmRegistrationUsingGETCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.confirmRegistrationUsingGET = function(token, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'token' is set
+      if (token == undefined || token == null) {
+        throw new Error("Missing the required parameter 'token' when calling confirmRegistrationUsingGET");
+      }
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'token': token
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = ['*/*'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/userFront/confirmRegistration', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the loginUsingPOST operation.
+     * @callback module:api/UserfrontcontrollerApi~loginUsingPOSTCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * @param {String} username 
+     * @param {String} password 
+     * @param {module:api/UserfrontcontrollerApi~loginUsingPOSTCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.loginUsingPOST = function(username, password, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'username' is set
+      if (username == undefined || username == null) {
+        throw new Error("Missing the required parameter 'username' when calling loginUsingPOST");
+      }
+
+      // verify the required parameter 'password' is set
+      if (password == undefined || password == null) {
+        throw new Error("Missing the required parameter 'password' when calling loginUsingPOST");
+      }
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+        'username': username,
+        'password': password
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/x-www-form-urlencoded'];
+      var accepts = [];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/login', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the registerUsingPOST operation.
      * @callback module:api/UserfrontcontrollerApi~registerUsingPOSTCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/LoginUserDTO} data The data returned by the service call.
+     * @param data This operation does not return a value.
      * @param {String} response The complete HTTP response.
      */
 
@@ -106,7 +200,6 @@
      * register
      * @param {module:model/CreateUserDTO} model model
      * @param {module:api/UserfrontcontrollerApi~registerUsingPOSTCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/LoginUserDTO}
      */
     this.registerUsingPOST = function(model, callback) {
       var postBody = model;
@@ -129,7 +222,7 @@
       var authNames = [];
       var contentTypes = ['application/json'];
       var accepts = ['*/*'];
-      var returnType = LoginUserDTO;
+      var returnType = null;
 
       return this.apiClient.callApi(
         '/api/userFront/register', 'POST',
@@ -186,30 +279,30 @@
     }
 
     /**
-     * Callback function to receive the result of the sendMailConfirmationUsingPOST operation.
-     * @callback module:api/UserfrontcontrollerApi~sendMailConfirmationUsingPOSTCallback
+     * Callback function to receive the result of the sendForgotPasswordUsingPOST operation.
+     * @callback module:api/UserfrontcontrollerApi~sendForgotPasswordUsingPOSTCallback
      * @param {String} error Error message, if any.
      * @param data This operation does not return a value.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * sendMailConfirmation
+     * sendForgotPassword
      * @param {String} gRecaptchaResponse g-recaptcha-response
      * @param {String} username username
-     * @param {module:api/UserfrontcontrollerApi~sendMailConfirmationUsingPOSTCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/UserfrontcontrollerApi~sendForgotPasswordUsingPOSTCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.sendMailConfirmationUsingPOST = function(gRecaptchaResponse, username, callback) {
+    this.sendForgotPasswordUsingPOST = function(gRecaptchaResponse, username, callback) {
       var postBody = null;
 
       // verify the required parameter 'gRecaptchaResponse' is set
       if (gRecaptchaResponse == undefined || gRecaptchaResponse == null) {
-        throw new Error("Missing the required parameter 'gRecaptchaResponse' when calling sendMailConfirmationUsingPOST");
+        throw new Error("Missing the required parameter 'gRecaptchaResponse' when calling sendForgotPasswordUsingPOST");
       }
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
-        throw new Error("Missing the required parameter 'username' when calling sendMailConfirmationUsingPOST");
+        throw new Error("Missing the required parameter 'username' when calling sendForgotPasswordUsingPOST");
       }
 
 
@@ -230,7 +323,7 @@
       var returnType = null;
 
       return this.apiClient.callApi(
-        '/api/userFront/sendMailConfirmation', 'POST',
+        '/api/userFront/sendForgotPassword', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
