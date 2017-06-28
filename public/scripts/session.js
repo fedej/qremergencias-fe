@@ -17,15 +17,16 @@ $(function() {
 
   });
 
-    $('#btn-forgotPassword').on('click', function() {
-      var data = { username: $('#forgotPassword-username').val()};
+  $('#btn-forgotPassword').on('click', function() {
+    var data = { username: $('#forgotPassword-username').val()};
 
-      user
-        .forgotPassword(data, function(response) {
-          location.href = '/home';
-        });
+    user
+      .forgotPassword(data, function(response) {
+        console.log(response);
+        // location.href = '/home';
+      });
 
-    });
+  });
 
   $('#btn-signup').on('click', function() {
     var type = location.href.split('?')[1];

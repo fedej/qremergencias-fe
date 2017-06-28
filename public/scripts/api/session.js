@@ -49,6 +49,7 @@ User.prototype.login = function(credenciales, callback) {
 
 
 User.prototype.forgotPassword = function(username) {
+User.prototype.forgotPassword = function(username, callback) {
   $.ajax({
     url: _host + '/qremergencias/api/userFront/sendForgotPassword',
     method: 'POST',
