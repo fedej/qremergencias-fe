@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  *
  */
-var HOST = '192.168.0.10';
+var HOST = '192.168.1.14';
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
