@@ -81,3 +81,21 @@ User.prototype.resetPassword = function(data, callback) {
     },
   });
 };
+
+User.prototype.completeRegistration = function(data, callback) {
+  $.ajax({
+    url: _host + '/qremergencias/api/userFront/completeRegistration',
+    method: 'POST',
+    data: data,
+    xhrFields: {
+      withCredentials: true,
+    },
+    dataType: 'json',
+    success: function(response) {
+      callback(response);
+    },
+    error: function(error) {
+      callback(error);
+    },
+  });
+};

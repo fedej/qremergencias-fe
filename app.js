@@ -13,6 +13,7 @@ var reset = require('./routes/reset');
 var login = require('./routes/login');
 var users = require('./routes/users');
 var home = require('./routes/home');
+var completeRegistration = require('./routes/completeRegistration');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/reset', reset);
 app.use('/login', login);
 app.use('/users', users);
 app.use('/home', home);
+app.use('/completeRegistration', completeRegistration);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
