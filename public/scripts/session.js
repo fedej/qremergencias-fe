@@ -52,7 +52,7 @@ $(function() {
     var data = { name: $('#complete-firstname').val(), lastName: $('#complete-lastname').val(), birthDate: $('#complete-birthdate').val(), token: token};
     user.completeRegistration(data, function(response) {
         console.log(response);
-        // location.href = '/home';
+        location.href = '/login';
     })
 
   });
@@ -64,7 +64,7 @@ $(function() {
     user
       .forgotPassword(data, function(response) {
         console.log(response);
-        // location.href = '/home';
+        location.href = '/forgotPasswordSuccess';
       });
 
   });
@@ -78,7 +78,7 @@ $(function() {
     user
       .resetPassword(data, function(response) {
         console.log(response);
-        // location.href = '/home';
+        location.href = '/resetPasswordSuccess';
       });
 
   });
@@ -105,7 +105,7 @@ $(function() {
       if (error) {
         alert(error);
       } else {
-        location.href = '/home';
+        location.href = '/emailConfirmation';
       }
     });
 
