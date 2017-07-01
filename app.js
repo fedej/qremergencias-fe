@@ -16,6 +16,7 @@ var home = require('./routes/home');
 var completeRegistration = require('./routes/completeRegistration');
 var emailConfirmation = require('./routes/emailConfirmation');
 var resetPasswordSuccess = require('./routes/resetPasswordSuccess');
+var forgotPasswordSuccess = require('./routes/forgotPasswordSuccess');
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use('/home', home);
 app.use('/completeRegistration', completeRegistration);
 app.use('/emailConfirmation', emailConfirmation);
 app.use('/resetPasswordSuccess', resetPasswordSuccess);
+app.use('/forgotPasswordSuccess', forgotPasswordSuccess);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
