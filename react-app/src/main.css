@@ -1,0 +1,14 @@
+html, body, #root {
+  height: 100%;
+}
+
+.homeBackground {
+  display: flex;
+  justify-content: center;
+  background: url('./assets/home.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height:100%;
+}

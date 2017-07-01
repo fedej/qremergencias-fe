@@ -26,8 +26,7 @@ const INITIAL_STATE = {
   isOpen: false,
 };
 
-// Reducer
-export default function AuthStateReducer(state = INITIAL_STATE, action = {}) {
+export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case SET_DRAWER:
       return {
