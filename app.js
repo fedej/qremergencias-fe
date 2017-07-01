@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var register = require('./routes/register');
+var registerBase = require('./routes/registerBase');
 var forgotPassword = require('./routes/forgotPassword');
 var reset = require('./routes/reset');
 var login = require('./routes/login');
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/register', register);
+app.use('/registerBase', registerBase);
 app.use('/forgotPassword', forgotPassword);
 app.use('/reset', reset);
 app.use('/login', login);
