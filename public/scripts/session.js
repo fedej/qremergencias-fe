@@ -45,6 +45,21 @@ function resetPassword() {
 
 };
 
+function displayError (errores) {
+  var str = "";
+  errores.forEach (function(item) {
+    str += '\u2022' + " ";
+    str += item.defaultMessage; 
+    str += "<br/>";
+  })
+  swal({
+    title: "Se detectaron errores",
+    text: "<div align=\"left\"> " + str + " </div>",
+    type: "error",
+    html: true
+  });
+}
+
 $(function() {
   $('#status').delay(300).fadeOut();
   $('#preloader').delay(300).fadeOut('slow');
@@ -124,8 +139,12 @@ $(function() {
     ApiDocumentation.CreateUserDTO.constructFromObject(data, dto);
     frApi.registerUsingPOST(dto, function(error, data, response) {
       if (error) {
-        console.log(error);
-        location.href = '/error';
+        if (error.response){
+          displayError(error.response.body.errors);
+        }
+        else {
+          location.href = '/error';
+        }
       } else {
         location.href = '/emailConfirmation';
       }
