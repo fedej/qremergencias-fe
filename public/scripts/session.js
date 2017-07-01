@@ -6,11 +6,9 @@ function doLogin() {
   var data = { username: $('#login-username').val(), password: $('#login-password').val()};
 
   frApi.loginUsingPOST(data.username, data.password, grecaptcha.getResponse(), function(error, data, response) {
-    console.log('este es el error: ' + error);
-    console.log(data);
-    console.log(response);
     if (error) {
-      alert(error);
+      console.log(error);
+      location.href = '/error';
     } else {
       location.href = '/resetPasswordSuccess';
     }
@@ -21,11 +19,9 @@ function doLogin() {
 function forgotPassword() {
 
   frApi.sendForgotPasswordUsingPOST(grecaptcha.getResponse(), $('#forgotPassword-username').val(), function(error, data, response) {
-    console.log('este es el error: ' + error);
-    console.log(data);
-    console.log(response);
     if (error) {
-      alert(error);
+      console.log(error);
+      location.href = '/error';
     } else {
       location.href = '/forgotPasswordSuccess';
     }
@@ -39,11 +35,9 @@ function resetPassword() {
   var resetData = { recaptchaResponse: grecaptcha.getResponse(), newPassword: $('#new-password').val(), token: token, confirmPassword: $('#confirm-password').val()};
 
   frApi.resetPasswordUsingPOST(resetData, function(error, data, response) {
-    console.log('este es el error: ' + error);
-    console.log(data);
-    console.log(response);
     if (error) {
-      alert(error);
+      console.log(error);
+      location.href = '/error';
     } else {
       location.href = '/home';
     }
@@ -129,9 +123,9 @@ $(function() {
 
     ApiDocumentation.CreateUserDTO.constructFromObject(data, dto);
     frApi.registerUsingPOST(dto, function(error, data, response) {
-      console.log(error);
       if (error) {
-        alert(error);
+        console.log(error);
+        location.href = '/error';
       } else {
         location.href = '/emailConfirmation';
       }
