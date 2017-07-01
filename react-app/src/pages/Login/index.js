@@ -1,35 +1,68 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, FlatButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 
+import { logIn } from '../../store/Auth';
+import { isValidEmail } from '../../utils/validations';
 import './styles.css';
 
-export default class Login extends React.Component {
+
+class Login extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  }
+
   state = {
     esMedico: false,
+    email: '',
+    password: '',
+    mailError: '',
+    passwordError: '',
   }
 
   handleLogin = () => {
-    console.log('login');
+    console.log(this.state);
+    const { email, password } = this.state;
+
+    if (email === '' || !isValidEmail(email)) {
+      this.setState({ mailError: 'Ingrese una dirección de mail válida.' });
+    } else if (password === '') {
+      this.setState({ mailError: '', passwordError: 'Ingrese su contraseña' });
+    } else {
+      this.setState({ mailError: '', passwordError: '' });
+
+      const { dispatch } = this.props;
+      dispatch(logIn({ username: email, password }));
+    }
   }
 
   handleToggleTipoCuenta = (event, esMedico) => this.setState({ esMedico });
 
   render() {
+    // TODO: mostrar error de Store.auth.error
     return (
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>
           <CardTitle title="Iniciar Sesión" subtitle="Ingrese sus datos" />
           <CardText>
             <TextField
+              value={this.state.email}
+              onChange={(e, email) => this.setState({ email })}
+              errorText={this.state.mailError}
               hintText="mi@email.com"
+              type="email"
               floatingLabelText="Email"
               fullWidth
             />
             <TextField
+              value={this.state.password}
+              onChange={(e, password) => this.setState({ password })}
               hintText="tu contraseña"
+              errorText={this.state.passwordError}
               floatingLabelText="Contraseña"
               type="password"
               fullWidth
@@ -59,3 +92,11 @@ export default class Login extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+  };
+}
+
+export default connect(mapStateToProps)(Login);

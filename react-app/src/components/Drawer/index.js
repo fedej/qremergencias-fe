@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import { Drawer, MenuItem } from 'material-ui';
 
 import { setDrawer } from '../../store/Drawer';
+import { logOut } from '../../store/Auth';
 
 class DrawerComponent extends Component {
   static propTypes = {
@@ -32,6 +33,11 @@ class DrawerComponent extends Component {
     dispatch(setDrawer(false));
   }
 
+  handleLogout = () => {
+    const { dispatch } = this.props;
+    dispatch(logOut());
+  }
+
   render() {
     return (
       <Drawer
@@ -51,7 +57,7 @@ class DrawerComponent extends Component {
         <MenuItem onTouchTap={() => this.handleChangeRoute('/codigo')}>
           Gestionar QR
         </MenuItem>
-        <MenuItem onTouchTap={() => console.log('Cerrar Sesion')}>
+        <MenuItem onTouchTap={this.handleLogout}>
           Cerrar Sesión
         </MenuItem>
       </Drawer>

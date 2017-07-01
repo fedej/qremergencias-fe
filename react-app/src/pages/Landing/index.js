@@ -14,13 +14,13 @@ export default function Landing() {
         </div>
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <RaisedButton
-            onClick={() => browserHistory.push('/login?medico')}
+            onClick={() => browserHistory.push('/register?medico')}
             style={{ marginRight: '5px' }}
             label="Soy Médico"
             primary
           />
           <RaisedButton
-            onClick={() => browserHistory.push('/login?paciente')}
+            onClick={() => browserHistory.push('/register?paciente')}
             style={{ marginLeft: '5px' }}
             label="Soy Paciente"
             primary

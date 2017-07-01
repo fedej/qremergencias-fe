@@ -14,29 +14,29 @@ import Historia from './pages/Historia';
 import Codigo from './pages/Codigo';
 import NotFound from './pages/NotFound';
 
-import EnsureSession from './components/EnsureSession';
-import EnsureLoggedIn from './components/EnsureLoggedIn';
-import EnsureLoggedOut from './components/EnsureLoggedOut';
+// import EnsureSession from './components/EnsureSession';
+// import EnsureLoggedIn from './components/EnsureLoggedIn';
+// import EnsureLoggedOut from './components/EnsureLoggedOut';
 
 export default function Routes({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={EnsureSession}>
-        <IndexRoute component={Landing} />
-        <Route component={EnsureLoggedOut}>
-          <Route path="register" component={Register} />
-          <Route path="login" component={Login} />
-          <Route path="forgotPassword" component={ForgotPassword} />
-        </Route>
-        <Route component={EnsureLoggedIn}>
-          <Route path="/home" component={Home}>
-            <Route path="datos" component={Datos} />
-            <Route path="perfil" component={Perfil} />
-            <Route path="historia" component={Historia} />
-            <Route path="codigo" component={Codigo} />
-          </Route>
-        </Route>
-      </Route>
+      {/* <Route path="/" component={EnsureSession}> */}
+      <Route path="/" component={Landing} />
+      {/* <Route component={EnsureLoggedOut}> */}
+      <Route path="register" component={Register} />
+      <Route path="login" component={Login} />
+      <Route path="forgotPassword" component={ForgotPassword} />
+      {/* </Route> */}
+      {/* <Route component={EnsureLoggedIn}> */}
+      <Route path="/home" component={Home} />
+      <Route path="datos" component={Datos} />
+      <Route path="perfil" component={Perfil} />
+      <Route path="historia" component={Historia} />
+      <Route path="codigo" component={Codigo} />
+      {/* </Route> */}
+        {/* </Route> */}
+      {/* </Route> */}
       <Route path="*" component={NotFound} />
     </Router>
   );

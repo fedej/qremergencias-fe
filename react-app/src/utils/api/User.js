@@ -9,8 +9,14 @@ export default class UserService {
         contentType: 'application/x-www-form-urlencoded',
       })
         .then(response => response.json())
-        .then(user => resolve(user))
-        .catch(err => reject(err));
+        .then((user) => {
+          resolve({});
+          // resolve(user);
+        })
+        .catch((err) => {
+          resolve({});
+          // reject(err);
+        });
     });
   }
 
@@ -19,8 +25,14 @@ export default class UserService {
       fetch(`${config.BASE_URL}/qremergencias/api/userFront/register`,
         { method: 'POST', body: JSON.stringify(credenciales) })
         .then(response => response.json())
-        .then(user => resolve(user))
-        .catch(err => reject(err));
+        .then((user) => {
+          resolve({});
+          // resolve(user);
+        })
+        .catch((err) => {
+          resolve({});
+          // reject(err);
+        });
     });
   }
 

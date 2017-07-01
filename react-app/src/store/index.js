@@ -1,4 +1,6 @@
 import { createStore, compose, applyMiddleware } from 'redux';
+import { autoRehydrate } from 'redux-persist';
+import thunk from 'redux-thunk';
 
 import { logger } from './middleware';
 import rootReducer from './reducers';
@@ -8,8 +10,10 @@ export default function configure(preloadedState) {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(rootReducer, preloadedState, composeEnhancers(
      applyMiddleware(
+       thunk,
        logger,
      ),
+     autoRehydrate(),
   ));
   /* eslint-enable */
 

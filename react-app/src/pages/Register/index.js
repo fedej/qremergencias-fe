@@ -1,15 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, FlatButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
 import classnames from 'classnames';
 
+import { signUp } from '../../store/Auth';
+import { isValidEmail } from '../../utils/validations';
 import './styles.css';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  }
+
   state = {
     esMedico: false,
+    email: '',
+    password: '',
+    mailError: '',
+    passwordError: '',
   }
 
   componentWillMount() {
@@ -18,7 +30,19 @@ export default class Register extends React.Component {
   }
 
   handleRegister = () => {
-    console.log('register');
+    console.log(this.state);
+    const { email, password } = this.state;
+
+    if (email === '' || !isValidEmail(email)) {
+      this.setState({ mailError: 'Ingrese una dirección de mail válida.' });
+    } else if (password === '') {
+      this.setState({ mailError: '', passwordError: 'Ingrese su contraseña' });
+    } else {
+      this.setState({ mailError: '', passwordError: '' });
+
+      const { dispatch } = this.props;
+      dispatch(signUp({ username: email, password }));
+    }
   }
 
   handleToggleTipoCuenta = (event, esMedico) => this.setState({ esMedico });
@@ -30,11 +54,17 @@ export default class Register extends React.Component {
           <CardTitle title="Registrarse" />
           <CardText>
             <TextField
+              onChange={(e, email) => this.setState({ email })}
+              value={this.state.email}
+              errorText={this.state.mailError}
               hintText="mi@email.com"
               floatingLabelText="Email"
               fullWidth
             />
             <TextField
+              onChange={(e, password) => this.setState({ password })}
+              value={this.state.password}
+              errorText={this.state.passwordError}
               hintText="tu contraseña"
               floatingLabelText="Contraseña"
               type="password"
@@ -67,3 +97,5 @@ export default class Register extends React.Component {
     );
   }
 }
+
+export default connect()(Register);
