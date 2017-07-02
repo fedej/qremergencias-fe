@@ -17,7 +17,7 @@ function requestLogin() {
   };
 }
 
-function receiveLogin(profile) {
+function loginSuccess(profile) {
   return {
     type: LOGIN_SUCCESS,
     profile,
@@ -35,7 +35,7 @@ export const logIn = creds => (dispatch) => {
   dispatch(requestLogin());
 
   UserService.login(creds)
-    .then(profile => dispatch(receiveLogin(profile)))
+    .then(profile => dispatch(loginSuccess(profile)))
     .catch(err => dispatch(loginError(err.message)));
 };
 
@@ -45,7 +45,13 @@ function requestRegister() {
   };
 }
 
-function receiveRegister(profile) {
+function registerSuccess() {
+  return {
+    type: REGISTER_SUCCESS,
+  };
+}
+
+function registerComplete(profile) {
   return {
     type: REGISTER_SUCCESS,
     profile,
@@ -60,11 +66,10 @@ function registerError(message) {
 }
 
 export const signUp = creds => (dispatch) => {
-  console.log(creds);
   dispatch(requestRegister());
 
   UserService.register(creds)
-    .then(profile => dispatch(receiveRegister(profile)))
+    .then(() => dispatch(registerSuccess()))
     .catch(err => dispatch(registerError(err.message)));
 };
 
@@ -72,6 +77,11 @@ export const logOut = () => ({
   type: LOGOUT,
 });
 
+export const completeRegistration = data => (dispatch) => {
+  UserService.completeRegistration(data)
+    .then(profile => dispatch(registerComplete(profile)))
+    .catch(err => dispatch(registerError(err.message)));
+};
 
 const INITIAL_STATE = {
   isLoggedIn: false,
@@ -83,15 +93,15 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return { isFetching: false };
+      return { isFetching: true };
     case LOGIN_SUCCESS:
-      return { isFetching: false, isLoggedIn: true, profile: action.profile };
+      return { isFetching: false, isLoggedIn: true, error: '', profile: action.profile };
     case LOGIN_FAILURE:
       return { isFetching: false, error: action.message };
     case REGISTER_REQUEST:
-      return { isFetching: false };
+      return { isFetching: true };
     case REGISTER_SUCCESS:
-      return { isFetching: false, isLoggedIn: true, profile: action.profile };
+      return { isFetching: false, error: '' };
     case REGISTER_FAILURE:
       return { isFetching: false, error: action.message };
     case LOGOUT:

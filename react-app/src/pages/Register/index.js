@@ -20,7 +20,7 @@ class Register extends React.Component {
     esMedico: false,
     email: '',
     password: '',
-    mailError: '',
+    emailError: '',
     passwordError: '',
   }
 
@@ -29,19 +29,27 @@ class Register extends React.Component {
     this.setState({ esMedico });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { auth } = nextProps;
+    if (this.props.auth.isFetching && !auth.isFetching && auth.error === '') {
+      browserHistory.push('registerSuccess');
+    }
+    // TODO: mostrar error del server
+  }
+
   handleRegister = () => {
-    console.log(this.state);
-    const { email, password } = this.state;
+    const { email, password, esMedico } = this.state;
 
     if (email === '' || !isValidEmail(email)) {
-      this.setState({ mailError: 'Ingrese una dirección de mail válida.' });
+      this.setState({ emailError: 'Ingrese una dirección de mail válida.' });
     } else if (password === '') {
-      this.setState({ mailError: '', passwordError: 'Ingrese su contraseña' });
+      this.setState({ emailError: '', passwordError: 'Ingrese su contraseña' });
     } else {
-      this.setState({ mailError: '', passwordError: '' });
+      this.setState({ emailError: '', passwordError: '' });
 
       const { dispatch } = this.props;
-      dispatch(signUp({ username: email, password }));
+      const role = esMedico ? 'ROLE_MEDICO' : 'ROLE_PACIENTE';
+      dispatch(signUp({ email, password, role }));
     }
   }
 
@@ -56,7 +64,7 @@ class Register extends React.Component {
             <TextField
               onChange={(e, email) => this.setState({ email })}
               value={this.state.email}
-              errorText={this.state.mailError}
+              errorText={this.state.emailError}
               hintText="mi@email.com"
               floatingLabelText="Email"
               fullWidth
@@ -98,4 +106,10 @@ class Register extends React.Component {
   }
 }
 
-export default connect()(Register);
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+
+export default connect(mapStateToProps)(Register);

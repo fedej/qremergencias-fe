@@ -20,7 +20,7 @@ class Login extends React.Component {
     esMedico: false,
     email: '',
     password: '',
-    mailError: '',
+    emailError: '',
     passwordError: '',
   }
 
@@ -29,11 +29,11 @@ class Login extends React.Component {
     const { email, password } = this.state;
 
     if (email === '' || !isValidEmail(email)) {
-      this.setState({ mailError: 'Ingrese una dirección de mail válida.' });
+      this.setState({ emailError: 'Ingrese una dirección de mail válida.' });
     } else if (password === '') {
-      this.setState({ mailError: '', passwordError: 'Ingrese su contraseña' });
+      this.setState({ emailError: '', passwordError: 'Ingrese su contraseña' });
     } else {
-      this.setState({ mailError: '', passwordError: '' });
+      this.setState({ emailError: '', passwordError: '' });
 
       const { dispatch } = this.props;
       dispatch(logIn({ username: email, password }));
@@ -52,7 +52,7 @@ class Login extends React.Component {
             <TextField
               value={this.state.email}
               onChange={(e, email) => this.setState({ email })}
-              errorText={this.state.mailError}
+              errorText={this.state.emailError}
               hintText="mi@email.com"
               type="email"
               floatingLabelText="Email"

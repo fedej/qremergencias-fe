@@ -4,7 +4,11 @@ import { Router, Route } from 'react-router';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
-import ForgotPassword from './pages/ForgotPassword';
+import RegisterSuccess from './pages/Session/pages/RegisterSuccess';
+import CompleteRegister from './pages/Session/pages/CompleteRegister';
+import ResetPassword from './pages/Session/pages/ResetPassword';
+import ForgotPassword from './pages/Session/pages/ForgotPassword';
+import ForgotPasswordSuccess from './pages/Session/pages/ForgotPasswordSuccess';
 
 import Landing from './pages/Landing';
 import Home from './pages/Home';
@@ -26,8 +30,12 @@ export default function Routes({ history }) {
       <Route path="/" component={Landing} />
       <Route component={AllowOnlyUnauthenticated}>
         <Route path="register" component={Register} />
+        <Route path="registerSuccess" component={RegisterSuccess} />
+        <Route path="completeRegistration" component={CompleteRegister} />
         <Route path="login" component={Login} />
+        <Route path="resetPassword" component={ResetPassword} />
         <Route path="forgotPassword" component={ForgotPassword} />
+        <Route path="forgotPasswordSuccess" component={ForgotPasswordSuccess} />
       </Route>
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
