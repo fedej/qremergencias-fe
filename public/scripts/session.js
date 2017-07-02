@@ -21,8 +21,8 @@ function doLogin() {
 
   frApi.loginUsingPOST(data.username, data.password, grecaptcha.getResponse(), function(error, data, response) {
       if (error) {
-        if (error.crossDomain){
-          displayErrors(["Error al realizar login"]);
+        if (error.status == 401){
+          displayErrors(["Usuario o password incorrectos"]);
         }
         else {
           location.href = '/error';
@@ -39,11 +39,7 @@ function forgotPassword() {
   frApi.sendForgotPasswordUsingPOST(grecaptcha.getResponse(), $('#forgotPassword-username').val(), function(error, data, response) {
       if (error) {
         if (error.response) {
-          if (error.response.body.message.includes("name not valid")) {
-            location.href = '/forgotPasswordSuccess';
-          } else {
-            displayErrors([error.response.body.message]);
-          }
+          displayErrors([error.response.body.message]);
         }
         else {
           location.href = '/error';
