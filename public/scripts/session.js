@@ -1,16 +1,32 @@
 ApiDocumentation.ApiClient.instance.enableCookies = true;
 var frApi = new ApiDocumentation.UserfrontcontrollerApi();
 
+function displayErrors(errores) {
+  var str = "";
+  errores.forEach (function(item) {
+    str += '\u2022' + " " + item + "<br/>";
+  })
+  swal({
+    title: "Se detectaron errores",
+    text: "<div align=\"left\"> " + str + " </div>",
+    type: "error",
+    html: true
+  });
+}
+
+
 function doLogin() {
 
   var data = { username: $('#login-username').val(), password: $('#login-password').val()};
 
   frApi.loginUsingPOST(data.username, data.password, grecaptcha.getResponse(), function(error, data, response) {
-    console.log('este es el error: ' + error);
-    console.log(data);
-    console.log(response);
-    if (error) {
-      alert(error);
+      if (error) {
+        if (error.status == 401){
+          displayErrors(["Usuario o password incorrectos"]);
+        }
+        else {
+          location.href = '/error';
+        }
     } else {
       location.href = '/home';
     }
@@ -21,13 +37,15 @@ function doLogin() {
 function forgotPassword() {
 
   frApi.sendForgotPasswordUsingPOST(grecaptcha.getResponse(), $('#forgotPassword-username').val(), function(error, data, response) {
-    console.log('este es el error: ' + error);
-    console.log(data);
-    console.log(response);
-    if (error) {
-      alert(error);
+      if (error) {
+        if (error.response) {
+          displayErrors([error.response.body.message]);
+        }
+        else {
+          location.href = '/error';
+        }
     } else {
-      location.href = '/home';
+      location.href = '/forgotPasswordSuccess';
     }
   });
 
@@ -39,17 +57,20 @@ function resetPassword() {
   var resetData = { recaptchaResponse: grecaptcha.getResponse(), newPassword: $('#new-password').val(), token: token, confirmPassword: $('#confirm-password').val()};
 
   frApi.resetPasswordUsingPOST(resetData, function(error, data, response) {
-    console.log('este es el error: ' + error);
-    console.log(data);
-    console.log(response);
-    if (error) {
-      alert(error);
+      if (error) {
+        if (error.response){
+          displayErrors(error.response.body.errors);
+        }
+        else {
+          location.href = '/error';
+        }
     } else {
-      location.href = '/home';
+      location.href = '/resetPasswordSuccess';
     }
   });
 
 };
+
 
 $(function() {
   $('#status').delay(300).fadeOut();
@@ -83,7 +104,7 @@ $(function() {
     var data = { name: $('#complete-firstname').val(), lastName: $('#complete-lastname').val(), birthDate: $('#complete-birthdate').val(), token: token};
     frApi.completeRegistrationUsingPOST(data,  function(error, data, response) {
         console.log(response);
-        location.href = '/home';
+        location.href = '/login';
     })
 
   });
@@ -94,7 +115,7 @@ $(function() {
         grecaptcha.reset();
         grecaptcha.execute();
     } else {
-        alert('Debe completar email');
+        displayErrors([{defaultMessage:"Por favor complete su e-mail"}]);
     }
 
   });
@@ -106,7 +127,7 @@ $(function() {
       grecaptcha.reset();
       grecaptcha.execute();
     } else {
-      alert('Debe completar new password');
+      displayErrors([{defaultMessage:"Por favor complete su nuevo password"}]);
     }
 
   });
@@ -129,11 +150,19 @@ $(function() {
 
     ApiDocumentation.CreateUserDTO.constructFromObject(data, dto);
     frApi.registerUsingPOST(dto, function(error, data, response) {
-      console.log(error);
       if (error) {
-        alert(error);
+        if (error.response){
+          var messages = [];
+          error.response.body.errors.forEach(function(item){
+            messages.push(item.defaultMessage);
+          })
+          displayErrors(messages);
+        }
+        else {
+          location.href = '/error';
+        }
       } else {
-        location.href = '/home';
+        location.href = '/emailConfirmation';
       }
     });
 
