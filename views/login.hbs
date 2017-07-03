@@ -3,7 +3,7 @@
 		<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 			<div class="panel panel-info" >
 				<div class="panel-heading">
-					<div class="panel-title">Iniciar Sessión</div>
+					<div class="panel-title">Iniciar Sesión</div>
 				</div>
 
 				<div style="padding-top:30px" class="panel-body" >
@@ -33,7 +33,7 @@
                 placeholder="contraseña"
               >
 						</div>
-
+            <div class="g-recaptcha" data-callback="doLogin" data-size="invisible" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" ></div>
 						<div style="margin-top:10px" class="form-group">
 							<!-- Button -->
 							<div class="col-sm-12 controls">
@@ -46,11 +46,13 @@
 						<div class="form-group">
 							<div class="col-md-12 control">
 								<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
-									<a href="/register">
-										Regístrate aquí
+									<a href="/registerBase">
+										¿Todavía no estás registrado? Regístrate aquí
 									</a>
 								</div>
-                <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="/forgotPassword">Olvidaste tu contraseña?</a></div>
+                <div style="float:right; font-size: 80%; position: relative; top:20px"><a href="/forgotPassword">Olvidaste tu contraseña?</a></div>
+                <div style="float:left; font-size: 80%; position: relative; top:20px"><a href="/">
+                Volver al home</a></div>
 							</div>
 						</div>
 					</form>
@@ -65,5 +67,5 @@
 <script src="scripts/vendor/bootstrap.js"></script>
 <script src="scripts/vendor/owl.carousel.js"></script>
 <script src="scripts/constants/app.js"></script>
-<script src="scripts/api/session.js"></script>
 <script src="scripts/session.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async="async" defer="defer"></script>

@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('requestReset', { title: 'QR Emergencias' });
+  res.render('emailConfirmation', { title: 'QR Emergencias' });
 });
 
 module.exports = router;
