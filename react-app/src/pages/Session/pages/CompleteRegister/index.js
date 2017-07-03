@@ -19,6 +19,10 @@ class CompleteRegister extends React.Component {
     birthDate: null,
   }
 
+  formatDate(date){
+    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+  }
+
   handleCompleteRegister = () => {
     const { dispatch } = this.props;
     const { name, lastName, birthDate } = this.state;
@@ -28,7 +32,7 @@ class CompleteRegister extends React.Component {
     const data = {
       name,
       lastName,
-      birthDate,
+      birthDate: this.formatDate(birthDate),
       token,
     };
 

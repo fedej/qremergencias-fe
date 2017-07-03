@@ -24,7 +24,13 @@ export default class ForgotPassword extends React.Component {
     const { email } = this.state;
 
     if (isValidEmail(email)) {
-      UserService.restorePassword(email)
+
+      const data = {
+        gRecaptchaResponse: "",
+        username: email
+      };
+
+      UserService.restorePassword(data)
       .then(() => browserHistory.push('/forgotPasswordSuccess'))
       .catch((err) => {
         // TODO: mostrar error
@@ -46,6 +52,7 @@ export default class ForgotPassword extends React.Component {
             <TextField
               hintText="mi@email.com"
               floatingLabelText="Email"
+              onChange={(e, email) => this.setState({ email })}
               fullWidth
             />
           </CardText>

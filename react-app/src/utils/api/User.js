@@ -1,81 +1,27 @@
-import request from 'superagent';
-import config from '../../constants/app';
+import ApiClient from '../client/ApiClient';
+import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
 
 export default class UserService {
+
+  static api = new UserfrontcontrollerApi(ApiClient.instance);
+
   static register(credenciales) {
-    return new Promise((resolve, reject) => {
-      request
-        .post(`${config.BASE_URL}/qremergencias/api/userFront/register`)
-        .withCredentials()
-        .send(credenciales)
-        .set('Accept', 'application/json;charset=UTF-8')
-        .end((err, res) => {
-          if (err) {
-            reject(res.body.message);
-          } else {
-            resolve();
-          }
-        });
-    });
+    return UserService.api.registerUsingPOST(credenciales);
   }
 
   static login(credenciales) {
-    return new Promise((resolve, reject) => {
-      const formData = new FormData();
-
-      Object.entries(credenciales).forEach(([key, value]) => formData.append(key, value));
-
-      request
-        .post(`${config.BASE_URL}/qremergencias/api/login`)
-        .withCredentials()
-        .send(formData)
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .end((err, res) => {
-          // if (err) {
-          //   reject(res.body.message);
-          // } else {
-          //   resolve();
-          // }
-        });
-    });
+    return UserService.api.loginUsingPOST(credenciales.username, credenciales.password);
   }
 
   static completeRegistration(data) {
-    return new Promise((resolve, reject) => {
-      fetch(`${config.BASE_URL}/qremergencias/api/userFront/completeRegistration`, {
-        method: 'POST',
-        body: data,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      })
-        // .then(response => response.json())
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(err => reject(err));
-    });
+    return UserService.api.completeRegistrationUsingPOST(data);
   }
 
   static restorePassword(data) {
-    return new Promise((resolve, reject) => {
-      fetch(`${config.BASE_URL}/qremergencias/api/userFront/sendForgotPassword`,
-        { method: 'POST', body: data })
-        // .then(response => response.json())
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(err => reject(err));
-    });
+    return UserService.api.sendForgotPasswordUsingPOST(data.gRecaptchaResponse, data.username);
   }
 
   static resetPassword(data) {
-    return new Promise((resolve, reject) => {
-      fetch(`${config.BASE_URL}/qremergencias/api/userFront/resetPassword`,
-        { method: 'POST', body: data })
-        // .then(response => response.json())
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(err => reject(err));
-    });
+    return UserService.api.resetPasswordUsingPOST(data);
   }
 }
