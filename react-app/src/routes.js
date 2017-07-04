@@ -33,7 +33,7 @@ export default function Routes({ history }) {
         <Route path="registerSuccess" component={RegisterSuccess} />
         <Route path="completeRegistration" component={CompleteRegister} />
         <Route path="login" component={Login} />
-        <Route path="resetPassword" component={ResetPassword} />
+        <Route path="reset" component={ResetPassword} />
         <Route path="forgotPassword" component={ForgotPassword} />
         <Route path="forgotPasswordSuccess" component={ForgotPasswordSuccess} />
       </Route>

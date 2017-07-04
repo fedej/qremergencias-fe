@@ -24,6 +24,17 @@ class Login extends React.Component {
     passwordError: '',
   }
 
+  readCookie = (name) => {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i=0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0)===' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+  };
+
   handleLogin = () => {
     console.log(this.state);
     const { email, password } = this.state;
@@ -35,10 +46,15 @@ class Login extends React.Component {
     } else {
       this.setState({ emailError: '', passwordError: '' });
 
-      const { dispatch } = this.props;
-      dispatch(logIn({ username: email, password }));
+      if (this.readCookie('showCaptcha')) {
+        //grecaptcha.reset();
+        //grecaptcha.execute();
+      } else {
+        const { dispatch } = this.props;
+        dispatch(logIn({ username: email, password }));
+      }
     }
-  }
+  };
 
   handleToggleTipoCuenta = (event, esMedico) => this.setState({ esMedico });
 

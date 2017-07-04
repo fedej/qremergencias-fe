@@ -26,7 +26,7 @@ export default class ForgotPassword extends React.Component {
     if (isValidEmail(email)) {
 
       const data = {
-        gRecaptchaResponse: "",
+        gRecaptchaResponse: "HACK",
         username: email
       };
 
