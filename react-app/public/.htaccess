@@ -1,0 +1,34 @@
+RewriteEngine on
+# Don't rewrite files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+# Rewrite everything else to index.html to allow html5 state links
+RewriteRule ^ index.html [L]
+
+# Cache Control Settings
+<FilesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=1333600, public"
+</FilesMatch>
+<FilesMatch ".(xml|txt)$">
+Header set Cache-Control "max-age=1333600, public, must-revalidate"
+</FilesMatch>
+<FilesMatch ".(html|htm)$">
+Header set Cache-Control "max-age=1333600, must-revalidate"
+</FilesMatch>
+
+## EXPIRES CACHING ##
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/gif "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/pdf "access plus 1 month"
+ExpiresByType text/x-javascript "access plus 1 month"
+ExpiresByType application/x-shockwave-flash "access plus 1 month"
+ExpiresByType image/x-icon "access plus 1 year"
+ExpiresDefault "access plus 2 days"
+</IfModule>
+## EXPIRES CACHING ##
