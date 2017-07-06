@@ -24,14 +24,15 @@ class ResetPassword extends React.Component {
   handleResetPassword = () => {
     const { password, confirmPassword } = this.state;
 
+    const token = new URLSearchParams(window.location.search).get('token');
+
     if (password === confirmPassword) {
-      const data = { password };
-      this.setState({ dialogOpen: true });
-      // UserService.resetPassword(data)
-      //   .then(() => {
-      //     console.log('ok');
-      //   })
-      //   .catch(err => console.log(err))
+      const data = { newPassword: password, confirmPassword, token: token, "recaptchaResponse": "HACK" };
+      UserService.resetPassword(data)
+         .then(() => {
+           this.setState({ dialogOpen: true });
+         })
+         .catch(err => this.setState({ passwordError: 'Error al cambiar contraseña' }))
     } else {
       this.setState({ passwordError: 'Las contraseñas no coinciden' });
     }
