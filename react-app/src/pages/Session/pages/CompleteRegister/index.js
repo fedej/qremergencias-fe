@@ -32,7 +32,7 @@ class CompleteRegister extends React.Component {
     const data = {
       name,
       lastName,
-      birthDate: this.formatDate(birthDate),
+      birthDate: birthDate.toISOString(),
       token,
     };
 
