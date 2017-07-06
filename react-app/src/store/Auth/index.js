@@ -78,6 +78,8 @@ export const logOut = () => ({
 });
 
 export const completeRegistration = data => (dispatch) => {
+  dispatch(requestRegister());
+
   UserService.completeRegistration(data)
     .then(profile => dispatch(registerComplete(profile)))
     .catch(err => dispatch(registerError(err.message)));

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
@@ -12,12 +13,22 @@ import '../../styles.css';
 class CompleteRegister extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      isFetching: PropTypes.bool.isRequired,
+      error: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   state = {
     name: '',
     lastName: '',
     birthDate: null,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.auth.isFetching && !nextProps.auth.isFetching && nextProps.auth.error === '') {
+      browserHistory.push('/login');
+    }
   }
 
   handleCompleteRegister = () => {
@@ -86,4 +97,6 @@ class CompleteRegister extends React.Component {
   }
 }
 
-export default connect()(CompleteRegister);
+export default connect(
+  state => ({ auth: state.auth }),
+)(CompleteRegister);
