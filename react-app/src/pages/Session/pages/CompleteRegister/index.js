@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
+import moment from 'moment';
 
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
@@ -19,10 +20,6 @@ class CompleteRegister extends React.Component {
     birthDate: null,
   }
 
-  formatDate(date){
-    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-  }
-
   handleCompleteRegister = () => {
     const { dispatch } = this.props;
     const { name, lastName, birthDate } = this.state;
@@ -32,7 +29,7 @@ class CompleteRegister extends React.Component {
     const data = {
       name,
       lastName,
-      birthDate: birthDate.toISOString(),
+      birthDate: moment(birthDate).format('YYYY-MM-DD'),
       token,
     };
 
