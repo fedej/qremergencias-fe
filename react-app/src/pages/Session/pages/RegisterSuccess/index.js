@@ -1,10 +1,15 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 
 import '../../styles.css';
 
 export default function RegisterSuccess() {
+  setTimeout(() => {
+    browserHistory.push('/login');
+  }, 3000);
+
   return (
     <div className={classnames('formCenter', 'formSuccess')}>
       <Card>
