@@ -6,6 +6,7 @@ import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
@@ -23,6 +24,9 @@ class CompleteRegister extends React.Component {
     name: '',
     lastName: '',
     birthDate: null,
+    nameError: '',
+    lastNameError: '',
+    birthDateError: '',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,16 +39,32 @@ class CompleteRegister extends React.Component {
     const { dispatch } = this.props;
     const { name, lastName, birthDate } = this.state;
     const token = new URLSearchParams(window.location.search).get('token');
-    // TODO: validar datos
+    const errors = {};
 
-    const data = {
-      name,
-      lastName,
-      birthDate: moment(birthDate).format('YYYY-MM-DD'),
-      token,
-    };
+    if (name === '') {
+      errors.nameError = 'Ingrese un nombre';
+    }
 
-    dispatch(completeRegistration(data));
+    if (lastName === '') {
+      errors.lastNameError = 'Ingrese su apellido';
+    }
+
+    if (!birthDate) {
+      errors.birthDateError = 'Ingrese su fecha de nacimiento';
+    }
+
+    if (_.isEmpty(errors)) {
+      const data = {
+        name,
+        lastName,
+        birthDate: moment(birthDate).format('YYYY-MM-DD'),
+        token,
+      };
+
+      dispatch(completeRegistration(data));
+    } else {
+      this.setState(errors);
+    }
   }
 
   render() {
@@ -61,6 +81,7 @@ class CompleteRegister extends React.Component {
               value={this.state.name}
               onChange={(e, name) => this.setState({ name })}
               hintText="Ingresa tu nombre"
+              errorText={this.state.nameError}
               type="text"
               floatingLabelText="Nombre"
               fullWidth
@@ -69,7 +90,8 @@ class CompleteRegister extends React.Component {
               value={this.state.lastName}
               onChange={(e, lastName) => this.setState({ lastName })}
               hintText="Ingresa tu apellido"
-              type="text"
+              errorText={this.state.lastNameError}
+              type="number"
               floatingLabelText="Apellido"
               fullWidth
             />
@@ -79,6 +101,9 @@ class CompleteRegister extends React.Component {
                 hintText="Fecha de Nacimiento"
                 onChange={(e, birthDate) => this.setState({ birthDate })}
               />
+              <p style={{ color: 'rgb(244, 67, 54)' }}>
+                {this.state.birthDateError}
+              </p>
             </div>
           </CardText>
           <CardActions
