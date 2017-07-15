@@ -15,13 +15,9 @@ import './styles.css';
 
 
 class Login extends React.Component {
-  static defaultProps = {
-    error: '',
-  }
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    error: PropTypes.string,
+    error: PropTypes.string.isRequired,
   }
 
   state = {
@@ -53,7 +49,6 @@ class Login extends React.Component {
   };
 
   handleLogin = () => {
-    console.log(this.state);
     const { email, password } = this.state;
 
     if (email === '' || !isValidEmail(email)) {

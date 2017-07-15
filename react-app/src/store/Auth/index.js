@@ -95,19 +95,19 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return { isFetching: true };
+      return { ...INITIAL_STATE, isFetching: true };
     case LOGIN_SUCCESS:
-      return { isFetching: false, isLoggedIn: true, error: '', profile: action.profile };
+      return { ...INITIAL_STATE, isFetching: false, isLoggedIn: true, error: '', profile: action.profile };
     case LOGIN_FAILURE:
-      return { isFetching: false, error: action.message };
+      return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case REGISTER_REQUEST:
-      return { isFetching: true };
+      return { ...INITIAL_STATE, isFetching: true };
     case REGISTER_SUCCESS:
-      return { isFetching: false, error: '' };
+      return { ...INITIAL_STATE, isFetching: false, error: '' };
     case REGISTER_FAILURE:
-      return { isFetching: false, error: action.message };
+      return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case LOGOUT:
-      return { isOpen: !state.isOpen };
+      return { ...INITIAL_STATE, isOpen: !state.isOpen };
     default:
       return state;
   }
