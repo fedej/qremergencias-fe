@@ -5,6 +5,9 @@ import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, FlatButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
+import SweetAlert from 'sweetalert-react';
+
+import 'sweetalert/dist/sweetalert.css';
 
 import { logIn } from '../../store/Auth';
 import { isValidEmail } from '../../utils/validations';
@@ -14,29 +17,38 @@ import './styles.css';
 class Login extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired,
   }
 
   state = {
     esMedico: false,
     email: '',
+    showError: false,
     password: '',
     emailError: '',
     passwordError: '',
   }
 
-  readCookie = (name) => {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for(let i=0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0)===' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length,c.length);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.error) {
+      this.setState({ showError: true });
     }
+  }
+
+  readCookie = (name) => {
+    const nameEQ = `${name}=`;
+    const ca = document.cookie.split(';');
+
+    for (let i = 0; i < ca.length; i += 1) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+
     return null;
   };
 
   handleLogin = () => {
-    console.log(this.state);
     const { email, password } = this.state;
 
     if (email === '' || !isValidEmail(email)) {
@@ -47,8 +59,8 @@ class Login extends React.Component {
       this.setState({ emailError: '', passwordError: '' });
 
       if (this.readCookie('showCaptcha')) {
-        //grecaptcha.reset();
-        //grecaptcha.execute();
+        // grecaptcha.reset();
+        // grecaptcha.execute();
       } else {
         const { dispatch } = this.props;
         dispatch(logIn({ username: email, password }));
@@ -59,7 +71,6 @@ class Login extends React.Component {
   handleToggleTipoCuenta = (event, esMedico) => this.setState({ esMedico });
 
   render() {
-    // TODO: mostrar error de Store.auth.error
     return (
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>
@@ -104,6 +115,12 @@ class Login extends React.Component {
             </div>
           </CardActions>
         </Card>
+        <SweetAlert
+          show={this.state.showError}
+          title="Error"
+          text={this.props.error}
+          onConfirm={() => this.setState({ showError: false })}
+        />
       </div>
     );
   }
@@ -111,6 +128,7 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    error: state.auth.error,
     isLoggedIn: state.auth.isLoggedIn,
   };
 }

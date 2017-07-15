@@ -140,7 +140,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case LOGOUT_FAILURE:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case LOGOUT:
-      return { isOpen: !state.isOpen };
+      return { ...INITIAL_STATE, isOpen: !state.isOpen };
     default:
       return state;
   }

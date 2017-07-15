@@ -7,6 +7,10 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
 import classnames from 'classnames';
 
+import SweetAlert from 'sweetalert-react';
+
+import 'sweetalert/dist/sweetalert.css';
+
 import { signUp } from '../../store/Auth';
 import { isValidEmail } from '../../utils/validations';
 import './styles.css';
@@ -14,11 +18,16 @@ import './styles.css';
 class Register extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      isFetching: PropTypes.bool.isRequired,
+      error: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   state = {
     esMedico: false,
     email: '',
+    showError: false,
     password: '',
     emailError: '',
     passwordError: '',
@@ -34,7 +43,9 @@ class Register extends React.Component {
     if (this.props.auth.isFetching && !auth.isFetching && auth.error === '') {
       browserHistory.push('registerSuccess');
     }
-    // TODO: mostrar error del server
+    if (nextProps.auth.error) {
+      this.setState({ showError: true });
+    }
   }
 
   handleRegister = () => {
@@ -101,6 +112,12 @@ class Register extends React.Component {
             />
           </CardActions>
         </Card>
+        <SweetAlert
+          show={this.state.showError}
+          title="Error"
+          text={this.props.auth.error}
+          onConfirm={() => this.setState({ showError: false })}
+        />
       </div>
     );
   }
