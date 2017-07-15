@@ -24,6 +24,10 @@ export default class UserService {
     return UserService.getApi().loginUsingPOST(credenciales.username, credenciales.password);
   }
 
+  static logout() {
+    return UserService.getApi().logoutUsingPOST();
+  }
+
   static completeRegistration(data) {
     return UserService.getApi().completeRegistrationUsingPOST(data);
   }

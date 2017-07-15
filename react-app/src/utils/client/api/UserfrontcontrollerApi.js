@@ -212,6 +212,45 @@ export default class UserfrontcontrollerApi {
 
 
     /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    logoutUsingPOSTWithHttpInfo() {
+      let postBody = null;
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/x-www-form-urlencoded'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/logout', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    logoutUsingPOST() {
+      return this.logoutUsingPOSTWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * register
      * @param {module:model/CreateUserDTO} model model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
