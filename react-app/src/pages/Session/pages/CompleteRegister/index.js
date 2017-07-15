@@ -6,6 +6,7 @@ import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import moment from 'moment';
+import _ from 'lodash';
 
 import { isValidDNI } from '../../../../utils/validations';
 
@@ -33,7 +34,6 @@ class CompleteRegister extends React.Component {
     numeroDocumento: '',
     numeroDocumentoError: '',
     birthDate: null,
-    birthDateError: '',
     showError: false,
   }
 
@@ -47,30 +47,34 @@ class CompleteRegister extends React.Component {
   }
 
   handleCompleteRegister = () => {
-    const { name, lastName, numeroDocumento, birthDate } = this.state;
+    const { dispatch } = this.props;
+    const { name, lastName, birthDate } = this.state;
+    const token = new URLSearchParams(window.location.search).get('token');
+    const errors = {};
 
     if (name === '') {
-      this.setState({ nameError: 'Ingrese un nombre.' });
-    } else if (lastName === '') {
-      this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (numeroDocumento === '' || !isValidDNI(numeroDocumento)) {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: 'Ingrese un DNI valido: xx.xx.xx' });
-    } else if (birthDate === null) {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
-    } else {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: '' });
-      const { dispatch } = this.props;
-      const token = new URLSearchParams(window.location.search).get('token');
+      errors.nameError = 'Ingrese un nombre';
+    }
 
+    if (lastName === '') {
+      errors.lastNameError = 'Ingrese su apellido';
+    }
+
+    if (!birthDate) {
+      errors.birthDateError = 'Ingrese su fecha de nacimiento';
+    }
+
+    if (_.isEmpty(errors)) {
       const data = {
         name,
         lastName,
-        numeroDocumento,
         birthDate: moment(birthDate).format('YYYY-MM-DD'),
         token,
       };
 
       dispatch(completeRegistration(data));
+    } else {
+      this.setState(errors);
     }
   }
 
@@ -89,6 +93,7 @@ class CompleteRegister extends React.Component {
               onChange={(e, name) => this.setState({ name })}
               errorText={this.state.nameError}
               hintText="Ingresa tu nombre"
+              errorText={this.state.nameError}
               type="text"
               floatingLabelText="Nombre"
               fullWidth
@@ -98,7 +103,8 @@ class CompleteRegister extends React.Component {
               onChange={(e, lastName) => this.setState({ lastName })}
               errorText={this.state.lastNameError}
               hintText="Ingresa tu apellido"
-              type="text"
+              errorText={this.state.lastNameError}
+              type="number"
               floatingLabelText="Apellido"
               fullWidth
             />
@@ -118,6 +124,9 @@ class CompleteRegister extends React.Component {
                 onChange={(e, birthDate) => this.setState({ birthDate })}
                 errorText={this.state.birthDateError}
               />
+              <p style={{ color: 'rgb(244, 67, 54)' }}>
+                {this.state.birthDateError}
+              </p>
             </div>
           </CardText>
           <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
