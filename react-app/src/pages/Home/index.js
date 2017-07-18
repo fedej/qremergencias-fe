@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Nav from '../../components/Nav';
 import Drawer from '../../components/Drawer';
 
-export default function Landing({ children }) {
+function Home({ children }) {
   return (
     <div>
       <Nav />
@@ -12,3 +13,13 @@ export default function Landing({ children }) {
     </div>
   );
 }
+
+Home.defaultProps = {
+  children: null,
+};
+
+Home.propTypes = {
+  children: PropTypes.element,
+};
+
+export default Home;

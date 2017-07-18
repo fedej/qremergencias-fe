@@ -14,7 +14,7 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
 import Datos from './pages/Datos';
-import Historia from './pages/Historia';
+import Historias from './pages/Historias';
 import Codigo from './pages/Codigo';
 import NotFound from './pages/NotFound';
 
@@ -41,7 +41,7 @@ export default function Routes({ history }) {
         <Route path="home" component={Home} />
         <Route path="datos" component={Datos} />
         <Route path="perfil" component={Perfil} />
-        <Route path="historia" component={Historia} />
+        <Route path="historias" component={Historias} />
         <Route path="codigo" component={Codigo} />
       </Route>
       <Route path="*" component={NotFound} />
