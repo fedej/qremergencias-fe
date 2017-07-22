@@ -26,3 +26,8 @@ export function hasEmptyStringProperties(object) {
 
   return isEmpty;
 }
+
+export function isValidPassword(pass) {
+  const re = /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&\/()?¿¡$%]).{8,64})$/;
+  return re.test(pass);
+}
