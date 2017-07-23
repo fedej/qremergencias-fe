@@ -35,6 +35,7 @@ class CompleteRegister extends React.Component {
     numeroDocumentoError: '',
     birthDate: null,
     showError: false,
+    birthDateError: '',
   }
 
   componentWillReceiveProps(nextProps) {
