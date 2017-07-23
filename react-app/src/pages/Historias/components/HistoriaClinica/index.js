@@ -60,10 +60,7 @@ export default class HistoriaClinica extends Component {
           actAsExpander
           showExpandableButton
         />
-        <CardMedia
-          expandable
-          overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
-        >
+        <CardMedia expandable>
           <img
             src={url}
             alt=""
