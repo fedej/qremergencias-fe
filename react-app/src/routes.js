@@ -15,10 +15,16 @@ import Home from './pages/Home';
 import Perfil from './pages/Perfil';
 import Datos from './pages/Datos';
 import Historias from './pages/Historias';
+import Carga from './pages/Historias/pages/Carga';
 import Codigo from './pages/Codigo';
 import NotFound from './pages/NotFound';
 
-import { UserIsAuthenticated, VisibleOnlyLoggedOut } from './utils/session';
+import {
+  UserIsAuthenticated,
+  VisibleOnlyLoggedOut,
+  UserIsMedico,
+  UserIsPaciente,
+} from './utils/session';
 
 
 const Authenticated = UserIsAuthenticated(props => props.children);
@@ -39,10 +45,16 @@ export default function Routes({ history }) {
       </Route>
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
-        <Route path="datos" component={Datos} />
         <Route path="perfil" component={Perfil} />
-        <Route path="historias" component={Historias} />
-        <Route path="codigo" component={Codigo} />
+        <Route path="datos" component={Datos} />
+        <Route component={UserIsPaciente}>
+          <Route path="historias" component={Historias} />
+          <Route path="codigo" component={Codigo} />
+        </Route>
+        {/* TODO: hacer funcionar UserIsMedico */}
+        {/* <Route component={UserIsMedico}> */}
+          <Route path="carga" component={Carga} />
+        {/* </Route> */}
       </Route>
       <Route path="*" component={NotFound} />
     </Router>

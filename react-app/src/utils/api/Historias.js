@@ -27,7 +27,7 @@ for (let i = 0; i < 30; i += 1) {
 }
 
 export default class HistoriasService {
-
+  // TODO: traer historias del servidor
   static byUserId(id) {
     return new Promise((resolve, reject) => {
       const HISTORIAS_USUARIO = HISTORIAS.map((historia, i) => {
@@ -42,4 +42,25 @@ export default class HistoriasService {
     });
   }
 
+  static upload(form) {
+    // TODO: integrar con el servidor
+    const URL = 'http://localhost:3000/api/upload';
+
+    return new Promise((resolve, reject) => {
+      // TODO: quitar
+      // return resolve();
+      return reject(new Error('Error del servidor'));
+
+      fetch(URL, {
+        method: 'POST',
+        body: form,
+      }).then((response) => {
+        console.log(response);
+        resolve();
+      }).catch((err) => {
+        console.log(err);
+        reject('[HistoriasService].upload');
+      });
+    });
+  }
 }

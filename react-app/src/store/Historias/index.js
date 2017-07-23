@@ -1,8 +1,12 @@
 import HistoriasService from '../../utils/api/Historias';
 
-export const HISTORIAS_REQUEST = 'Paciente/HISTORIAS_REQUEST';
-export const HISTORIAS_SUCCESS = 'Paciente/HISTORIAS_SUCCESS';
-export const HISTORIAS_ERROR = 'Paciente/HISTORIAS_ERROR';
+export const HISTORIAS_REQUEST = 'HistoriaClinica/HISTORIAS_REQUEST';
+export const HISTORIAS_SUCCESS = 'HistoriaClinica/HISTORIAS_SUCCESS';
+export const HISTORIAS_ERROR = 'HistoriaClinica/HISTORIAS_ERROR';
+
+export const UPLOAD_REQUEST = 'HistoriaClinica/UPLOAD_REQUEST';
+export const UPLOAD_SUCCESS = 'HistoriaClinica/UPLOAD_SUCCESS';
+export const UPLOAD_ERROR = 'HistoriaClinica/UPLOAD_ERROR';
 
 
 function requestHistorias() {
@@ -25,6 +29,26 @@ function historiasError(message) {
   };
 }
 
+function requestUpload() {
+  return {
+    type: UPLOAD_REQUEST,
+  };
+}
+
+function uploadSuccess(historias) {
+  return {
+    type: UPLOAD_SUCCESS,
+    historias,
+  };
+}
+
+function uploadError(message) {
+  return {
+    type: UPLOAD_ERROR,
+    message,
+  };
+}
+
 
 export const fetchHistoriasClinicas = userId => (dispatch) => {
   dispatch(requestHistorias());
@@ -32,6 +56,14 @@ export const fetchHistoriasClinicas = userId => (dispatch) => {
   HistoriasService.byUserId(userId)
     .then(historias => dispatch(historiasSuccess(historias)))
     .catch(err => dispatch(historiasError(err.message)));
+};
+
+export const uploadHistoriClinica = form => (dispatch) => {
+  dispatch(requestUpload());
+
+  HistoriasService.upload(form)
+    .then(() => dispatch(uploadSuccess()))
+    .catch(err => dispatch(uploadError(err.message)));
 };
 
 const INITIAL_STATE = {
@@ -47,6 +79,12 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case HISTORIAS_SUCCESS:
       return { ...INITIAL_STATE, isFetching: false, todas: action.historias };
     case HISTORIAS_ERROR:
+      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+    case UPLOAD_REQUEST:
+      return { ...INITIAL_STATE, isFetching: true };
+    case UPLOAD_SUCCESS:
+      return { ...INITIAL_STATE, isFetching: false };
+    case UPLOAD_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     default:
       return state;
