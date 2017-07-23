@@ -6,15 +6,13 @@ import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import moment from 'moment';
-import _ from 'lodash';
+import SweetAlert from 'sweetalert-react';
 
+import 'sweetalert/dist/sweetalert.css';
 import { isValidDNI } from '../../../../utils/validations';
 
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
-
-import SweetAlert from 'sweetalert-react';
-import 'sweetalert/dist/sweetalert.css';
 
 
 class CompleteRegister extends React.Component {
@@ -42,40 +40,37 @@ class CompleteRegister extends React.Component {
     if (this.props.auth.isFetching && !nextProps.auth.isFetching && nextProps.auth.error === '') {
       browserHistory.push('/login');
     }
+
     if (nextProps.auth.error) {
       this.setState({ showError: true });
     }
   }
 
   handleCompleteRegister = () => {
-    const { dispatch } = this.props;
-    const { name, lastName, birthDate } = this.state;
-    const token = new URLSearchParams(window.location.search).get('token');
-    const errors = {};
+    const { name, lastName, numeroDocumento, birthDate } = this.state;
 
     if (name === '') {
-      errors.nameError = 'Ingrese un nombre';
-    }
+      this.setState({ nameError: 'Ingrese un nombre.' });
+    } else if (lastName === '') {
+      this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
+    } else if (numeroDocumento === '' || !isValidDNI(numeroDocumento)) {
+      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: 'Ingrese un DNI valido: xx.xx.xx' });
+    } else if (birthDate === null) {
+      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+    } else {
+      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: '' });
+      const { dispatch } = this.props;
+      const token = new URLSearchParams(window.location.search).get('token');
 
-    if (lastName === '') {
-      errors.lastNameError = 'Ingrese su apellido';
-    }
-
-    if (!birthDate) {
-      errors.birthDateError = 'Ingrese su fecha de nacimiento';
-    }
-
-    if (_.isEmpty(errors)) {
       const data = {
         name,
         lastName,
+        numeroDocumento,
         birthDate: moment(birthDate).format('YYYY-MM-DD'),
         token,
       };
 
       dispatch(completeRegistration(data));
-    } else {
-      this.setState(errors);
     }
   }
 
@@ -94,7 +89,6 @@ class CompleteRegister extends React.Component {
               onChange={(e, name) => this.setState({ name })}
               errorText={this.state.nameError}
               hintText="Ingresa tu nombre"
-              errorText={this.state.nameError}
               type="text"
               floatingLabelText="Nombre"
               fullWidth
@@ -104,7 +98,6 @@ class CompleteRegister extends React.Component {
               onChange={(e, lastName) => this.setState({ lastName })}
               errorText={this.state.lastNameError}
               hintText="Ingresa tu apellido"
-              errorText={this.state.lastNameError}
               type="number"
               floatingLabelText="Apellido"
               fullWidth
@@ -123,7 +116,6 @@ class CompleteRegister extends React.Component {
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha de Nacimiento"
                 onChange={(e, birthDate) => this.setState({ birthDate })}
-                errorText={this.state.birthDateError}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>
                 {this.state.birthDateError}
