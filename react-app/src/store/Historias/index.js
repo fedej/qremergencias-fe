@@ -54,7 +54,15 @@ export const fetchHistoriasClinicas = () => (dispatch) => {
   dispatch(requestHistorias());
 
   HistoriasService.list()
-    .then(historias => dispatch(historiasSuccess(historias.content)))
+    .then((records) => {
+      const historias = records.content.map((h) => {
+        const historia = h;
+        historia.performed = h.performed.toISOString();
+        return historia;
+      });
+
+      dispatch(historiasSuccess(historias));
+    })
     .catch(err => dispatch(historiasError(err.message)));
 };
 

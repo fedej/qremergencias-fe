@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import moment from 'moment';
 
 const icono = require('./medicine-bowl-icon.png');
 
 export default class HistoriaClinica extends Component {
   static propTypes = {
     historia: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      nombre: PropTypes.string.isRequired,
-      fecha: PropTypes.string.isRequired,
-      detalle: PropTypes.string,
-      archivo: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      performed: PropTypes.string.isRequired,
+      text: PropTypes.string,
+      files: PropTypes.array,
     }).isRequired,
   }
 
@@ -41,6 +42,10 @@ export default class HistoriaClinica extends Component {
 
   render() {
     const { historia } = this.props;
+    const url = 'http://2.bp.blogspot.com/_rA5gQI4magc/TTNttosjLZI/AAAAAAAACc0/RYOji7Gj6AE/s1600/Historia_Clinica_Neurologica+1.png';
+    // TODO: mostrar archivos
+    // historia.files
+    const fecha = moment(historia.performed).format('DD / MM / YYYY');
 
     return (
       <Card
@@ -49,8 +54,8 @@ export default class HistoriaClinica extends Component {
         style={{ width: '100%', marginTop: '20px' }}
       >
         <CardHeader
-          title={historia.nombre}
-          subtitle={historia.fecha}
+          title={historia.name}
+          subtitle={fecha}
           avatar={icono}
           actAsExpander
           showExpandableButton
@@ -60,12 +65,12 @@ export default class HistoriaClinica extends Component {
           overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
         >
           <img
-            src={historia.archivo}
+            src={url}
             alt=""
           />
         </CardMedia>
         <CardText expandable>
-          {historia.detalle}
+          {historia.text}
         </CardText>
         <CardActions>
           {

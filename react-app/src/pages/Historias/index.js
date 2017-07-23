@@ -14,11 +14,11 @@ class Historias extends React.Component {
 
   static propTypes = {
     historias: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      nombre: PropTypes.string.isRequired,
-      fecha: PropTypes.string.isRequired,
-      detalle: PropTypes.string,
-      archivo: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      performed: PropTypes.string.isRequired,
+      text: PropTypes.string,
+      files: PropTypes.array,
     })),
     dispatch: PropTypes.func.isRequired,
   }
