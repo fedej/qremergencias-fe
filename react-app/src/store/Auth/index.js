@@ -115,7 +115,7 @@ export const completeRegistration = data => (dispatch) => {
 const INITIAL_STATE = {
   isLoggedIn: false,
   isFetching: false,
-  isMedico: true, // TODO: obtener rol del servidor
+  isMedico: false, // TODO: obtener rol del servidor
   profile: {},
   error: '',
 };

@@ -47,10 +47,11 @@ export default function Routes({ history }) {
         <Route path="home" component={Home} />
         <Route path="perfil" component={Perfil} />
         <Route path="datos" component={Datos} />
-        <Route component={UserIsPaciente}>
+        {/* TODO: hacer funcionar UserIsPaciente */}
+        {/* <Route component={UserIsPaciente}> */}
           <Route path="historias" component={Historias} />
           <Route path="codigo" component={Codigo} />
-        </Route>
+        {/* </Route> */}
         {/* TODO: hacer funcionar UserIsMedico */}
         {/* <Route component={UserIsMedico}> */}
           <Route path="carga" component={Carga} />

@@ -50,11 +50,11 @@ function uploadError(message) {
 }
 
 
-export const fetchHistoriasClinicas = userId => (dispatch) => {
+export const fetchHistoriasClinicas = () => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.byUserId(userId)
-    .then(historias => dispatch(historiasSuccess(historias)))
+  HistoriasService.list()
+    .then(historias => dispatch(historiasSuccess(historias.content)))
     .catch(err => dispatch(historiasError(err.message)));
 };
 

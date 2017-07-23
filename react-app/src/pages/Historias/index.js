@@ -29,7 +29,7 @@ class Historias extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(fetchHistoriasClinicas(1));
+    dispatch(fetchHistoriasClinicas());
   }
 
   componentWillReceiveProps(nextProps) {
