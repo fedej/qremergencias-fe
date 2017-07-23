@@ -35,6 +35,7 @@ class DrawerComponent extends Component {
 
   handleLogout = () => {
     const { dispatch } = this.props;
+    dispatch(setDrawer(false));
     dispatch(logOut());
   }
 
