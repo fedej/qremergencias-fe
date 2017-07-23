@@ -1,4 +1,5 @@
 import MedicalrecordcontrollerApi from './MedicalrecordcontrollerApi';
+import UserService from './User';
 
 export default class HistoriasService {
   static list() {
@@ -6,8 +7,7 @@ export default class HistoriasService {
       page: 0,
       size: 10,
     };
-
-    const API = new MedicalrecordcontrollerApi();
+    const API = new MedicalrecordcontrollerApi(UserService.getApiClient());
     return API.listUsingGET(options);
   }
 
