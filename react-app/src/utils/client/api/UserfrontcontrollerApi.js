@@ -115,7 +115,7 @@ export default class UserfrontcontrollerApi {
         'token': opts['token'],
         'lastName': opts['lastName'],
         'name': opts['name'],
-        'birthDate': opts['birthDate']
+        'birthDate': opts['birthDate'],
         'numeroDocumento': opts['numeroDocumento']
       };
       let headerParams = {
