@@ -101,7 +101,7 @@ $(function() {
 
   $('#btn-completeRegistration').on('click', function() {
     var token = new URLSearchParams(window.location.search).get('token');
-    var data = { name: $('#complete-firstname').val(), lastName: $('#complete-lastname').val(), birthDate: $('#complete-birthdate').val(), token: token};
+    var data = { name: $('#complete-firstname').val(), lastName: $('#complete-lastname').val(), birthDate: $('#complete-birthdate').val(), numeroDocumento: $('#complete-numeroDocumento').val(), token: token};
     frApi.completeRegistrationUsingPOST(data,  function(error, data, response) {
         console.log(response);
         location.href = '/login';

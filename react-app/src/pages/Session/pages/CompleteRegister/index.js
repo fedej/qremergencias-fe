@@ -7,8 +7,14 @@ import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import moment from 'moment';
 
+import { isValidDNI } from '../../../../utils/validations';
+
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
+
+import SweetAlert from 'sweetalert-react';
+import 'sweetalert/dist/sweetalert.css';
+
 
 class CompleteRegister extends React.Component {
   static propTypes = {
@@ -21,30 +27,51 @@ class CompleteRegister extends React.Component {
 
   state = {
     name: '',
+    nameError: '',
     lastName: '',
+    lastNameError: '',
+    numeroDocumento: '',
+    numeroDocumentoError: '',
     birthDate: null,
+    birthDateError: '',
+    showError: false,
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.auth.isFetching && !nextProps.auth.isFetching && nextProps.auth.error === '') {
       browserHistory.push('/login');
     }
+    if (nextProps.auth.error) {
+      this.setState({ showError: true });
+    }
   }
 
   handleCompleteRegister = () => {
-    const { dispatch } = this.props;
-    const { name, lastName, birthDate } = this.state;
-    const token = new URLSearchParams(window.location.search).get('token');
-    // TODO: validar datos
+    const { name, lastName, numeroDocumento, birthDate } = this.state;
 
-    const data = {
-      name,
-      lastName,
-      birthDate: moment(birthDate).format('YYYY-MM-DD'),
-      token,
-    };
+    if (name === '') {
+      this.setState({ nameError: 'Ingrese un nombre.' });
+    } else if (lastName === '') {
+      this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
+    } else if (numeroDocumento === '' || !isValidDNI(numeroDocumento)) {
+      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: 'Ingrese un DNI valido: xx.xx.xx' });
+    } else if (birthDate === null) {
+      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+    } else {
+      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: '' });
+      const { dispatch } = this.props;
+      const token = new URLSearchParams(window.location.search).get('token');
 
-    dispatch(completeRegistration(data));
+      const data = {
+        name,
+        lastName,
+        numeroDocumento,
+        birthDate: moment(birthDate).format('YYYY-MM-DD'),
+        token,
+      };
+
+      dispatch(completeRegistration(data));
+    }
   }
 
   render() {
@@ -53,13 +80,14 @@ class CompleteRegister extends React.Component {
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>
           <CardTitle
-            title="Completar Registración"
+            title="Completar Registro"
             subtitle="Necesitamos que completes algunos datos extra"
           />
           <CardText>
             <TextField
               value={this.state.name}
               onChange={(e, name) => this.setState({ name })}
+              errorText={this.state.nameError}
               hintText="Ingresa tu nombre"
               type="text"
               floatingLabelText="Nombre"
@@ -68,9 +96,19 @@ class CompleteRegister extends React.Component {
             <TextField
               value={this.state.lastName}
               onChange={(e, lastName) => this.setState({ lastName })}
+              errorText={this.state.lastNameError}
               hintText="Ingresa tu apellido"
               type="text"
               floatingLabelText="Apellido"
+              fullWidth
+            />
+            <TextField
+              value={this.state.numeroDocumento}
+              onChange={(e, numeroDocumento) => this.setState({ numeroDocumento })}
+              errorText={this.state.numeroDocumentoError}
+              hintText="Ingresa tu DNI"
+              type="text"
+              floatingLabelText="DNI"
               fullWidth
             />
             <div style={{ paddingTop: '2vh' }}>
@@ -78,12 +116,11 @@ class CompleteRegister extends React.Component {
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha de Nacimiento"
                 onChange={(e, birthDate) => this.setState({ birthDate })}
+                errorText={this.state.birthDateError}
               />
             </div>
           </CardText>
-          <CardActions
-            style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}
-          >
+          <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
             <RaisedButton
               label="Confirmar"
               onTouchTap={this.handleCompleteRegister}
@@ -92,11 +129,22 @@ class CompleteRegister extends React.Component {
             />
           </CardActions>
         </Card>
+        <SweetAlert
+          show={this.state.showError}
+          title="Error al completar registro"
+          text={this.props.auth.error}
+          onConfirm={() => this.setState({ showError: false })}
+        />
+
       </div>
     );
   }
 }
 
-export default connect(
-  state => ({ auth: state.auth }),
-)(CompleteRegister);
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+
+export default connect(mapStateToProps)(CompleteRegister);
