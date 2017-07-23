@@ -18,6 +18,24 @@ export const UserIsAdmin = UserAuthWrapper({
   allowRedirectBack: false,
 });
 
+export const UserIsPaciente = UserAuthWrapper({
+  authSelector: state => state.auth,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsPaciente',
+  predicate: auth => !auth.isMedico,
+  allowRedirectBack: false,
+});
+
+export const UserIsMedico = UserAuthWrapper({
+  authSelector: state => state.auth,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsMedico',
+  predicate: auth => auth.isMedico,
+  allowRedirectBack: false,
+});
+
 export const VisibleOnlyLoggedOut = UserAuthWrapper({
   authSelector: state => state.auth,
   redirectAction: routerActions.replace,

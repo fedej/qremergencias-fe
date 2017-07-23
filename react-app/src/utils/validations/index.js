@@ -9,3 +9,15 @@ export function isValidDNI(email) {
   const re = /^(?:[0-9]+\.){2}[0-9]+$/;
   return re.test(email);
 }
+
+export function hasEmptyStringProperties(object) {
+  let isEmpty = true;
+
+  Object.values(object).forEach((value) => {
+    if (typeof value === 'string' && value !== '') {
+      isEmpty = false;
+    }
+  });
+
+  return isEmpty;
+}
