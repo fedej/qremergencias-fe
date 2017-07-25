@@ -18,7 +18,10 @@ import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import Sort from './model/Sort';
+import UserContactDTO from './model/UserContactDTO';
+import UserProfileDTO from './model/UserProfileDTO';
 import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
+import ProfilecontrollerApi from './api/ProfilecontrollerApi';
 import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
 
 
@@ -91,10 +94,28 @@ export {
     Sort,
 
     /**
+     * The UserContactDTO model constructor.
+     * @property {module:model/UserContactDTO}
+     */
+    UserContactDTO,
+
+    /**
+     * The UserProfileDTO model constructor.
+     * @property {module:model/UserProfileDTO}
+     */
+    UserProfileDTO,
+
+    /**
     * The MedicalrecordcontrollerApi service constructor.
     * @property {module:api/MedicalrecordcontrollerApi}
     */
     MedicalrecordcontrollerApi,
+
+    /**
+    * The ProfilecontrollerApi service constructor.
+    * @property {module:api/ProfilecontrollerApi}
+    */
+    ProfilecontrollerApi,
 
     /**
     * The UserfrontcontrollerApi service constructor.
