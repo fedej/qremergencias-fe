@@ -13,7 +13,8 @@ import ForgotPasswordSuccess from './pages/Session/pages/ForgotPasswordSuccess';
 import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
-import Datos from './pages/Datos';
+import Datos from './pages/Emergencia/pages/Datos';
+import Verificacion from './pages/Emergencia/pages/Verificacion';
 import Historias from './pages/Historias';
 import Carga from './pages/Historias/pages/Carga';
 import Codigo from './pages/Codigo';
@@ -46,15 +47,14 @@ export default function Routes({ history }) {
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
         <Route path="perfil" component={Perfil} />
-        <Route path="datos" component={Datos} />
+        <Route path="datos/:pacienteId" component={Datos} />
         {/* TODO: hacer funcionar UserIsPaciente */}
         {/* <Route component={UserIsPaciente}> */}
           <Route path="historias" component={Historias} />
-          <Route path="codigo" component={Codigo} />
         {/* </Route> */}
         {/* TODO: hacer funcionar UserIsMedico */}
         {/* <Route component={UserIsMedico}> */}
-          <Route path="carga" component={Carga} />
+          <Route path="verificacion" component={Verificacion} />
         {/* </Route> */}
       </Route>
       <Route path="*" component={NotFound} />

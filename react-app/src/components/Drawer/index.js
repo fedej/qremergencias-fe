@@ -52,17 +52,19 @@ class DrawerComponent extends Component {
         </MenuItem>
         {
           this.props.isMedico ? (
+          [
             <MenuItem onTouchTap={() => this.handleChangeRoute('/carga')}>
               Cargar Historia
-            </MenuItem>
+            </MenuItem>,
+            <MenuItem
+              key="verificacion"
+              onTouchTap={() => this.handleChangeRoute('/verificacion')}
+            >
+              Editar Paciente
+            </MenuItem>,
+          ]
           ) : (
             [
-              <MenuItem
-                key="datos"
-                onTouchTap={() => this.handleChangeRoute('/datos')}
-              >
-                Datos de Emergencia
-              </MenuItem>,
               <MenuItem
                 key="historias"
                 onTouchTap={() => this.handleChangeRoute('/historias')}
