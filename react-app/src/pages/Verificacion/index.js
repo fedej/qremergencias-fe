@@ -7,8 +7,8 @@ import SweetAlert from 'sweetalert-react';
 
 import 'sweetalert/dist/sweetalert.css';
 
-import Home from '../../../Home';
-import PacienteService from '../../../../utils/api/Paciente';
+import Home from '../Home';
+import PacienteService from '../../utils/api/Paciente';
 
 class Verificacion extends React.Component {
   state = {
@@ -21,6 +21,7 @@ class Verificacion extends React.Component {
     if (this.state.token === '') {
       this.setState({ error: 'Ingrese el código de verificación', showError: true });
     } else {
+      // TODO: guardar en el state la verificacion con fecha de caducidad
       PacienteService
         .verificar(this.state.token)
         .then(pacienteId => browserHistory.push(`/datos/${pacienteId}`))

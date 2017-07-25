@@ -14,10 +14,9 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
 import Datos from './pages/Emergencia/pages/Datos';
-import Verificacion from './pages/Emergencia/pages/Verificacion';
 import Historias from './pages/Historias';
 import Carga from './pages/Historias/pages/Carga';
-import Codigo from './pages/Codigo';
+import Verificacion from './pages/Verificacion';
 import NotFound from './pages/NotFound';
 
 import {
@@ -47,6 +46,7 @@ export default function Routes({ history }) {
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
         <Route path="perfil" component={Perfil} />
+        {/* TODO: el medico solo puede editar si esta verificado y por cierto tiempo */}
         <Route path="datos/:pacienteId" component={Datos} />
         {/* TODO: hacer funcionar UserIsPaciente */}
         {/* <Route component={UserIsPaciente}> */}
@@ -55,6 +55,7 @@ export default function Routes({ history }) {
         {/* TODO: hacer funcionar UserIsMedico */}
         {/* <Route component={UserIsMedico}> */}
           <Route path="verificacion" component={Verificacion} />
+          <Route path="carga" component={Carga} />
         {/* </Route> */}
       </Route>
       <Route path="*" component={NotFound} />
