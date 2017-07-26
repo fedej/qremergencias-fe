@@ -9,7 +9,7 @@ export default class UserService {
     if (!UserService.api) {
       let apiClient = new ApiClient();
       apiClient.enabledCookies = true;
-      //apiClient.basePath = '';
+      //apiClient.basePath = 'http://192.168.1.14:8082/qremergencias';
       UserService.api = new UserfrontcontrollerApi(apiClient);
     }
     return UserService.api;
@@ -39,4 +39,5 @@ export default class UserService {
   static resetPassword(data) {
     return UserService.getApi().resetPasswordUsingPOST(data);
   }
+
 }
