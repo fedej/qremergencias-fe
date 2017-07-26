@@ -54,8 +54,8 @@ class Perfil extends React.Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchProfile());
+    // const { dispatch } = this.props;
+    // dispatch(fetchProfile());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -139,14 +139,14 @@ class Perfil extends React.Component {
               </TableHeader>
               <TableBody>
                 <TableRow selected={this.isSelected(0)}>
-                  <TableRowColumn></TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
+                  <TableRowColumn>Gonzalo</TableRowColumn>
+                  <TableRowColumn>Rrramundo</TableRowColumn>
+                  <TableRowColumn>4319-1921</TableRowColumn>
                 </TableRow>
                 <TableRow selected={this.isSelected(1)}>
-                  <TableRowColumn></TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
+                  <TableRowColumn>Federico</TableRowColumn>
+                  <TableRowColumn>Jjjaite</TableRowColumn>
+                  <TableRowColumn>4531-2315</TableRowColumn>
                 </TableRow>
                 <TableRow selected={this.isSelected(2)}>
                   <TableRowColumn></TableRowColumn>
