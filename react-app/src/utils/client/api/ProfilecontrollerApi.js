@@ -89,7 +89,7 @@ export default class ProfilecontrollerApi {
      * @param {Date} opts.birthDate 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateUsingPATCH1WithHttpInfo(opts) {
+    updateUsingPATCHWithHttpInfo(opts) {
       opts = opts || {};
       let postBody = null;
 
@@ -136,8 +136,8 @@ export default class ProfilecontrollerApi {
      * @param {Date} opts.birthDate 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateUsingPATCH1(opts) {
-      return this.updateUsingPATCH1WithHttpInfo(opts)
+    updateUsingPATCH(opts) {
+      return this.updateUsingPATCHWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
