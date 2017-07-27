@@ -66,7 +66,7 @@ export const updateProfile = profile => (dispatch) => {
 };
 
 const INITIAL_STATE = {
-  perfil: [],
+  perfil: {},
   error: '',
   isFetching: false,
 };

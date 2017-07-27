@@ -4,6 +4,7 @@ import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
 export default class UserService {
 
   static api;
+  static apiClient;
 
   static getApiClient() {
     if (!this.apiClient) {
@@ -16,10 +17,10 @@ export default class UserService {
   }
 
   static getApi() {
-    if (!UserService.api) {
-      UserService.api = new UserfrontcontrollerApi(this.getApiClient());
+    if (!this.api) {
+      this.api = new UserfrontcontrollerApi(this.getApiClient());
     }
-    return UserService.api;
+    return this.api;
   }
 
   static register(credenciales) {

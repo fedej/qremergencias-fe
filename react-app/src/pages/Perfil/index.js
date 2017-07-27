@@ -17,7 +17,7 @@ import SweetAlert from 'sweetalert-react';
 
 import 'sweetalert/dist/sweetalert.css';
 
-import { fetchProfile } from '../../store/Perfil';
+import { fetchProfile, updateProfile } from '../../store/Perfil';
 
 import { isValidDNI } from '../../utils/validations';
 
@@ -25,45 +25,40 @@ import Home from '../Home';
 
 
 class Perfil extends React.Component {
+
+  static defaultProps = {
+    profile: {},
+  }
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     profile: PropTypes.shape({
       perfil: PropTypes.shape({
-        firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired,
-        docNumber: PropTypes.string.isRequired,
-        birthDate: PropTypes.string.isRequired,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        docNumber: PropTypes.string,
+        birthDate: PropTypes.DatePicker,
         contacts: PropTypes.array,
       }),
-      isFetching: PropTypes.bool.isRequired,
-      error: PropTypes.string.isRequired,
-    }).isRequired,
+      error: PropTypes.string,
+      isFetching: PropTypes.bool,
+    }),
   }
 
   state = {
-    name: '',
-    nameError: '',
-    lastName: '',
-    lastNameError: '',
-    numeroDocumento: '',
-    numeroDocumentoError: '',
-    birthDate: null,
-    birthDateError: '',
     showError: false,
     selected: [],
   }
 
   componentWillMount() {
-    // const { dispatch } = this.props;
-    // dispatch(fetchProfile());
+    const { dispatch } = this.props;
+    dispatch(fetchProfile());
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.profile.isFetching && !nextProps.profile.isFetching && nextProps.profile.error === '') {
-      browserHistory.push('/perfil');
-    }
-    if (nextProps.profile.error) {
-      this.setState({ showError: true });
+    const { profile } = nextProps;
+
+    if (profile) {
+      this.setState({ profile });
     }
   }
 
@@ -79,8 +74,9 @@ class Perfil extends React.Component {
   };
 
   handleActualizarPerfil = () => {
+    const { profile } = this.state;
     const { dispatch } = this.props;
-    dispatch(fetchProfile());
+    dispatch(updateProfile(profile.perfil));
   };
 
   render() {
@@ -94,7 +90,7 @@ class Perfil extends React.Component {
             />
             <CardText>
               <TextField
-                value={this.state.name}
+                value={this.props.profile.perfil.firstName}
                 onChange={(e, name) => this.setState({ name })}
                 errorText={this.state.nameError}
                 hintText="Ingresá tu nombre"
@@ -103,7 +99,7 @@ class Perfil extends React.Component {
                 fullWidth
               />
               <TextField
-                value={this.state.lastName}
+                value={this.props.profile.perfil.lastName}
                 onChange={(e, lastName) => this.setState({ lastName })}
                 errorText={this.state.lastNameError}
                 hintText="Ingresá tu apellido"
@@ -112,7 +108,7 @@ class Perfil extends React.Component {
                 fullWidth
               />
               <TextField
-                value={this.state.numeroDocumento}
+                value={this.props.profile.perfil.docNumber}
                 onChange={(e, numeroDocumento) => this.setState({ numeroDocumento })}
                 errorText={this.state.numeroDocumentoError}
                 hintText="Ingresá tu DNI"
@@ -122,6 +118,7 @@ class Perfil extends React.Component {
               />
               <div style={{ paddingTop: '2vh' }}>
                 <DatePicker
+                  value={this.props.profile.perfil.birthDate}
                   textFieldStyle={{ width: '100%' }}
                   hintText="Fecha de Nacimiento"
                   onChange={(e, birthDate) => this.setState({ birthDate })}
