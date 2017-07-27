@@ -10,7 +10,7 @@ export default class ProfileService {
 
   static updateProfile(data) {
     const API = new ProfilecontrollerApi(UserService.getApiClient());
-    return API.updateUsingPATCH(data);
+    return API.updateUsingPATCH1(data);
   }
 
 }
