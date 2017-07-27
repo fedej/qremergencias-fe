@@ -78,33 +78,21 @@ export default class ProfilecontrollerApi {
 
     /**
      * update
-     * @param {Object} opts Optional parameters
-     * @param {String} opts.contacts0Id 
-     * @param {String} opts.contacts0FirstName 
-     * @param {String} opts.contacts0LastName 
-     * @param {String} opts.contacts0PhoneNumber 
-     * @param {String} opts.firstName 
-     * @param {String} opts.lastName 
-     * @param {String} opts.docNumber 
-     * @param {Date} opts.birthDate 
+     * @param {module:model/UserProfileDTO} userProfileDTO userProfileDTO
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateUsingPATCHWithHttpInfo(opts) {
-      opts = opts || {};
-      let postBody = null;
+    updateUsingPATCH1WithHttpInfo(userProfileDTO) {
+      let postBody = userProfileDTO;
+
+      // verify the required parameter 'userProfileDTO' is set
+      if (userProfileDTO === undefined || userProfileDTO === null) {
+        throw new Error("Missing the required parameter 'userProfileDTO' when calling updateUsingPATCH1");
+      }
 
 
       let pathParams = {
       };
       let queryParams = {
-        'contacts[0].id': opts['contacts0Id'],
-        'contacts[0].firstName': opts['contacts0FirstName'],
-        'contacts[0].lastName': opts['contacts0LastName'],
-        'contacts[0].phoneNumber': opts['contacts0PhoneNumber'],
-        'firstName': opts['firstName'],
-        'lastName': opts['lastName'],
-        'docNumber': opts['docNumber'],
-        'birthDate': opts['birthDate']
       };
       let headerParams = {
       };
@@ -125,19 +113,11 @@ export default class ProfilecontrollerApi {
 
     /**
      * update
-     * @param {Object} opts Optional parameters
-     * @param {String} opts.contacts0Id 
-     * @param {String} opts.contacts0FirstName 
-     * @param {String} opts.contacts0LastName 
-     * @param {String} opts.contacts0PhoneNumber 
-     * @param {String} opts.firstName 
-     * @param {String} opts.lastName 
-     * @param {String} opts.docNumber 
-     * @param {Date} opts.birthDate 
+     * @param {module:model/UserProfileDTO} userProfileDTO userProfileDTO
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateUsingPATCH(opts) {
-      return this.updateUsingPATCHWithHttpInfo(opts)
+    updateUsingPATCH1(userProfileDTO) {
+      return this.updateUsingPATCH1WithHttpInfo(userProfileDTO)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
