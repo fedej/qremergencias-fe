@@ -1,4 +1,4 @@
-import MedicalrecordcontrollerApi from './MedicalrecordcontrollerApi';
+import MedicalrecordcontrollerApi from '../client/api/MedicalrecordcontrollerApi';
 import UserService from './User';
 
 export default class PacienteService {

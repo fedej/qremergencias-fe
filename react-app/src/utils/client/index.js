@@ -14,6 +14,11 @@
 
 import ApiClient from './ApiClient';
 import CreateUserDTO from './model/CreateUserDTO';
+import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
+import MedicalRecordDTO from './model/MedicalRecordDTO';
+import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
+import Sort from './model/Sort';
+import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
 import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
 
 
@@ -60,6 +65,36 @@ export {
      * @property {module:model/CreateUserDTO}
      */
     CreateUserDTO,
+
+    /**
+     * The MedicalRecordChangeDTO model constructor.
+     * @property {module:model/MedicalRecordChangeDTO}
+     */
+    MedicalRecordChangeDTO,
+
+    /**
+     * The MedicalRecordDTO model constructor.
+     * @property {module:model/MedicalRecordDTO}
+     */
+    MedicalRecordDTO,
+
+    /**
+     * The PageOfMedicalRecordDTO model constructor.
+     * @property {module:model/PageOfMedicalRecordDTO}
+     */
+    PageOfMedicalRecordDTO,
+
+    /**
+     * The Sort model constructor.
+     * @property {module:model/Sort}
+     */
+    Sort,
+
+    /**
+    * The MedicalrecordcontrollerApi service constructor.
+    * @property {module:api/MedicalrecordcontrollerApi}
+    */
+    MedicalrecordcontrollerApi,
 
     /**
     * The UserfrontcontrollerApi service constructor.

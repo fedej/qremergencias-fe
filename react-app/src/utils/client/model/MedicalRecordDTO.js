@@ -61,7 +61,7 @@ export default class MedicalRecordDTO {
                 obj['changes'] = ApiClient.convertToType(data['changes'], [MedicalRecordChangeDTO]);
             }
             if (data.hasOwnProperty('files')) {
-                obj['files'] = ApiClient.convertToType(data['files'], [Object]);
+                obj['files'] = ApiClient.convertToType(data['files'], ['String']);
             }
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
@@ -75,6 +75,9 @@ export default class MedicalRecordDTO {
             if (data.hasOwnProperty('text')) {
                 obj['text'] = ApiClient.convertToType(data['text'], 'String');
             }
+            if (data.hasOwnProperty('user')) {
+                obj['user'] = ApiClient.convertToType(data['user'], 'String');
+            }
         }
         return obj;
     }
@@ -84,7 +87,7 @@ export default class MedicalRecordDTO {
     */
     changes = undefined;
     /**
-    * @member {Array.<Object>} files
+    * @member {Array.<String>} files
     */
     files = undefined;
     /**
@@ -103,6 +106,10 @@ export default class MedicalRecordDTO {
     * @member {String} text
     */
     text = undefined;
+    /**
+    * @member {String} user
+    */
+    user = undefined;
 
 
 

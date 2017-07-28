@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import SweetAlert from 'sweetalert-react';
+import moment from 'moment';
 
 import 'sweetalert/dist/sweetalert.css';
 
@@ -63,15 +64,13 @@ class CargaHistoriaClinica extends React.Component {
 
     if (hasEmptyStringProperties(errores)) {
       this.setState(errores, () => {
-        const data = new FormData();
-
-        data.append('file', this.fileInput.files[0]);
-        data.append('name', 'archivo');
-        data.append('description', 'historia clinica');
-        data.append('nombre', this.state.nombre);
-        data.append('fechaRealizacion', this.state.fechaRealizacion);
-        data.append('informe', this.state.informe);
-        console.log(data);
+        const data = {
+          file: this.fileInput.files[0],
+          name: this.state.nombre,
+          performed: moment(this.state.fechaRealizacion).format('YYYY-MM-DD'),
+          text: this.state.informe,
+          user: 'user@rrramundo.com.ar',
+        };
         dispatch(uploadHistoriClinica(data));
       });
     } else {
