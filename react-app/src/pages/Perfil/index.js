@@ -36,7 +36,7 @@ class Perfil extends React.Component {
         firstName: PropTypes.string,
         lastName: PropTypes.string,
         docNumber: PropTypes.string,
-        birthDate: PropTypes.DatePicker,
+        birthDate: PropTypes.string,
         contacts: PropTypes.array,
       }),
       error: PropTypes.string,
@@ -47,18 +47,30 @@ class Perfil extends React.Component {
   state = {
     showError: false,
     selected: [],
+    perfil: {},
+    firstName: '',
+    lastName: '',
+    docNumber: '',
+    birthDate: '',
+    contacts: [],
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     dispatch(fetchProfile());
   }
 
   componentWillReceiveProps(nextProps) {
-    const { profile } = nextProps;
+    const {profile} = nextProps;
 
     if (profile) {
-      this.setState({ profile });
+      this.setState({
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        docNumber: profile.docNumber,
+        birthDate: profile.birthDate,
+        contacts: profile.contacts,
+      });
     }
   }
 
@@ -74,51 +86,65 @@ class Perfil extends React.Component {
   };
 
   handleActualizarPerfil = () => {
-    const { profile } = this.state;
     const { dispatch } = this.props;
-    dispatch(updateProfile(profile.perfil));
+    dispatch(updateProfile(this.state));
+  };
+
+  addRow = () => {
+    let contacts = [];
+    if(this.state.contacts) {
+      contacts = this.state.contacts;
+      contacts.push({firstName: '', lastName: '', phoneNumber: ''});
+    } else {
+      contacts = [{firstName: '', lastName: '', phoneNumber: ''}];
+    }
+    this.setState({contacts});
+
   };
 
   render() {
     return (
       <Home>
         <div className={classnames('formCenter')}>
-          <Card style={{ margin: '20px' }}>
+          <Card style={{margin: '20px'}}>
             <CardTitle
               title="Perfil de usuario"
               subtitle="Actualizá tus datos personales y contactos de emergencia"
             />
             <CardText>
               <TextField
-                value={this.props.profile.perfil.firstName}
-                onChange={(e, name) => this.setState({ name })}
+                value={this.state.firstName}
+                onChange={(e, firstName) => this.setState({ firstName })}
                 errorText={this.state.nameError}
                 hintText="Ingresá tu nombre"
                 type="text"
                 floatingLabelText="Nombre"
+                floatingLabelFixed={true}
                 fullWidth
               />
               <TextField
-                value={this.props.profile.perfil.lastName}
+                value={this.state.lastName}
                 onChange={(e, lastName) => this.setState({ lastName })}
                 errorText={this.state.lastNameError}
                 hintText="Ingresá tu apellido"
                 type="text"
                 floatingLabelText="Apellido"
+                floatingLabelFixed={true}
                 fullWidth
               />
               <TextField
-                value={this.props.profile.perfil.docNumber}
+                value={this.state.docNumber}
                 onChange={(e, numeroDocumento) => this.setState({ numeroDocumento })}
                 errorText={this.state.numeroDocumentoError}
                 hintText="Ingresá tu DNI"
                 type="text"
                 floatingLabelText="DNI"
+                floatingLabelFixed={true}
                 fullWidth
               />
               <div style={{ paddingTop: '2vh' }}>
                 <DatePicker
-                  value={this.props.profile.perfil.birthDate}
+                  value={this.state.birthDate}
                   textFieldStyle={{ width: '100%' }}
                   hintText="Fecha de Nacimiento"
                   onChange={(e, birthDate) => this.setState({ birthDate })}
@@ -134,28 +160,29 @@ class Perfil extends React.Component {
                   <TableHeaderColumn>Telefono</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
-              <TableBody>
-                <TableRow selected={this.isSelected(0)}>
-                  <TableRowColumn>Gonzalo</TableRowColumn>
-                  <TableRowColumn>Rrramundo</TableRowColumn>
-                  <TableRowColumn>4319-1921</TableRowColumn>
-                </TableRow>
-                <TableRow selected={this.isSelected(1)}>
-                  <TableRowColumn>Federico</TableRowColumn>
-                  <TableRowColumn>Jjjaite</TableRowColumn>
-                  <TableRowColumn>4531-2315</TableRowColumn>
-                </TableRow>
-                <TableRow selected={this.isSelected(2)}>
-                  <TableRowColumn></TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
-                  <TableRowColumn></TableRowColumn>
-                </TableRow>
-              </TableBody>
+              {this.state.contacts ? (
+                  <TableBody>
+                  {
+                    this.state.contacts.map((c, i) => {
+                      return <TableRow key={i} selected={this.isSelected(i)}>
+                        <TableRowColumn>{c.firstName}</TableRowColumn>
+                        <TableRowColumn>{c.lastName}</TableRowColumn>
+                        <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                      </TableRow>
+                    })
+                  }
+                  </TableBody>
+              ): ''}
             </Table>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
                 label="Guardar"
                 onTouchTap={this.handleActualizarPerfil}
+                primary
+              />
+              <RaisedButton
+                label="Agregar"
+                onTouchTap={this.addRow.bind(this)}
                 primary
               />
               <RaisedButton
@@ -179,9 +206,8 @@ class Perfil extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    profile: state.profile,
+    profile: state.profile.perfil,
   };
 }
 
 export default connect(mapStateToProps)(Perfil);
-
