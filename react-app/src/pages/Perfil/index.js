@@ -49,19 +49,23 @@ class Perfil extends React.Component {
     selected: [],
     perfil: {},
     firstName: '',
+    firstNameError: '',
     lastName: '',
+    lastNameError: '',
     docNumber: '',
+    docNumberError: '',
     birthDate: '',
+    birthDateError: '',
     contacts: [],
   }
 
   componentWillMount() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(fetchProfile());
   }
 
   componentWillReceiveProps(nextProps) {
-    const {profile} = nextProps;
+    const { profile } = nextProps;
 
     if (profile) {
       this.setState({
@@ -86,27 +90,40 @@ class Perfil extends React.Component {
   };
 
   handleActualizarPerfil = () => {
-    const { dispatch } = this.props;
-    dispatch(updateProfile(this.state));
-  };
+    const { firstName, lastName, docNumber, birthDate } = this.state;
+
+    if (firstName === '') {
+      this.setState({ firstNameError: 'Ingrese un nombre.' });
+    } else if (lastName === '') {
+      this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
+    } else if (docNumber === '' || !isValidDNI(docNumber)) {
+      this.setState({ firstNameError: '', lastNameError: '', docNumberError: 'Ingrese un DNI valido: xx.xx.xx' });
+    } else if (birthDate === null) {
+      this.setState({ firstNameError: '', lastNameError: '', docNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+    } else {
+      this.setState({ firstNameError: '', lastNameError: '', docNumberError: '', birthDateError: '' });
+      const { dispatch } = this.props;
+      dispatch(updateProfile(this.state));
+      window.location.reload();
+    }
+  }
 
   addRow = () => {
     let contacts = [];
-    if(this.state.contacts) {
+    if (this.state.contacts) {
       contacts = this.state.contacts;
-      contacts.push({firstName: '', lastName: '', phoneNumber: ''});
+      contacts.push({ firstName: '', lastName: '', phoneNumber: '' });
     } else {
-      contacts = [{firstName: '', lastName: '', phoneNumber: ''}];
+      contacts = [{ firstName: '', lastName: '', phoneNumber: '' }];
     }
-    this.setState({contacts});
-
+    this.setState({ contacts });
   };
 
   render() {
     return (
       <Home>
         <div className={classnames('formCenter')}>
-          <Card style={{margin: '20px'}}>
+          <Card style={{ margin: '20px' }}>
             <CardTitle
               title="Perfil de usuario"
               subtitle="Actualizá tus datos personales y contactos de emergencia"
@@ -115,11 +132,10 @@ class Perfil extends React.Component {
               <TextField
                 value={this.state.firstName}
                 onChange={(e, firstName) => this.setState({ firstName })}
-                errorText={this.state.nameError}
+                errorText={this.state.firstNameError}
                 hintText="Ingresá tu nombre"
                 type="text"
                 floatingLabelText="Nombre"
-                floatingLabelFixed={true}
                 fullWidth
               />
               <TextField
@@ -129,17 +145,15 @@ class Perfil extends React.Component {
                 hintText="Ingresá tu apellido"
                 type="text"
                 floatingLabelText="Apellido"
-                floatingLabelFixed={true}
                 fullWidth
               />
               <TextField
                 value={this.state.docNumber}
-                onChange={(e, numeroDocumento) => this.setState({ numeroDocumento })}
-                errorText={this.state.numeroDocumentoError}
+                onChange={(e, docNumber) => this.setState({ docNumber })}
+                errorText={this.state.docNumberError}
                 hintText="Ingresá tu DNI"
                 type="text"
                 floatingLabelText="DNI"
-                floatingLabelFixed={true}
                 fullWidth
               />
               <div style={{ paddingTop: '2vh' }}>
@@ -161,18 +175,18 @@ class Perfil extends React.Component {
                 </TableRow>
               </TableHeader>
               {this.state.contacts ? (
-                  <TableBody>
+                <TableBody>
                   {
                     this.state.contacts.map((c, i) => {
-                      return <TableRow key={i} selected={this.isSelected(i)}>
+                      return (<TableRow selected={this.isSelected(i)}>
                         <TableRowColumn>{c.firstName}</TableRowColumn>
                         <TableRowColumn>{c.lastName}</TableRowColumn>
                         <TableRowColumn>{c.phoneNumber}</TableRowColumn>
-                      </TableRow>
+                      </TableRow>);
                     })
                   }
-                  </TableBody>
-              ): ''}
+                </TableBody>
+              ) : ''}
             </Table>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
@@ -182,7 +196,7 @@ class Perfil extends React.Component {
               />
               <RaisedButton
                 label="Agregar"
-                onTouchTap={this.addRow.bind(this)}
+                onTouchTap={this.addRow}
                 primary
               />
               <RaisedButton
