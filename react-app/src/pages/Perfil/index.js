@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
+import Dialog from 'material-ui/Dialog';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import {
   Table,
@@ -57,6 +58,26 @@ class Perfil extends React.Component {
     birthDate: '',
     birthDateError: '',
     contacts: [],
+    contactDialogOpened: false,
+    contactFirstName: '',
+    contactLastName: '',
+    contactPhoneNumber: '',
+  }
+
+  handleOpenContactDialog = () => {
+    this.setState({contactDialogOpened: true});
+  };
+
+  handleContactData = () => {
+       const { contactFirstName, contactLastName, contactPhoneNumber } = this.state;
+       let contacts = [];
+       if (this.state.contacts) {
+         contacts = this.state.contacts;
+         contacts.push({ contactFirstName, contactLastName, contactPhoneNumber });
+       } else {
+         contacts = [{ contactFirstName, contactLastName, contactPhoneNumber }];
+       }
+       this.setState({ contacts , contactDialogOpened: false});
   }
 
   componentWillMount() {
@@ -108,18 +129,18 @@ class Perfil extends React.Component {
     }
   }
 
-  addRow = () => {
-    let contacts = [];
-    if (this.state.contacts) {
-      contacts = this.state.contacts;
-      contacts.push({ firstName: '', lastName: '', phoneNumber: '' });
-    } else {
-      contacts = [{ firstName: '', lastName: '', phoneNumber: '' }];
-    }
-    this.setState({ contacts });
-  };
-
   render() {
+    const actions = [
+      <RaisedButton
+        label="Cancel"
+        onTouchTap={this.handleCloseContactDialog}
+      />,
+      <RaisedButton
+        label="Submit"
+        primary={true}
+        onTouchTap={this.handleContactData}
+      />,
+    ];
     return (
       <Home>
         <div className={classnames('formCenter')}>
@@ -179,15 +200,46 @@ class Perfil extends React.Component {
                   {
                     this.state.contacts.map((c, i) => {
                       return (<TableRow selected={this.isSelected(i)}>
-                        <TableRowColumn>{c.firstName}</TableRowColumn>
-                        <TableRowColumn>{c.lastName}</TableRowColumn>
-                        <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                        <TableRowColumn>{c.contactFirstName}</TableRowColumn>
+                        <TableRowColumn>{c.contactLastName}</TableRowColumn>
+                        <TableRowColumn>{c.contactPhoneNumber}</TableRowColumn>
                       </TableRow>);
                     })
                   }
                 </TableBody>
               ) : ''}
             </Table>
+            <Dialog
+              title="Contactos de emergencia"
+              actions={actions}
+              modal={true}
+              open={this.state.contactDialogOpened}
+            >
+              <TextField
+                value={this.state.contactFirstName}
+                onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
+                hintText="Nombre"
+                type="text"
+                floatingLabelText="Nombre"
+                fullWidth
+              />
+              <TextField
+                value={this.state.contactLastName}
+                onChange={(e, contactLastName) => this.setState({ contactLastName })}
+                hintText="Apellido"
+                type="text"
+                floatingLabelText="Apellido"
+                fullWidth
+              />
+              <TextField
+                value={this.state.contactPhoneNumber}
+                onChange={(e, contactPhoneNumber) => this.setState({ contactPhoneNumber })}
+                hintText="N° de Teléfono"
+                type="text"
+                floatingLabelText="N° de Teléfono"
+                fullWidth
+              />
+            </Dialog>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
                 label="Guardar"
@@ -196,7 +248,7 @@ class Perfil extends React.Component {
               />
               <RaisedButton
                 label="Agregar"
-                onTouchTap={this.addRow}
+                onTouchTap={this.handleOpenContactDialog}
                 primary
               />
               <RaisedButton
