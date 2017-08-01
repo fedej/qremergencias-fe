@@ -59,9 +59,6 @@ export default class UserContactDTO {
             if (data.hasOwnProperty('firstName')) {
                 obj['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
             }
-            if (data.hasOwnProperty('id')) {
-                obj['id'] = ApiClient.convertToType(data['id'], 'String');
-            }
             if (data.hasOwnProperty('lastName')) {
                 obj['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
             }
@@ -76,10 +73,6 @@ export default class UserContactDTO {
     * @member {String} firstName
     */
     firstName = undefined;
-    /**
-    * @member {String} id
-    */
-    id = undefined;
     /**
     * @member {String} lastName
     */

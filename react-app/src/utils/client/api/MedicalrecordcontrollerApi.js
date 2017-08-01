@@ -38,29 +38,35 @@ export default class MedicalrecordcontrollerApi {
 
     /**
      * create
-     * @param {module:model/MedicalRecordDTO} medicalRecord medicalRecord
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.name 
+     * @param {String} opts.text 
+     * @param {Date} opts.performed 
+     * @param {String} opts.user 
+     * @param {File} opts.file file
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Object.<String, {'String': 'String'}>} and HTTP response
      */
-    createUsingPOSTWithHttpInfo(medicalRecord) {
-      let postBody = medicalRecord;
-
-      // verify the required parameter 'medicalRecord' is set
-      if (medicalRecord === undefined || medicalRecord === null) {
-        throw new Error("Missing the required parameter 'medicalRecord' when calling createUsingPOST");
-      }
+    createUsingPOSTWithHttpInfo(opts) {
+      opts = opts || {};
+      let postBody = null;
 
 
       let pathParams = {
       };
       let queryParams = {
+        'name': opts['name'],
+        'text': opts['text'],
+        'performed': opts['performed'],
+        'user': opts['user']
       };
       let headerParams = {
       };
       let formParams = {
+        'file': opts['file']
       };
 
       let authNames = [];
-      let contentTypes = ['application/json'];
+      let contentTypes = ['multipart/form-data'];
       let accepts = ['*/*'];
       let returnType = {'String': 'String'};
 
@@ -73,11 +79,16 @@ export default class MedicalrecordcontrollerApi {
 
     /**
      * create
-     * @param {module:model/MedicalRecordDTO} medicalRecord medicalRecord
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.name 
+     * @param {String} opts.text 
+     * @param {Date} opts.performed 
+     * @param {String} opts.user 
+     * @param {File} opts.file file
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {'String': 'String'}>}
      */
-    createUsingPOST(medicalRecord) {
-      return this.createUsingPOSTWithHttpInfo(medicalRecord)
+    createUsingPOST(opts) {
+      return this.createUsingPOSTWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
