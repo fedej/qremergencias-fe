@@ -20,7 +20,7 @@ import 'sweetalert/dist/sweetalert.css';
 
 import { fetchProfile, updateProfile } from '../../store/Perfil';
 
-import { isValidDNI } from '../../utils/validations';
+import { isValidDNI, isValidPhoneNumber } from '../../utils/validations';
 
 import Home from '../Home';
 
@@ -60,24 +60,11 @@ class Perfil extends React.Component {
     contacts: [],
     contactDialogOpened: false,
     contactFirstName: '',
+    contactFirstNameError: '',
     contactLastName: '',
+    contactLastNameError: '',
     contactPhoneNumber: '',
-  }
-
-  handleOpenContactDialog = () => {
-    this.setState({contactDialogOpened: true});
-  };
-
-  handleContactData = () => {
-       const { contactFirstName, contactLastName, contactPhoneNumber } = this.state;
-       let contacts = [];
-       if (this.state.contacts) {
-         contacts = this.state.contacts;
-         contacts.push({ contactFirstName, contactLastName, contactPhoneNumber });
-       } else {
-         contacts = [{ contactFirstName, contactLastName, contactPhoneNumber }];
-       }
-       this.setState({ contacts , contactDialogOpened: false});
+    contactPhoneNumberError: '',
   }
 
   componentWillMount() {
@@ -110,6 +97,36 @@ class Perfil extends React.Component {
     });
   };
 
+  handleCloseContactDialog = () => {
+    this.setState({ contactDialogOpened: false });
+  };
+
+  handleOpenContactDialog = () => {
+    this.setState({ contactDialogOpened: true });
+  };
+
+  handleContactData = () => {
+    const { contactFirstName, contactLastName, contactPhoneNumber } = this.state;
+
+    if (contactFirstName === '') {
+      this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
+    } else if (contactLastName === '') {
+      this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido.' });
+    } else if (contactPhoneNumber === '' || !isValidPhoneNumber(contactPhoneNumber)) {
+      this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
+    } else {
+      this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
+      let contacts = [];
+      if (this.state.contacts) {
+        contacts = this.state.contacts;
+        contacts.push({ contactFirstName, contactLastName, contactPhoneNumber });
+      } else {
+        contacts = [{ contactFirstName, contactLastName, contactPhoneNumber }];
+      }
+      this.setState({ contacts, contactDialogOpened: false });
+    }
+  }
+
   handleActualizarPerfil = () => {
     const { firstName, lastName, docNumber, birthDate } = this.state;
 
@@ -118,7 +135,7 @@ class Perfil extends React.Component {
     } else if (lastName === '') {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
     } else if (docNumber === '' || !isValidDNI(docNumber)) {
-      this.setState({ firstNameError: '', lastNameError: '', docNumberError: 'Ingrese un DNI valido: xx.xx.xx' });
+      this.setState({ firstNameError: '', lastNameError: '', docNumberError: 'Ingrese un DNI válido: xx.xx.xx' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', docNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {
@@ -137,7 +154,7 @@ class Perfil extends React.Component {
       />,
       <RaisedButton
         label="Submit"
-        primary={true}
+        primary
         onTouchTap={this.handleContactData}
       />,
     ];
@@ -187,36 +204,61 @@ class Perfil extends React.Component {
                 />
               </div>
             </CardText>
-            <Table onRowSelection={this.handleRowSelection}>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderColumn>Nombre</TableHeaderColumn>
-                  <TableHeaderColumn>Apellido</TableHeaderColumn>
-                  <TableHeaderColumn>Telefono</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              {this.state.contacts ? (
-                <TableBody>
-                  {
-                    this.state.contacts.map((c, i) => {
-                      return (<TableRow selected={this.isSelected(i)}>
-                        <TableRowColumn>{c.contactFirstName}</TableRowColumn>
-                        <TableRowColumn>{c.contactLastName}</TableRowColumn>
-                        <TableRowColumn>{c.contactPhoneNumber}</TableRowColumn>
-                      </TableRow>);
-                    })
-                  }
-                </TableBody>
-              ) : ''}
-            </Table>
+            <Card style={{ margin: '10px' }}>
+              <CardTitle
+                title="Contactos"
+              />
+              <Table onRowSelection={this.handleRowSelection}>
+                <TableHeader>
+                  <TableRow>
+                    <TableHeaderColumn>Nombre</TableHeaderColumn>
+                    <TableHeaderColumn>Apellido</TableHeaderColumn>
+                    <TableHeaderColumn>Telefono</TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                {this.state.contacts ? (
+                  <TableBody>
+                    {
+                      this.state.contacts.map((c, i) => {
+                        return (<TableRow selected={this.isSelected(i)}>
+                          <TableRowColumn>{c.contactFirstName}</TableRowColumn>
+                          <TableRowColumn>{c.contactLastName}</TableRowColumn>
+                          <TableRowColumn>{c.contactPhoneNumber}</TableRowColumn>
+                        </TableRow>);
+                      })
+                    }
+                  </TableBody>
+                ) : ''}
+              </Table>
+              <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
+                <RaisedButton
+                  label="Agregar"
+                  onTouchTap={this.handleOpenContactDialog}
+                  primary
+                />
+                {this.state.selected.length ? (
+                  <RaisedButton
+                    label="Editar"
+                    onTouchTap={this.handleOpenContactDialog}
+                    primary
+                  />) : ''}
+                {this.state.selected.length ? (
+                  <RaisedButton
+                    label="Borrar"
+                    onTouchTap={this.handleOpenContactDialog}
+                    primary
+                  />) : ''}
+              </CardActions>
+            </Card>
             <Dialog
               title="Contactos de emergencia"
               actions={actions}
-              modal={true}
+              modal
               open={this.state.contactDialogOpened}
             >
               <TextField
                 value={this.state.contactFirstName}
+                errorText={this.state.contactFirstNameError}
                 onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
                 hintText="Nombre"
                 type="text"
@@ -225,6 +267,7 @@ class Perfil extends React.Component {
               />
               <TextField
                 value={this.state.contactLastName}
+                errorText={this.state.contactLastNameError}
                 onChange={(e, contactLastName) => this.setState({ contactLastName })}
                 hintText="Apellido"
                 type="text"
@@ -233,6 +276,7 @@ class Perfil extends React.Component {
               />
               <TextField
                 value={this.state.contactPhoneNumber}
+                errorText={this.state.contactPhoneNumberError}
                 onChange={(e, contactPhoneNumber) => this.setState({ contactPhoneNumber })}
                 hintText="N° de Teléfono"
                 type="text"
@@ -244,11 +288,6 @@ class Perfil extends React.Component {
               <RaisedButton
                 label="Guardar"
                 onTouchTap={this.handleActualizarPerfil}
-                primary
-              />
-              <RaisedButton
-                label="Agregar"
-                onTouchTap={this.handleOpenContactDialog}
                 primary
               />
               <RaisedButton
