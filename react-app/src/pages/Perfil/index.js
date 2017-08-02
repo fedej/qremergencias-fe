@@ -214,133 +214,143 @@ class Perfil extends React.Component {
       <Home>
         <div className={classnames('formCenter')}>
           <Card style={{ margin: '20px' }}>
-            <CardTitle
-              title="Perfil de usuario"
-              subtitle="Actualizá tus datos personales y contactos de emergencia"
-            />
-            <CardText>
-              <TextField
-                value={this.state.firstName}
-                onChange={(e, firstName) => this.setState({ firstName })}
-                errorText={this.state.firstNameError}
-                hintText="Ingresá tu nombre"
-                type="text"
-                floatingLabelText="Nombre"
-                fullWidth
-              />
-              <TextField
-                value={this.state.lastName}
-                onChange={(e, lastName) => this.setState({ lastName })}
-                errorText={this.state.lastNameError}
-                hintText="Ingresá tu apellido"
-                type="text"
-                floatingLabelText="Apellido"
-                fullWidth
-              />
-              <TextField
-                value={this.state.docNumber}
-                onChange={(e, docNumber) => this.setState({ docNumber })}
-                errorText={this.state.docNumberError}
-                hintText="Ingresá tu DNI"
-                type="text"
-                floatingLabelText="DNI"
-                fullWidth
-              />
-              <div style={{ paddingTop: '2vh' }}>
-                <DatePicker
-                  value={this.state.birthDate}
-                  textFieldStyle={{ width: '100%' }}
-                  hintText="Fecha de Nacimiento"
-                  onChange={(e, birthDate) => this.setState({ birthDate })}
-                  errorText={this.state.birthDateError}
-                />
-              </div>
-            </CardText>
-            <Card style={{ margin: '10px' }}>
-              <CardTitle
-                title="Contactos"
-              />
-              <Table onRowSelection={this.handleRowSelection}>
-                <TableHeader>
-                  <TableRow>
-                    <TableHeaderColumn>Nombre</TableHeaderColumn>
-                    <TableHeaderColumn>Apellido</TableHeaderColumn>
-                    <TableHeaderColumn>Telefono</TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                {this.state.contacts ? (
-                  <TableBody>
-                    {
-                      this.state.contacts.map((c, i) => {
-                        return (<TableRow selected={this.isSelected(i)}>
-                          <TableRowColumn>{c.firstName}</TableRowColumn>
-                          <TableRowColumn>{c.lastName}</TableRowColumn>
-                          <TableRowColumn>{c.phoneNumber}</TableRowColumn>
-                        </TableRow>);
-                      })
-                    }
-                  </TableBody>
-                ) : ''}
-              </Table>
-              <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
-                <RaisedButton
-                  label="Agregar"
-                  onTouchTap={this.handleOpenContactDialog}
-                  primary
-                />
-                {this.state.selected.length ? (
-                  <div>
-                    <RaisedButton
-                      label="Editar"
-                      onTouchTap={this.handleOpenContactDialog}
-                      primary
+            <table style={{ width: '100%', tableLayout: 'fixed' }}>
+              <tr style={{ verticalAlign: 'top' }}>
+                <td style={{ width: '50%' }}>
+                  <Card style={{ margin: '20px' }}>
+                    <CardTitle
+                      title="Perfil de usuario"
+                      subtitle="Actualizá tus datos personales y contactos de emergencia"
                     />
-                    &nbsp;&nbsp;
-                    <RaisedButton
-                      label="Borrar"
-                      onTouchTap={this.handleEraseContact}
-                      primary
+                    <CardText>
+                      <TextField
+                        value={this.state.firstName}
+                        onChange={(e, firstName) => this.setState({ firstName })}
+                        errorText={this.state.firstNameError}
+                        hintText="Ingresá tu nombre"
+                        type="text"
+                        floatingLabelText="Nombre"
+                        fullWidth
+                      />
+                      <TextField
+                        value={this.state.lastName}
+                        onChange={(e, lastName) => this.setState({ lastName })}
+                        errorText={this.state.lastNameError}
+                        hintText="Ingresá tu apellido"
+                        type="text"
+                        floatingLabelText="Apellido"
+                        fullWidth
+                      />
+                      <TextField
+                        value={this.state.docNumber}
+                        onChange={(e, docNumber) => this.setState({ docNumber })}
+                        errorText={this.state.docNumberError}
+                        hintText="Ingresá tu DNI"
+                        type="text"
+                        floatingLabelText="DNI"
+                        fullWidth
+                      />
+                      <div style={{ paddingTop: '2vh' }}>
+                        <DatePicker
+                          value={this.state.birthDate}
+                          textFieldStyle={{ width: '100%' }}
+                          hintText="Fecha de Nacimiento"
+                          onChange={(e, birthDate) => this.setState({ birthDate })}
+                          errorText={this.state.birthDateError}
+                        />
+                      </div>
+                    </CardText>
+                    <Dialog
+                      title="Contactos de emergencia"
+                      actions={actions}
+                      modal
+                      open={this.state.contactDialogOpened}
+                    >
+                      <TextField
+                        value={this.state.selected.length ?
+                          (this.state.contacts[this.state.selected[0]].firstName) :
+                          (this.state.contactFirstName)}
+                        errorText={this.state.contactFirstNameError}
+                        onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
+                        hintText="Nombre"
+                        type="text"
+                        floatingLabelText="Nombre"
+                        fullWidth
+                      />
+                      <TextField
+                        value={this.state.contactLastName}
+                        errorText={this.state.contactLastNameError}
+                        onChange={(e, contactLastName) => this.setState({ contactLastName })}
+                        hintText="Apellido"
+                        type="text"
+                        floatingLabelText="Apellido"
+                        fullWidth
+                      />
+                      <TextField
+                        value={this.state.contactPhoneNumber}
+                        errorText={this.state.contactPhoneNumberError}
+                        onChange={(e, contactPhoneNumber) => this.setState({ contactPhoneNumber })}
+                        hintText="N° de Teléfono"
+                        type="text"
+                        floatingLabelText="N° de Teléfono"
+                        fullWidth
+                      />
+                    </Dialog>
+                  </Card>
+                </td>
+                <td style={{ width: '50%' }}>
+                  <Card style={{ margin: '20px' }}>
+                    <CardTitle
+                      title="Contactos"
                     />
-                  </div>
-                ) : ''}
-              </CardActions>
-            </Card>
-            <Dialog
-              title="Contactos de emergencia"
-              actions={actions}
-              modal
-              open={this.state.contactDialogOpened}
-            >
-              <TextField
-                value={this.state.selected.length ?
-                  (this.state.contacts[this.state.selected[0]].firstName) :
-                  (this.state.contactFirstName)}
-                errorText={this.state.contactFirstNameError}
-                onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
-                hintText="Nombre"
-                type="text"
-                floatingLabelText="Nombre"
-                fullWidth
-              />
-              <TextField
-                value={this.state.contactLastName}
-                errorText={this.state.contactLastNameError}
-                onChange={(e, contactLastName) => this.setState({ contactLastName })}
-                hintText="Apellido"
-                type="text"
-                floatingLabelText="Apellido"
-                fullWidth
-              />
-              <TextField
-                value={this.state.contactPhoneNumber}
-                errorText={this.state.contactPhoneNumberError}
-                onChange={(e, contactPhoneNumber) => this.setState({ contactPhoneNumber })}
-                hintText="N° de Teléfono"
-                type="text"
-                floatingLabelText="N° de Teléfono"
-                fullWidth
-              />
-            </Dialog>
+                    <Table onRowSelection={this.handleRowSelection}>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHeaderColumn>Nombre</TableHeaderColumn>
+                          <TableHeaderColumn>Apellido</TableHeaderColumn>
+                          <TableHeaderColumn>Telefono</TableHeaderColumn>
+                        </TableRow>
+                      </TableHeader>
+                      {this.state.contacts ? (
+                        <TableBody>
+                          {
+                            this.state.contacts.map((c, i) => {
+                              return (<TableRow selected={this.isSelected(i)}>
+                                <TableRowColumn>{c.firstName}</TableRowColumn>
+                                <TableRowColumn>{c.lastName}</TableRowColumn>
+                                <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                              </TableRow>);
+                            })
+                          }
+                        </TableBody>
+                      ) : ''}
+                    </Table>
+                    <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
+                      <RaisedButton
+                        label="Agregar"
+                        onTouchTap={this.handleOpenContactDialog}
+                        primary
+                      />
+                      {this.state.selected.length ? (
+                        <div>
+                          <RaisedButton
+                            label="Editar"
+                            onTouchTap={this.handleOpenContactDialog}
+                            primary
+                          />
+                          &nbsp;&nbsp;
+                          <RaisedButton
+                            label="Borrar"
+                            onTouchTap={this.handleEraseContact}
+                            primary
+                          />
+                        </div>
+                      ) : ''}
+                    </CardActions>
+                  </Card>
+                </td>
+              </tr>
+            </table>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
                 label="Guardar"
@@ -353,6 +363,7 @@ class Perfil extends React.Component {
                 primary
               />
             </CardActions>
+
           </Card>
           <SweetAlert
             show={this.state.showError}
