@@ -48,6 +48,7 @@ class Perfil extends React.Component {
   state = {
     showError: false,
     selected: [],
+    selectedIndex: '',
     perfil: {},
     firstName: '',
     firstNameError: '',
@@ -74,7 +75,6 @@ class Perfil extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { profile } = nextProps;
-
     if (profile) {
       this.setState({
         firstName: profile.firstName,
@@ -91,6 +91,15 @@ class Perfil extends React.Component {
     return result;
   };
 
+  handleEraseContact = () => {
+    const contacts = [];
+
+    for (let i = 0; i < this.state.contacts.length; i++) {
+      (i !== this.state.selected[0]) ? contacts.push(this.state.contacts[i]) : '';
+    }
+    this.setState({ contacts });
+  }
+
   handleRowSelection = (selectedRows) => {
     this.setState({
       selected: selectedRows,
@@ -99,14 +108,29 @@ class Perfil extends React.Component {
 
   handleCloseContactDialog = () => {
     this.setState({ contactDialogOpened: false });
+    this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
   };
 
   handleOpenContactDialog = () => {
-    this.setState({ contactDialogOpened: true });
+    const { contacts, selected } = this.state;
+    if (selected.length) {
+      const selectedIndex = selected[0];
+      this.setState({
+        contactDialogOpened: true,
+        contactFirstName: contacts[selectedIndex].firstName,
+        contactLastName: contacts[selectedIndex].lastName,
+        contactPhoneNumber: contacts[selectedIndex].phoneNumber,
+        selectedIndex,
+      });
+    } else {
+      this.setState({
+        contactDialogOpened: true,
+      });
+    }
   };
 
   handleContactData = () => {
-    const { contactFirstName, contactLastName, contactPhoneNumber } = this.state;
+    const { contactFirstName, contactLastName, contactPhoneNumber, selectedIndex } = this.state;
 
     if (contactFirstName === '') {
       this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
@@ -116,19 +140,37 @@ class Perfil extends React.Component {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
     } else {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
+
       let contacts = [];
-      if (this.state.contacts) {
+
+      if (selectedIndex !== '') {
         contacts = this.state.contacts;
-        contacts.push({ contactFirstName, contactLastName, contactPhoneNumber });
+        contacts[selectedIndex].firstName = contactFirstName;
+        contacts[selectedIndex].lastName = contactLastName;
+        contacts[selectedIndex].phoneNumber = contactPhoneNumber;
       } else {
-        contacts = [{ contactFirstName, contactLastName, contactPhoneNumber }];
+        if (this.state.contacts) {
+          contacts = this.state.contacts;
+          contacts.push({
+            firstName: contactFirstName,
+            lastName: contactLastName,
+            phoneNumber: contactPhoneNumber,
+          });
+        } else {
+          contacts = [{
+            firstName: contactFirstName,
+            lastName: contactLastName,
+            phoneNumber: contactPhoneNumber,
+          }];
+        }
       }
       this.setState({ contacts, contactDialogOpened: false });
+      this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
     }
   }
 
   handleActualizarPerfil = () => {
-    const { firstName, lastName, docNumber, birthDate } = this.state;
+    const { firstName, lastName, docNumber, birthDate, contacts } = this.state;
 
     if (firstName === '') {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
@@ -141,7 +183,17 @@ class Perfil extends React.Component {
     } else {
       this.setState({ firstNameError: '', lastNameError: '', docNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
-      dispatch(updateProfile(this.state));
+
+      const data = {
+        firstName,
+        lastName,
+        docNumber,
+        birthDate,
+        contacts,
+      };
+
+      // TODO = devolver un guardado exitoso
+      dispatch(updateProfile(data));
       window.location.reload();
     }
   }
@@ -149,11 +201,11 @@ class Perfil extends React.Component {
   render() {
     const actions = [
       <RaisedButton
-        label="Cancel"
+        label="Cancelar"
         onTouchTap={this.handleCloseContactDialog}
       />,
       <RaisedButton
-        label="Submit"
+        label="Aceptar"
         primary
         onTouchTap={this.handleContactData}
       />,
@@ -221,9 +273,9 @@ class Perfil extends React.Component {
                     {
                       this.state.contacts.map((c, i) => {
                         return (<TableRow selected={this.isSelected(i)}>
-                          <TableRowColumn>{c.contactFirstName}</TableRowColumn>
-                          <TableRowColumn>{c.contactLastName}</TableRowColumn>
-                          <TableRowColumn>{c.contactPhoneNumber}</TableRowColumn>
+                          <TableRowColumn>{c.firstName}</TableRowColumn>
+                          <TableRowColumn>{c.lastName}</TableRowColumn>
+                          <TableRowColumn>{c.phoneNumber}</TableRowColumn>
                         </TableRow>);
                       })
                     }
@@ -237,17 +289,20 @@ class Perfil extends React.Component {
                   primary
                 />
                 {this.state.selected.length ? (
-                  <RaisedButton
-                    label="Editar"
-                    onTouchTap={this.handleOpenContactDialog}
-                    primary
-                  />) : ''}
-                {this.state.selected.length ? (
-                  <RaisedButton
-                    label="Borrar"
-                    onTouchTap={this.handleOpenContactDialog}
-                    primary
-                  />) : ''}
+                  <div>
+                    <RaisedButton
+                      label="Editar"
+                      onTouchTap={this.handleOpenContactDialog}
+                      primary
+                    />
+                    &nbsp;&nbsp;
+                    <RaisedButton
+                      label="Borrar"
+                      onTouchTap={this.handleEraseContact}
+                      primary
+                    />
+                  </div>
+                ) : ''}
               </CardActions>
             </Card>
             <Dialog
@@ -257,7 +312,9 @@ class Perfil extends React.Component {
               open={this.state.contactDialogOpened}
             >
               <TextField
-                value={this.state.contactFirstName}
+                value={this.state.selected.length ?
+                  (this.state.contacts[this.state.selected[0]].firstName) :
+                  (this.state.contactFirstName)}
                 errorText={this.state.contactFirstNameError}
                 onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
                 hintText="Nombre"
