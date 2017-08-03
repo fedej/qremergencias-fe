@@ -39,9 +39,9 @@ class Perfil extends React.Component {
         docNumber: PropTypes.string,
         birthDate: PropTypes.string,
         contacts: PropTypes.array,
-      }),
-      error: PropTypes.string,
-      isFetching: PropTypes.bool,
+      }).isRequired,
+      error: PropTypes.string.isRequired,
+      isFetching: PropTypes.bool.isRequired,
     }),
   }
 
@@ -71,17 +71,26 @@ class Perfil extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(fetchProfile());
+
+    if (this.props.profile.error) {
+      this.setState({ showError: true });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const { profile } = nextProps;
+
+    if (profile.error) {
+      this.setState({ showError: true });
+    }
+
     if (profile) {
       this.setState({
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        docNumber: profile.docNumber,
-        birthDate: profile.birthDate,
-        contacts: profile.contacts,
+        firstName: profile.perfil.firstName,
+        lastName: profile.perfil.lastName,
+        docNumber: profile.perfil.docNumber,
+        birthDate: profile.perfil.birthDate,
+        contacts: profile.perfil.contacts,
       });
     }
   }
@@ -93,11 +102,12 @@ class Perfil extends React.Component {
 
   handleEraseContact = () => {
     const contacts = [];
-
-    for (let i = 0; i < this.state.contacts.length; i++) {
-      (i !== this.state.selected[0]) ? contacts.push(this.state.contacts[i]) : '';
+    for (let i = 0; i < this.state.contacts.length; i += 1) {
+      if (i !== this.state.selected[0]) {
+        contacts.push(this.state.contacts[i]);
+      }
     }
-    this.setState({ contacts });
+    this.setState({ contacts, selected: [] });
   }
 
   handleRowSelection = (selectedRows) => {
@@ -192,7 +202,7 @@ class Perfil extends React.Component {
         contacts,
       };
 
-      // TODO = devolver un guardado exitoso
+      // TODO = devolver un mensaje de guardado exitoso
       dispatch(updateProfile(data));
       window.location.reload();
     }
@@ -220,7 +230,7 @@ class Perfil extends React.Component {
                   <Card style={{ margin: '20px' }}>
                     <CardTitle
                       title="Perfil de usuario"
-                      subtitle="Actualizá tus datos personales y contactos de emergencia"
+                      subtitle="Actualizá tus datos personales"
                     />
                     <CardText>
                       <TextField
@@ -250,15 +260,14 @@ class Perfil extends React.Component {
                         floatingLabelText="DNI"
                         fullWidth
                       />
-                      <div style={{ paddingTop: '2vh' }}>
-                        <DatePicker
-                          value={this.state.birthDate}
-                          textFieldStyle={{ width: '100%' }}
-                          hintText="Fecha de Nacimiento"
-                          onChange={(e, birthDate) => this.setState({ birthDate })}
-                          errorText={this.state.birthDateError}
-                        />
-                      </div>
+                      <DatePicker
+                        value={this.state.birthDate}
+                        textFieldStyle={{ width: '100%' }}
+                        hintText="Fecha de Nacimiento"
+                        floatingLabelText="Fecha de Nacimiento"
+                        onChange={(e, birthDate) => this.setState({ birthDate })}
+                        errorText={this.state.birthDateError}
+                      />
                     </CardText>
                     <Dialog
                       title="Contactos de emergencia"
@@ -290,7 +299,7 @@ class Perfil extends React.Component {
                         value={this.state.contactPhoneNumber}
                         errorText={this.state.contactPhoneNumberError}
                         onChange={(e, contactPhoneNumber) => this.setState({ contactPhoneNumber })}
-                        hintText="N° de Teléfono"
+                        hintText="Codigo de Area + N° de Teléfono"
                         type="text"
                         floatingLabelText="N° de Teléfono"
                         fullWidth
@@ -301,7 +310,8 @@ class Perfil extends React.Component {
                 <td style={{ width: '50%' }}>
                   <Card style={{ margin: '20px' }}>
                     <CardTitle
-                      title="Contactos"
+                      title="Contactos de Emergencia"
+                      subtitle="Carga los datos de tu contactos para un caso de emergencia"
                     />
                     <Table onRowSelection={this.handleRowSelection}>
                       <TableHeader>
@@ -314,13 +324,13 @@ class Perfil extends React.Component {
                       {this.state.contacts ? (
                         <TableBody>
                           {
-                            this.state.contacts.map((c, i) => {
-                              return (<TableRow selected={this.isSelected(i)}>
+                            this.state.contacts.map((c, i) =>
+                              (<TableRow selected={this.isSelected(i)}>
                                 <TableRowColumn>{c.firstName}</TableRowColumn>
                                 <TableRowColumn>{c.lastName}</TableRowColumn>
                                 <TableRowColumn>{c.phoneNumber}</TableRowColumn>
-                              </TableRow>);
-                            })
+                              </TableRow>),
+                            )
                           }
                         </TableBody>
                       ) : ''}
@@ -360,15 +370,14 @@ class Perfil extends React.Component {
               <RaisedButton
                 label="Volver"
                 onTouchTap={() => browserHistory.push('/home')} // TODO: volver a ruta anterior
-                primary
               />
             </CardActions>
 
           </Card>
           <SweetAlert
             show={this.state.showError}
-            title="Error al actualizar el perfil"
-            text={this.state.error}
+            title="Error al actualizar perfil"
+            text={this.props.profile.error}
             onConfirm={() => this.setState({ showError: false })}
           />
         </div>
@@ -379,7 +388,7 @@ class Perfil extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    profile: state.profile.perfil,
+    profile: state.profile,
   };
 }
 
