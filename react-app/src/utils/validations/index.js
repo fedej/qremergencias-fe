@@ -5,7 +5,12 @@ export function isValidEmail(email) {
   return re.test(email);
 }
 
-export function isValidDNI(email) {
+export function isValidDNI(dni) {
   const re = /^(?:[0-9]+\.){2}[0-9]+$/;
-  return re.test(email);
+  return re.test(dni);
+}
+
+export function isValidPhoneNumber(phone) {
+  const re = /^(\+)?\d{1,4}(( |\(| \(|-)?\d{1,4}( |\)|\) |-)?)?(\d{2} )?\d{2,4}[- ]?\d{2,3}[- ]?\d{0,2}$/;
+  return re.test(phone);
 }

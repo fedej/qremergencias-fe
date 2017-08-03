@@ -4,17 +4,24 @@ import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
 export default class UserService {
 
   static api;
+  static apiClient;
 
-  static getApi() {
-    if (!UserService.api) {
-      let apiClient = new ApiClient();
-      apiClient.enabledCookies = true;
-      //apiClient.basePath = '';
-      UserService.api = new UserfrontcontrollerApi(apiClient);
+  static getApiClient() {
+    if (!this.apiClient) {
+      this.apiClient = new ApiClient();
+      this.apiClient.enableCookies = true;
+      // this.apiClient.basePath = 'http://192.168.1.102:8082/qremergencias';
     }
-    return UserService.api;
+
+    return this.apiClient;
   }
 
+  static getApi() {
+    if (!this.api) {
+      this.api = new UserfrontcontrollerApi(this.getApiClient());
+    }
+    return this.api;
+  }
 
   static register(credenciales) {
     return UserService.getApi().registerUsingPOST(credenciales);
