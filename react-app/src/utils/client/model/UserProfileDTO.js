@@ -63,14 +63,17 @@ export default class UserProfileDTO {
             if (data.hasOwnProperty('contacts')) {
                 obj['contacts'] = ApiClient.convertToType(data['contacts'], [UserContactDTO]);
             }
-            if (data.hasOwnProperty('docNumber')) {
-                obj['docNumber'] = ApiClient.convertToType(data['docNumber'], 'String');
-            }
             if (data.hasOwnProperty('firstName')) {
                 obj['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
             }
+            if (data.hasOwnProperty('idNumber')) {
+                obj['idNumber'] = ApiClient.convertToType(data['idNumber'], 'String');
+            }
             if (data.hasOwnProperty('lastName')) {
                 obj['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+            }
+            if (data.hasOwnProperty('sex')) {
+                obj['sex'] = ApiClient.convertToType(data['sex'], 'String');
             }
         }
         return obj;
@@ -85,17 +88,21 @@ export default class UserProfileDTO {
     */
     contacts = undefined;
     /**
-    * @member {String} docNumber
-    */
-    docNumber = undefined;
-    /**
     * @member {String} firstName
     */
     firstName = undefined;
     /**
+    * @member {String} idNumber
+    */
+    idNumber = undefined;
+    /**
     * @member {String} lastName
     */
     lastName = undefined;
+    /**
+    * @member {String} sex
+    */
+    sex = undefined;
 
 
 

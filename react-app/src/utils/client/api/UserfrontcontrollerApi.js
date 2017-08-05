@@ -101,7 +101,8 @@ export default class UserfrontcontrollerApi {
      * @param {String} opts.lastName 
      * @param {String} opts.name 
      * @param {Date} opts.birthDate 
-     * @param {String} opts.numeroDocumento 
+     * @param {String} opts.idNumber 
+     * @param {String} opts.sex 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     completeRegistrationUsingPOSTWithHttpInfo(opts) {
@@ -116,7 +117,8 @@ export default class UserfrontcontrollerApi {
         'lastName': opts['lastName'],
         'name': opts['name'],
         'birthDate': opts['birthDate'],
-        'numeroDocumento': opts['numeroDocumento']
+        'idNumber': opts['idNumber'],
+        'sex': opts['sex']
       };
       let headerParams = {
       };
@@ -142,7 +144,8 @@ export default class UserfrontcontrollerApi {
      * @param {String} opts.lastName 
      * @param {String} opts.name 
      * @param {Date} opts.birthDate 
-     * @param {String} opts.numeroDocumento 
+     * @param {String} opts.idNumber 
+     * @param {String} opts.sex 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     completeRegistrationUsingPOST(opts) {
