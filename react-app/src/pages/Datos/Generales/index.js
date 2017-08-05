@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from '../../Home';
+import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import SelectField from 'material-ui/SelectField';
@@ -47,27 +48,57 @@ export default class Generales extends React.Component {
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
           <CardTitle title="Datos generales de emergencia"/>
-            <CardText>
-              <SelectField
-                floatingLabelText="Grupo Sanguineo"
-                floatingLabelFixed={true}>
-                {items}
-              </SelectField>
-              <Toggle
-                label="¿Es donante de órganos?"
-                style={styles.toggle}
-              />
-              <Toggle
-                label="¿Es alérgico?"
-                style={styles.toggle}
-              />
-              <Chip onRequestDelete={handleDeleteAlergia} onTouchTap={handleTouchAlergia} style={styles.chip}>
-                Estudiar
-              </Chip>
-              <Chip onRequestDelete={handleDeleteAlergia} onTouchTap={handleTouchAlergia} style={styles.chip}>
-                Jazmines
-              </Chip>
-            </CardText>
+          <CardText>
+            <SelectField
+              floatingLabelText="Grupo Sanguineo"
+              floatingLabelFixed={true}>
+              {items}
+            </SelectField>
+            <Toggle
+              label="¿Es donante de órganos?"
+              style={styles.toggle}
+            />
+            <Toggle
+              label="¿Es alérgico?"
+              style={styles.toggle}
+            />
+            <table>
+              <tr>
+                <td>
+                  <TextField
+                    type="text"
+                    floatingLabelText="¿A que es alérgico?"
+                    floatingLabelFixed={true}                    
+                  />
+                </td>
+                <td>
+                  <RaisedButton
+                    label="Agregar"
+                    onTouchTap={this.handleOpenContactDialog}
+                    primary
+                  />
+                </td>
+              </tr>
+            </table>
+            <Chip onRequestDelete={handleDeleteAlergia} onTouchTap={handleTouchAlergia} style={styles.chip}>
+              Estudiar
+            </Chip>
+            <Chip onRequestDelete={handleDeleteAlergia} onTouchTap={handleTouchAlergia} style={styles.chip}>
+              Jazmines
+            </Chip>
+          </CardText>
+          <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
+            <RaisedButton
+              label="Guardar"
+              onTouchTap={this.handleOpenContactDialog}
+              primary
+            />
+            <RaisedButton
+              label="Cancelar"
+              onTouchTap={this.handleOpenContactDialog}
+              primary
+            />
+          </CardActions>
         </Card>
       </div>
     );
