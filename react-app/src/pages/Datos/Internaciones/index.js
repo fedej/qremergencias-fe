@@ -11,7 +11,7 @@ export default class Internaciones extends React.Component {
             <p>
               Internaciones de emergencia
             </p>
-            <Slider name="slider0" defaultValue={0.2} />
+            <Slider name="slider0" defaultValue={0.6} />
           </div>
       </Home>
     );

@@ -11,7 +11,7 @@ export default class Medicaciones extends React.Component {
             <p>
               Medicaciones que toma el paciente
             </p>
-            <Slider name="slider0" defaultValue={0.2} />
+            <Slider name="slider0" defaultValue={1.0} />
           </div>
       </Home>
     );

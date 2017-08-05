@@ -7,20 +7,7 @@ import Internaciones from './Internaciones';
 import Cirugias from './Cirugias';
 import Medicaciones from './Medicaciones';
 
-const styles = {
-  headline: {
-    fontSize: 24,
-    paddingTop: 16,
-    marginBottom: 12,
-    fontWeight: 400,
-  },
-};
-
-function handleActive(tab) {
-  alert(`A tab with this route property ${tab.props['data-route']} was activated.`);
-}
-
-const TabsExampleSimple = () => (
+const DatosDeEmergencia = () => (
   <Tabs>
     <Tab label="Generales">
       <Generales/>
@@ -40,4 +27,4 @@ const TabsExampleSimple = () => (
   </Tabs>
 );
 
-export default TabsExampleSimple;
+export default DatosDeEmergencia;

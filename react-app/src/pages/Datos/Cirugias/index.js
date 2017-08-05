@@ -11,7 +11,7 @@ export default class Cirugias extends React.Component {
             <p>
               Cirugias del paciente
             </p>
-            <Slider name="slider0" defaultValue={0.2} />
+            <Slider name="slider0" defaultValue={0.8} />
           </div>
       </Home>
     );
