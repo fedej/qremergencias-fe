@@ -47,7 +47,7 @@ export default class Generales extends React.Component {
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
-          <CardTitle title="Datos generales de emergencia"/>
+          <CardTitle title="Datos generales de emergencia" />
           <CardText>
             <SelectField
               floatingLabelText="Grupo Sanguineo"
@@ -68,7 +68,7 @@ export default class Generales extends React.Component {
                   <TextField
                     type="text"
                     floatingLabelText="¿A que es alérgico?"
-                    floatingLabelFixed={true}                    
+                    floatingLabelFixed={true}
                   />
                 </td>
                 <td>
@@ -87,18 +87,6 @@ export default class Generales extends React.Component {
               Jazmines
             </Chip>
           </CardText>
-          <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
-            <RaisedButton
-              label="Guardar"
-              onTouchTap={this.handleOpenContactDialog}
-              primary
-            />
-            <RaisedButton
-              label="Cancelar"
-              onTouchTap={this.handleOpenContactDialog}
-              primary
-            />
-          </CardActions>
         </Card>
       </div>
     );
