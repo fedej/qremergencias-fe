@@ -14,14 +14,17 @@
 
 import ApiClient from './ApiClient';
 import CreateUserDTO from './model/CreateUserDTO';
+import EmergencyDataDTO from './model/EmergencyDataDTO';
+import GeneralDataDTO from './model/GeneralDataDTO';
+import HospitalizationDTO from './model/HospitalizationDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
+import MedicationDTO from './model/MedicationDTO';
+import PageOfEmergencyDataDTO from './model/PageOfEmergencyDataDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import Sort from './model/Sort';
-import UserContactDTO from './model/UserContactDTO';
-import UserProfileDTO from './model/UserProfileDTO';
+import EmergencydatacontrollerApi from './api/EmergencydatacontrollerApi';
 import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
-import ProfilecontrollerApi from './api/ProfilecontrollerApi';
 import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
 
 
@@ -70,6 +73,24 @@ export {
     CreateUserDTO,
 
     /**
+     * The EmergencyDataDTO model constructor.
+     * @property {module:model/EmergencyDataDTO}
+     */
+    EmergencyDataDTO,
+
+    /**
+     * The GeneralDataDTO model constructor.
+     * @property {module:model/GeneralDataDTO}
+     */
+    GeneralDataDTO,
+
+    /**
+     * The HospitalizationDTO model constructor.
+     * @property {module:model/HospitalizationDTO}
+     */
+    HospitalizationDTO,
+
+    /**
      * The MedicalRecordChangeDTO model constructor.
      * @property {module:model/MedicalRecordChangeDTO}
      */
@@ -80,6 +101,18 @@ export {
      * @property {module:model/MedicalRecordDTO}
      */
     MedicalRecordDTO,
+
+    /**
+     * The MedicationDTO model constructor.
+     * @property {module:model/MedicationDTO}
+     */
+    MedicationDTO,
+
+    /**
+     * The PageOfEmergencyDataDTO model constructor.
+     * @property {module:model/PageOfEmergencyDataDTO}
+     */
+    PageOfEmergencyDataDTO,
 
     /**
      * The PageOfMedicalRecordDTO model constructor.
@@ -94,28 +127,16 @@ export {
     Sort,
 
     /**
-     * The UserContactDTO model constructor.
-     * @property {module:model/UserContactDTO}
-     */
-    UserContactDTO,
-
-    /**
-     * The UserProfileDTO model constructor.
-     * @property {module:model/UserProfileDTO}
-     */
-    UserProfileDTO,
+    * The EmergencydatacontrollerApi service constructor.
+    * @property {module:api/EmergencydatacontrollerApi}
+    */
+    EmergencydatacontrollerApi,
 
     /**
     * The MedicalrecordcontrollerApi service constructor.
     * @property {module:api/MedicalrecordcontrollerApi}
     */
     MedicalrecordcontrollerApi,
-
-    /**
-    * The ProfilecontrollerApi service constructor.
-    * @property {module:api/ProfilecontrollerApi}
-    */
-    ProfilecontrollerApi,
 
     /**
     * The UserfrontcontrollerApi service constructor.

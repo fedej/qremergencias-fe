@@ -10,7 +10,7 @@ export default class UserService {
     if (!this.apiClient) {
       this.apiClient = new ApiClient();
       this.apiClient.enableCookies = true;
-      // this.apiClient.basePath = 'http://192.168.1.102:8082/qremergencias';
+      this.apiClient.basePath = 'http://localhost:8083/qremergencias';
     }
 
     return this.apiClient;
