@@ -46,7 +46,7 @@ export default class MedicalrecordcontrollerApi {
      * @param {File} opts.file file
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Object.<String, {'String': 'String'}>} and HTTP response
      */
-    createUsingPOST1WithHttpInfo(opts) {
+    createUsingPOSTWithHttpInfo(opts) {
       opts = opts || {};
       let postBody = null;
 
@@ -87,8 +87,8 @@ export default class MedicalrecordcontrollerApi {
      * @param {File} opts.file file
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {'String': 'String'}>}
      */
-    createUsingPOST1(opts) {
-      return this.createUsingPOST1WithHttpInfo(opts)
+    createUsingPOST(opts) {
+      return this.createUsingPOSTWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -201,7 +201,7 @@ export default class MedicalrecordcontrollerApi {
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfMedicalRecordDTO} and HTTP response
      */
-    listUsingGET1WithHttpInfo(opts) {
+    listUsingGETWithHttpInfo(opts) {
       opts = opts || {};
       let postBody = null;
 
@@ -238,8 +238,8 @@ export default class MedicalrecordcontrollerApi {
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfMedicalRecordDTO}
      */
-    listUsingGET1(opts) {
-      return this.listUsingGET1WithHttpInfo(opts)
+    listUsingGET(opts) {
+      return this.listUsingGETWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

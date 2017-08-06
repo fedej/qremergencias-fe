@@ -5,6 +5,7 @@ import auth from './Auth';
 import navigation from './Navigation';
 import drawer from './Drawer';
 import profile from './Perfil';
+import data from './Datos';
 
 export default combineReducers({
   auth,
@@ -12,4 +13,5 @@ export default combineReducers({
   navigation,
   drawer,
   profile,
+  data,
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import Home from '../../Home';
-import { TextField, RaisedButton, DatePicker } from 'material-ui';
+import PropTypes from 'prop-types';
+import { TextField, RaisedButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import SelectField from 'material-ui/SelectField';
@@ -41,25 +41,47 @@ function handleTouchAlergia() {
 
 export default class Generales extends React.Component {
 
+  static defaultProps = {
+    generales: {},
+  }
+
+  static propTypes = {
+    generales: PropTypes.shape({
+      bloodType: PropTypes.string,
+      organDonor: PropTypes.bool,
+      allergic: PropTypes.bool,
+      allergies: PropTypes.array,
+    }),
+  }
+
   handleChange = (event, index, value) => console.log(value);
 
   render() {
+    const generales = this.props.generales;
+    console.log(this.props.generales);
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
           <CardTitle title="Datos generales de emergencia" />
           <CardText>
             <SelectField
+              value={generales.bloodType}
               floatingLabelText="Grupo Sanguineo"
-              floatingLabelFixed={true}>
+              onChange={this.handleChange}
+              floatingLabelFixed
+            >
               {items}
             </SelectField>
             <Toggle
+              value={generales.organDonor}
               label="¿Es donante de órganos?"
+              onChange={this.handleChange}
               style={styles.toggle}
             />
             <Toggle
+              value={generales.allergic}
               label="¿Es alérgico?"
+              onChange={this.handleChange}
               style={styles.toggle}
             />
             <table>
@@ -68,7 +90,8 @@ export default class Generales extends React.Component {
                   <TextField
                     type="text"
                     floatingLabelText="¿A que es alérgico?"
-                    floatingLabelFixed={true}
+                    onChange={this.handleChange}
+                    floatingLabelFixed
                   />
                 </td>
                 <td>
@@ -80,12 +103,19 @@ export default class Generales extends React.Component {
                 </td>
               </tr>
             </table>
-            <Chip onRequestDelete={handleDeleteAlergia} onTouchTap={handleTouchAlergia} style={styles.chip}>
-              Estudiar
-            </Chip>
-            <Chip onRequestDelete={handleDeleteAlergia} onTouchTap={handleTouchAlergia} style={styles.chip}>
-              Jazmines
-            </Chip>
+            {
+              generales.allergies ? generales.allergies.map((texto, i) => (
+                <Chip
+                  onRequestDelete={handleDeleteAlergia}
+                  onTouchTap={handleTouchAlergia}
+                  key={i}
+                  style={styles.chip}
+                >
+                  {texto}
+                </Chip>
+              ),
+              ) : ''
+            }
           </CardText>
         </Card>
       </div>

@@ -14,7 +14,6 @@
 
 import ApiClient from "../ApiClient";
 import EmergencyDataDTO from '../model/EmergencyDataDTO';
-import PageOfEmergencyDataDTO from '../model/PageOfEmergencyDataDTO';
 
 /**
 * Emergencydatacontroller service.
@@ -37,16 +36,16 @@ export default class EmergencydatacontrollerApi {
 
 
     /**
-     * create
+     * createEmergencyData
      * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsingPOSTWithHttpInfo(emergencyDataDTO) {
+    createEmergencyDataUsingPOSTWithHttpInfo(emergencyDataDTO) {
       let postBody = emergencyDataDTO;
 
       // verify the required parameter 'emergencyDataDTO' is set
       if (emergencyDataDTO === undefined || emergencyDataDTO === null) {
-        throw new Error("Missing the required parameter 'emergencyDataDTO' when calling createUsingPOST");
+        throw new Error("Missing the required parameter 'emergencyDataDTO' when calling createEmergencyDataUsingPOST");
       }
 
 
@@ -72,12 +71,12 @@ export default class EmergencydatacontrollerApi {
     }
 
     /**
-     * create
+     * createEmergencyData
      * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsingPOST(emergencyDataDTO) {
-      return this.createUsingPOSTWithHttpInfo(emergencyDataDTO)
+    createEmergencyDataUsingPOST(emergencyDataDTO) {
+      return this.createEmergencyDataUsingPOSTWithHttpInfo(emergencyDataDTO)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -85,24 +84,16 @@ export default class EmergencydatacontrollerApi {
 
 
     /**
-     * list
-     * @param {Object} opts Optional parameters
-     * @param {Number} opts.page Results page you want to retrieve (0..N)
-     * @param {Number} opts.size Number of records per page
-     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfEmergencyDataDTO} and HTTP response
+     * getEmergencyData
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmergencyDataDTO} and HTTP response
      */
-    listUsingGETWithHttpInfo(opts) {
-      opts = opts || {};
+    getEmergencyDataUsingGETWithHttpInfo() {
       let postBody = null;
 
 
       let pathParams = {
       };
       let queryParams = {
-        'page': opts['page'],
-        'size': opts['size'],
-        'sort': this.apiClient.buildCollectionParam(opts['sort'], 'multi')
       };
       let headerParams = {
       };
@@ -112,7 +103,7 @@ export default class EmergencydatacontrollerApi {
       let authNames = [];
       let contentTypes = ['application/json'];
       let accepts = ['*/*'];
-      let returnType = PageOfEmergencyDataDTO;
+      let returnType = EmergencyDataDTO;
 
       return this.apiClient.callApi(
         '/api/emergencyData', 'GET',
@@ -122,15 +113,11 @@ export default class EmergencydatacontrollerApi {
     }
 
     /**
-     * list
-     * @param {Object} opts Optional parameters
-     * @param {Number} opts.page Results page you want to retrieve (0..N)
-     * @param {Number} opts.size Number of records per page
-     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfEmergencyDataDTO}
+     * getEmergencyData
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmergencyDataDTO}
      */
-    listUsingGET(opts) {
-      return this.listUsingGETWithHttpInfo(opts)
+    getEmergencyDataUsingGET() {
+      return this.getEmergencyDataUsingGETWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
