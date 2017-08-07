@@ -9,14 +9,14 @@ import Toggle from 'material-ui/Toggle';
 import Chip from 'material-ui/Chip';
 
 const items = [
-  <MenuItem key={1} value={1} primaryText="A+" />,
-  <MenuItem key={2} value={2} primaryText="A-" />,
-  <MenuItem key={3} value={3} primaryText="B+" />,
-  <MenuItem key={4} value={4} primaryText="B-" />,
-  <MenuItem key={5} value={5} primaryText="AB+" />,
-  <MenuItem key={6} value={6} primaryText="AB-" />,
-  <MenuItem key={7} value={7} primaryText="0+" />,
-  <MenuItem key={8} value={8} primaryText="0-" />,
+  <MenuItem key={1} value={'A+'} primaryText="A+" />,
+  <MenuItem key={2} value={'A-'} primaryText="A-" />,
+  <MenuItem key={3} value={'B+'} primaryText="B+" />,
+  <MenuItem key={4} value={'B-'} primaryText="B-" />,
+  <MenuItem key={5} value={'AB+'} primaryText="AB+" />,
+  <MenuItem key={6} value={'AB-'} primaryText="AB-" />,
+  <MenuItem key={7} value={'0+'} primaryText="0+" />,
+  <MenuItem key={8} value={'0-'} primaryText="0-" />,
 ];
 
 const styles = {
@@ -31,57 +31,86 @@ const styles = {
   },
 };
 
-function handleDeleteAlergia() {
-  alert('You clicked the delete button.');
-}
-
-function handleTouchAlergia() {
-  alert('You clicked the Chip.');
-}
-
 export default class Generales extends React.Component {
 
   static defaultProps = {
-    generales: {},
+    general: {},
   }
 
   static propTypes = {
-    generales: PropTypes.shape({
+    general: PropTypes.shape({
       bloodType: PropTypes.string,
       organDonor: PropTypes.bool,
       allergic: PropTypes.bool,
       allergies: PropTypes.array,
     }),
+    onGeneralChange: PropTypes.func.isRequired,
   }
 
-  handleChange = (event, index, value) => console.log(value);
+  state = {
+    allergy: '',
+  }
+
+  handleBloodTypeChange = (event, index, value) => {
+    const general = this.props.general;
+    general.bloodType = value;
+    this.props.onGeneralChange(general);
+  }
+
+  handleAllergicChange = (event, isInputChecked) => {
+    const general = this.props.general;
+    general.allergic = isInputChecked;
+    this.props.onGeneralChange(general);
+  }
+
+  handleOrganDonorChange = (event, isInputChecked) => {
+    const general = this.props.general;
+    general.organDonor = isInputChecked;
+    this.props.onGeneralChange(general);
+  }
+
+  handleAddAllergy = () => {
+    const general = this.props.general;
+    const { allergy } = this.state;
+    general.allergies.push(allergy);
+    this.props.onGeneralChange(general);
+  }
+
+  handleDeleteAllergy = (key) => {
+    const general = this.props.general;
+    general.allergies.splice(key, 1);
+    this.props.onGeneralChange(general);
+  }
+
+  handleAllergyChange = (event) => {
+    this.setState({ allergy: event.target.value });
+  }
 
   render() {
-    const generales = this.props.generales;
-    console.log(this.props.generales);
+    const general = this.props.general;
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
           <CardTitle title="Datos generales de emergencia" />
           <CardText>
             <SelectField
-              value={generales.bloodType}
+              value={general.bloodType}
               floatingLabelText="Grupo Sanguineo"
-              onChange={this.handleChange}
+              onChange={this.handleBloodTypeChange}
               floatingLabelFixed
             >
               {items}
             </SelectField>
             <Toggle
-              value={generales.organDonor}
+              toggled={general.organDonor}
               label="¿Es donante de órganos?"
-              onChange={this.handleChange}
+              onToggle={this.handleOrganDonorChange}
               style={styles.toggle}
             />
             <Toggle
-              value={generales.allergic}
+              toggled={general.allergic}
               label="¿Es alérgico?"
-              onChange={this.handleChange}
+              onToggle={this.handleAllergicChange}
               style={styles.toggle}
             />
             <table>
@@ -89,25 +118,25 @@ export default class Generales extends React.Component {
                 <td>
                   <TextField
                     type="text"
+                    value={this.state.allergy}
                     floatingLabelText="¿A que es alérgico?"
-                    onChange={this.handleChange}
+                    onChange={this.handleAllergyChange}
                     floatingLabelFixed
                   />
                 </td>
                 <td>
                   <RaisedButton
                     label="Agregar"
-                    onTouchTap={this.handleOpenContactDialog}
+                    onTouchTap={this.handleAddAllergy}
                     primary
                   />
                 </td>
               </tr>
             </table>
             {
-              generales.allergies ? generales.allergies.map((texto, i) => (
+              general.allergies ? general.allergies.map((texto, i) => (
                 <Chip
-                  onRequestDelete={handleDeleteAlergia}
-                  onTouchTap={handleTouchAlergia}
+                  onRequestDelete={() => this.handleDeleteAllergy(i)}
                   key={i}
                   style={styles.chip}
                 >

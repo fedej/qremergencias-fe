@@ -62,6 +62,11 @@ class DatosDeEmergencia extends React.Component {
     }
   }
 
+  handleGeneralChange = (newGeneral) => {
+    console.log(JSON.stringify(newGeneral));
+    this.setState({ general: newGeneral });
+  }
+
   render() {
     const general = this.state.general;
     return (
@@ -71,7 +76,7 @@ class DatosDeEmergencia extends React.Component {
             <CardText>
               <Tabs>
                 <Tab label="Generales">
-                  <Generales generales={general} />
+                  <Generales onGeneralChange={this.handleGeneralChange} general={general} />
                 </Tab>
                 <Tab label="Patologias">
                   <Patologias />
