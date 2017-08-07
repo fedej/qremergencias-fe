@@ -63,8 +63,12 @@ class DatosDeEmergencia extends React.Component {
   }
 
   handleGeneralChange = (newGeneral) => {
-    console.log(JSON.stringify(newGeneral));
     this.setState({ general: newGeneral });
+  }
+
+  handleSaveData = () => {
+    const { dispatch } = this.props;
+    dispatch(updateData(this.state));
   }
 
   render() {
@@ -95,12 +99,12 @@ class DatosDeEmergencia extends React.Component {
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
                 label="Guardar"
-                onTouchTap={this.handleOpenContactDialog}
+                onTouchTap={this.handleSaveData}
                 primary
               />
               <RaisedButton
                 label="Cancelar"
-                onTouchTap={this.handleOpenContactDialog}
+                onTouchTap={this.handleCancel}
                 primary
               />
             </CardActions>

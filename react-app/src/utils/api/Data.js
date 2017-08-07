@@ -1,4 +1,5 @@
 import EmergencydatacontrollerApi from '../client/api/EmergencydatacontrollerApi';
+import EmergencyDataDTO from '../client/model/EmergencyDataDTO';
 import UserService from './User';
 
 export default class DataService {
@@ -10,7 +11,8 @@ export default class DataService {
 
   static updateData(data) {
     const API = new EmergencydatacontrollerApi(UserService.getApiClient());
-    return API.createEmergencyDataUsingPOST(data);
+    const dto = EmergencyDataDTO.constructFromObject(data);
+    return API.createEmergencyDataUsingPOST(dto);
   }
 
 }
