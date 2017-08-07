@@ -15,6 +15,7 @@ import {
 } from 'material-ui/Table';
 import classnames from 'classnames';
 import SweetAlert from 'sweetalert-react';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 
 import 'sweetalert/dist/sweetalert.css';
 
@@ -36,8 +37,9 @@ class Perfil extends React.Component {
       perfil: PropTypes.shape({
         firstName: PropTypes.string,
         lastName: PropTypes.string,
-        docNumber: PropTypes.string,
+        idNumber: PropTypes.string,
         birthDate: PropTypes.string,
+        sex: PropTypes.string,
         contacts: PropTypes.array,
       }).isRequired,
       error: PropTypes.string.isRequired,
@@ -54,10 +56,11 @@ class Perfil extends React.Component {
     firstNameError: '',
     lastName: '',
     lastNameError: '',
-    docNumber: '',
-    docNumberError: '',
+    idNumber: '',
+    idNumberError: '',
     birthDate: '',
     birthDateError: '',
+    sex: '',
     contacts: [],
     contactDialogOpened: false,
     contactFirstName: '',
@@ -88,8 +91,9 @@ class Perfil extends React.Component {
       this.setState({
         firstName: profile.perfil.firstName,
         lastName: profile.perfil.lastName,
-        docNumber: profile.perfil.docNumber,
+        idNumber: profile.perfil.idNumber,
         birthDate: profile.perfil.birthDate,
+        sex: profile.perfil.sex,
         contacts: profile.perfil.contacts,
       });
     }
@@ -180,25 +184,26 @@ class Perfil extends React.Component {
   }
 
   handleActualizarPerfil = () => {
-    const { firstName, lastName, docNumber, birthDate, contacts } = this.state;
+    const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
     if (firstName === '') {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
     } else if (lastName === '') {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (docNumber === '' || !isValidDNI(docNumber)) {
-      this.setState({ firstNameError: '', lastNameError: '', docNumberError: 'Ingrese un DNI válido: xx.xx.xx' });
+    } else if (idNumber === '' || !isValidDNI(idNumber)) {
+      this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI válido: xx.xx.xx' });
     } else if (birthDate === null) {
-      this.setState({ firstNameError: '', lastNameError: '', docNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {
-      this.setState({ firstNameError: '', lastNameError: '', docNumberError: '', birthDateError: '' });
+      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
 
       const data = {
         firstName,
         lastName,
-        docNumber,
+        idNumber,
         birthDate,
+        sex,
         contacts,
       };
 
@@ -252,9 +257,9 @@ class Perfil extends React.Component {
                         fullWidth
                       />
                       <TextField
-                        value={this.state.docNumber}
-                        onChange={(e, docNumber) => this.setState({ docNumber })}
-                        errorText={this.state.docNumberError}
+                        value={this.state.idNumber}
+                        onChange={(e, idNumber) => this.setState({ idNumber })}
+                        errorText={this.state.idNumberError}
                         hintText="Ingresá tu DNI"
                         type="text"
                         floatingLabelText="DNI"
@@ -268,6 +273,24 @@ class Perfil extends React.Component {
                         onChange={(e, birthDate) => this.setState({ birthDate })}
                         errorText={this.state.birthDateError}
                       />
+                      <div style={{ fontWeight: 'bold', marginTop: '16' }}>
+                        Sexo:
+                        <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} valueSelected={this.state.sex}>
+                          <RadioButton
+                            value="F"
+                            label="Femenino"
+                            style={{ marginTop: '16' }}
+                          />
+                          <RadioButton
+                            value="M"
+                            label="Masculino"
+                          />
+                          <RadioButton
+                            value="O"
+                            label="Otro"
+                          />
+                        </RadioButtonGroup>
+                      </div>
                     </CardText>
                     <Dialog
                       title="Contactos de emergencia"
