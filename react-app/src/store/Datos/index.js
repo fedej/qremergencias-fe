@@ -61,7 +61,7 @@ export const updateData = data => (dispatch) => {
   dispatch(requestUpdate());
 
   DataService.updateData(data)
-    .then(() => dispatch(updateSuccess()))
+    .then(() => dispatch(fetchData()))
     .catch(err => dispatch(updateError(err.message)));
 };
 

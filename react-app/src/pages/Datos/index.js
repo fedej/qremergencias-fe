@@ -37,6 +37,7 @@ class DatosDeEmergencia extends React.Component {
   state = {
     showError: false,
     general: {},
+    error: '',
   }
 
   componentWillMount() {

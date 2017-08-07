@@ -12,7 +12,7 @@ export default class DataService {
   static updateData(data) {
     const API = new EmergencydatacontrollerApi(UserService.getApiClient());
     const dto = EmergencyDataDTO.constructFromObject(data);
-    return API.createEmergencyDataUsingPOST(dto);
+    return API.updateEmergencyDataUsingPATCH(dto);
   }
 
 }

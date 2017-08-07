@@ -124,4 +124,52 @@ export default class EmergencydatacontrollerApi {
     }
 
 
+    /**
+     * updateEmergencyData
+     * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO) {
+      let postBody = emergencyDataDTO;
+
+      // verify the required parameter 'emergencyDataDTO' is set
+      if (emergencyDataDTO === undefined || emergencyDataDTO === null) {
+        throw new Error("Missing the required parameter 'emergencyDataDTO' when calling updateEmergencyDataUsingPATCH");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData', 'PATCH',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * updateEmergencyData
+     * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    updateEmergencyDataUsingPATCH(emergencyDataDTO) {
+      return this.updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
 }
