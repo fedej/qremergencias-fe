@@ -4,24 +4,24 @@ import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
 export default class UserService {
 
   static api;
+  static apiClient;
 
   static getApiClient() {
     if (!this.apiClient) {
       this.apiClient = new ApiClient();
       this.apiClient.enableCookies = true;
-      //this.apiClient.basePath = '';
+      // this.apiClient.basePath = 'http://192.168.1.102:8082/qremergencias';
     }
 
     return this.apiClient;
   }
 
   static getApi() {
-    if (!UserService.api) {
-      UserService.api = new UserfrontcontrollerApi(this.getApiClient());
+    if (!this.api) {
+      this.api = new UserfrontcontrollerApi(this.getApiClient());
     }
-    return UserService.api;
+    return this.api;
   }
-
 
   static register(credenciales) {
     return UserService.getApi().registerUsingPOST(credenciales);

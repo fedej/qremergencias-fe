@@ -43,14 +43,6 @@ export const logIn = creds => (dispatch) => {
     .catch(err => dispatch(loginError(err.message)));
 };
 
-export const logOut = () => (dispatch) => {
-  dispatch(requestLogout());
-
-  UserService.logout()
-    .then(profile => dispatch(logoutSuccess(profile)))
-    .catch(err => dispatch(logoutError(err.message)));
-};
-
 function requestLogout() {
   return {
     type: LOGOUT_REQUEST,
@@ -70,6 +62,13 @@ function logoutError(message) {
   };
 }
 
+export const logOut = () => (dispatch) => {
+  dispatch(requestLogout());
+
+  UserService.logout()
+    .then(profile => dispatch(logoutSuccess(profile)))
+    .catch(err => dispatch(logoutError(err.message)));
+};
 function requestRegister() {
   return {
     type: REGISTER_REQUEST,

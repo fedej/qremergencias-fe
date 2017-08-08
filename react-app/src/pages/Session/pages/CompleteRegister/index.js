@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import classnames from 'classnames';
 import moment from 'moment';
 import SweetAlert from 'sweetalert-react';
@@ -13,7 +14,6 @@ import { isValidDNI } from '../../../../utils/validations';
 
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
-
 
 class CompleteRegister extends React.Component {
   static propTypes = {
@@ -29,11 +29,12 @@ class CompleteRegister extends React.Component {
     nameError: '',
     lastName: '',
     lastNameError: '',
-    numeroDocumento: '',
-    numeroDocumentoError: '',
+    idNumber: '',
+    idNumberError: '',
     birthDate: null,
-    showError: false,
     birthDateError: '',
+    sex: null,
+    showError: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,25 +48,26 @@ class CompleteRegister extends React.Component {
   }
 
   handleCompleteRegister = () => {
-    const { name, lastName, numeroDocumento, birthDate } = this.state;
+    const { name, lastName, idNumber, birthDate, sex } = this.state;
 
     if (name === '') {
       this.setState({ nameError: 'Ingrese un nombre.' });
     } else if (lastName === '') {
       this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (numeroDocumento === '' || !isValidDNI(numeroDocumento)) {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: 'Ingrese un DNI valido: xx.xx.xx' });
+    } else if (idNumber === '' || !isValidDNI(idNumber)) {
+      this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI valido: xx.xx.xx' });
     } else if (birthDate === null) {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+      this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: '' });
+      this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
       const token = new URLSearchParams(window.location.search).get('token');
 
       const data = {
         name,
         lastName,
-        numeroDocumento,
+        idNumber,
+        sex,
         birthDate: moment(birthDate).format('YYYY-MM-DD'),
         token,
       };
@@ -103,9 +105,9 @@ class CompleteRegister extends React.Component {
               fullWidth
             />
             <TextField
-              value={this.state.numeroDocumento}
-              onChange={(e, numeroDocumento) => this.setState({ numeroDocumento })}
-              errorText={this.state.numeroDocumentoError}
+              value={this.state.idNumber}
+              onChange={(e, idNumber) => this.setState({ idNumber })}
+              errorText={this.state.idNumberError}
               hintText="Ingresa tu DNI"
               type="text"
               floatingLabelText="DNI"
@@ -120,6 +122,24 @@ class CompleteRegister extends React.Component {
               <p style={{ color: 'rgb(244, 67, 54)' }}>
                 {this.state.birthDateError}
               </p>
+            </div>
+            <div style={{ fontWeight: 'bold', marginTop: '16' }}>
+              Elija su sexo:
+              <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected="F">
+                <RadioButton
+                  value="F"
+                  label="Femenino"
+                  style={{ marginTop: '16' }}
+                />
+                <RadioButton
+                  value="M"
+                  label="Masculino"
+                />
+                <RadioButton
+                  value="O"
+                  label="Otro"
+                />
+              </RadioButtonGroup>
             </div>
           </CardText>
           <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
