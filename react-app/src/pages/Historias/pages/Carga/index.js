@@ -69,7 +69,7 @@ class CargaHistoriaClinica extends React.Component {
           name: this.state.nombre,
           performed: moment(this.state.fechaRealizacion).format('YYYY-MM-DD'),
           text: this.state.informe,
-          user: 'user@rrramundo.com.ar',
+          user: 'paciente@rrramundo.com.ar',
         };
         dispatch(uploadHistoriClinica(data));
       });

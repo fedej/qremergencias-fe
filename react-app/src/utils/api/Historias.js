@@ -6,6 +6,7 @@ export default class HistoriasService {
     const options = {
       page: 0,
       size: 10,
+      sort: ['performed,desc'],
     };
     const API = new MedicalrecordcontrollerApi(UserService.getApiClient());
     return API.listUsingGET(options);
@@ -13,16 +14,6 @@ export default class HistoriasService {
 
   static upload(form) {
     const API = new MedicalrecordcontrollerApi(UserService.getApiClient());
-
-    return new Promise((resolve, reject) => {
-      console.log(form);
-      return API.createUsingPOST(form).then((response) => {
-        console.log(response);
-        resolve();
-      }).catch((err) => {
-        console.log(err);
-        reject('[HistoriasService].upload');
-      });
-    });
+    return API.createUsingPOST(form);
   }
 }
