@@ -91,7 +91,7 @@ class Perfil extends React.Component {
       this.setState({
         firstName: profile.perfil.firstName,
         lastName: profile.perfil.lastName,
-        idNumber: profile.perfil.idNumber,
+        idNumber: profile.perfil.idNumber || '',
         birthDate: profile.perfil.birthDate,
         sex: profile.perfil.sex,
         contacts: profile.perfil.contacts,
@@ -162,22 +162,21 @@ class Perfil extends React.Component {
         contacts[selectedIndex].firstName = contactFirstName;
         contacts[selectedIndex].lastName = contactLastName;
         contacts[selectedIndex].phoneNumber = contactPhoneNumber;
+      } else if (this.state.contacts) {
+        contacts = this.state.contacts;
+        contacts.push({
+          firstName: contactFirstName,
+          lastName: contactLastName,
+          phoneNumber: contactPhoneNumber,
+        });
       } else {
-        if (this.state.contacts) {
-          contacts = this.state.contacts;
-          contacts.push({
-            firstName: contactFirstName,
-            lastName: contactLastName,
-            phoneNumber: contactPhoneNumber,
-          });
-        } else {
-          contacts = [{
-            firstName: contactFirstName,
-            lastName: contactLastName,
-            phoneNumber: contactPhoneNumber,
-          }];
-        }
+        contacts = [{
+          firstName: contactFirstName,
+          lastName: contactLastName,
+          phoneNumber: contactPhoneNumber,
+        }];
       }
+
       this.setState({ contacts, contactDialogOpened: false });
       this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
     }
@@ -230,125 +229,126 @@ class Perfil extends React.Component {
         <div className={classnames('formCenter')}>
           <Card style={{ margin: '20px' }}>
             <table style={{ width: '100%', tableLayout: 'fixed' }}>
-              <tr style={{ verticalAlign: 'top' }}>
-                <td style={{ width: '50%' }}>
-                  <Card style={{ margin: '20px' }}>
-                    <CardTitle
-                      title="Perfil de usuario"
-                      subtitle="Actualizá tus datos personales"
-                    />
-                    <CardText>
-                      <TextField
-                        value={this.state.firstName}
-                        onChange={(e, firstName) => this.setState({ firstName })}
-                        errorText={this.state.firstNameError}
-                        hintText="Ingresá tu nombre"
-                        type="text"
-                        floatingLabelText="Nombre"
-                        fullWidth
+              <tbody>
+                <tr style={{ verticalAlign: 'top' }}>
+                  <td style={{ width: '50%' }}>
+                    <Card style={{ margin: '20px' }}>
+                      <CardTitle
+                        title="Perfil de usuario"
+                        subtitle="Actualizá tus datos personales"
                       />
-                      <TextField
-                        value={this.state.lastName}
-                        onChange={(e, lastName) => this.setState({ lastName })}
-                        errorText={this.state.lastNameError}
-                        hintText="Ingresá tu apellido"
-                        type="text"
-                        floatingLabelText="Apellido"
-                        fullWidth
+                      <CardText>
+                        <TextField
+                          value={this.state.firstName}
+                          onChange={(e, firstName) => this.setState({ firstName })}
+                          errorText={this.state.firstNameError}
+                          hintText="Ingresá tu nombre"
+                          type="text"
+                          floatingLabelText="Nombre"
+                          fullWidth
+                        />
+                        <TextField
+                          value={this.state.lastName}
+                          onChange={(e, lastName) => this.setState({ lastName })}
+                          errorText={this.state.lastNameError}
+                          hintText="Ingresá tu apellido"
+                          type="text"
+                          floatingLabelText="Apellido"
+                          fullWidth
+                        />
+                        <TextField
+                          value={this.state.idNumber}
+                          onChange={(e, idNumber) => this.setState({ idNumber })}
+                          errorText={this.state.idNumberError}
+                          hintText="Ingresá tu DNI"
+                          type="text"
+                          floatingLabelText="DNI"
+                          fullWidth
+                        />
+                        <DatePicker
+                          value={this.state.birthDate}
+                          textFieldStyle={{ width: '100%' }}
+                          hintText="Fecha de Nacimiento"
+                          floatingLabelText="Fecha de Nacimiento"
+                          onChange={(e, birthDate) => this.setState({ birthDate })}
+                          errorText={this.state.birthDateError}
+                        />
+                        <div style={{ fontWeight: 'bold', marginTop: 16 }}>
+                          Sexo:
+                          <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} valueSelected={this.state.sex}>
+                            <RadioButton
+                              value="F"
+                              label="Femenino"
+                              style={{ marginTop: 16 }}
+                            />
+                            <RadioButton
+                              value="M"
+                              label="Masculino"
+                            />
+                            <RadioButton
+                              value="O"
+                              label="Otro"
+                            />
+                          </RadioButtonGroup>
+                        </div>
+                      </CardText>
+                      <Dialog
+                        title="Contactos de emergencia"
+                        actions={actions}
+                        modal
+                        open={this.state.contactDialogOpened}
+                      >
+                        <TextField
+                          value={this.state.selected.length ?
+                            (this.state.contacts[this.state.selected[0]].firstName) :
+                            (this.state.contactFirstName)}
+                          errorText={this.state.contactFirstNameError}
+                          onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
+                          hintText="Nombre"
+                          type="text"
+                          floatingLabelText="Nombre"
+                          fullWidth
+                        />
+                        <TextField
+                          value={this.state.contactLastName}
+                          errorText={this.state.contactLastNameError}
+                          onChange={(e, contactLastName) => this.setState({ contactLastName })}
+                          hintText="Apellido"
+                          type="text"
+                          floatingLabelText="Apellido"
+                          fullWidth
+                        />
+                        <TextField
+                          value={this.state.contactPhoneNumber}
+                          errorText={this.state.contactPhoneNumberError}
+                          onChange={(e, contactPhoneNumber) =>
+                            this.setState({ contactPhoneNumber })}
+                          hintText="Codigo de Area + N° de Teléfono"
+                          type="text"
+                          floatingLabelText="N° de Teléfono"
+                          fullWidth
+                        />
+                      </Dialog>
+                    </Card>
+                  </td>
+                  <td style={{ width: '50%' }}>
+                    <Card style={{ margin: '20px' }}>
+                      <CardTitle
+                        title="Contactos de Emergencia"
+                        subtitle="Carga los datos de tu contactos para un caso de emergencia"
                       />
-                      <TextField
-                        value={this.state.idNumber}
-                        onChange={(e, idNumber) => this.setState({ idNumber })}
-                        errorText={this.state.idNumberError}
-                        hintText="Ingresá tu DNI"
-                        type="text"
-                        floatingLabelText="DNI"
-                        fullWidth
-                      />
-                      <DatePicker
-                        value={this.state.birthDate}
-                        textFieldStyle={{ width: '100%' }}
-                        hintText="Fecha de Nacimiento"
-                        floatingLabelText="Fecha de Nacimiento"
-                        onChange={(e, birthDate) => this.setState({ birthDate })}
-                        errorText={this.state.birthDateError}
-                      />
-                      <div style={{ fontWeight: 'bold', marginTop: '16' }}>
-                        Sexo:
-                        <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} valueSelected={this.state.sex}>
-                          <RadioButton
-                            value="F"
-                            label="Femenino"
-                            style={{ marginTop: '16' }}
-                          />
-                          <RadioButton
-                            value="M"
-                            label="Masculino"
-                          />
-                          <RadioButton
-                            value="O"
-                            label="Otro"
-                          />
-                        </RadioButtonGroup>
-                      </div>
-                    </CardText>
-                    <Dialog
-                      title="Contactos de emergencia"
-                      actions={actions}
-                      modal
-                      open={this.state.contactDialogOpened}
-                    >
-                      <TextField
-                        value={this.state.selected.length ?
-                          (this.state.contacts[this.state.selected[0]].firstName) :
-                          (this.state.contactFirstName)}
-                        errorText={this.state.contactFirstNameError}
-                        onChange={(e, contactFirstName) => this.setState({ contactFirstName })}
-                        hintText="Nombre"
-                        type="text"
-                        floatingLabelText="Nombre"
-                        fullWidth
-                      />
-                      <TextField
-                        value={this.state.contactLastName}
-                        errorText={this.state.contactLastNameError}
-                        onChange={(e, contactLastName) => this.setState({ contactLastName })}
-                        hintText="Apellido"
-                        type="text"
-                        floatingLabelText="Apellido"
-                        fullWidth
-                      />
-                      <TextField
-                        value={this.state.contactPhoneNumber}
-                        errorText={this.state.contactPhoneNumberError}
-                        onChange={(e, contactPhoneNumber) => this.setState({ contactPhoneNumber })}
-                        hintText="Codigo de Area + N° de Teléfono"
-                        type="text"
-                        floatingLabelText="N° de Teléfono"
-                        fullWidth
-                      />
-                    </Dialog>
-                  </Card>
-                </td>
-                <td style={{ width: '50%' }}>
-                  <Card style={{ margin: '20px' }}>
-                    <CardTitle
-                      title="Contactos de Emergencia"
-                      subtitle="Carga los datos de tu contactos para un caso de emergencia"
-                    />
-                    <Table onRowSelection={this.handleRowSelection}>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHeaderColumn>Nombre</TableHeaderColumn>
-                          <TableHeaderColumn>Apellido</TableHeaderColumn>
-                          <TableHeaderColumn>Telefono</TableHeaderColumn>
-                        </TableRow>
-                      </TableHeader>
-                      {this.state.contacts ? (
+                      <Table onRowSelection={this.handleRowSelection}>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHeaderColumn>Nombre</TableHeaderColumn>
+                            <TableHeaderColumn>Apellido</TableHeaderColumn>
+                            <TableHeaderColumn>Telefono</TableHeaderColumn>
+                          </TableRow>
+                        </TableHeader>
                         <TableBody>
                           {
-                            this.state.contacts.map((c, i) =>
-                              (<TableRow selected={this.isSelected(i)}>
+                            this.state.contacts && this.state.contacts.map((c, i) =>
+                              (<TableRow selected={this.isSelected(i)}  key={i}>
                                 <TableRowColumn>{c.firstName}</TableRowColumn>
                                 <TableRowColumn>{c.lastName}</TableRowColumn>
                                 <TableRowColumn>{c.phoneNumber}</TableRowColumn>
@@ -356,33 +356,33 @@ class Perfil extends React.Component {
                             )
                           }
                         </TableBody>
-                      ) : ''}
-                    </Table>
-                    <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
-                      <RaisedButton
-                        label="Agregar"
-                        onTouchTap={this.handleOpenContactDialog}
-                        primary
-                      />
-                      {this.state.selected.length ? (
-                        <div>
-                          <RaisedButton
-                            label="Editar"
-                            onTouchTap={this.handleOpenContactDialog}
-                            primary
-                          />
-                          &nbsp;&nbsp;
-                          <RaisedButton
-                            label="Borrar"
-                            onTouchTap={this.handleEraseContact}
-                            primary
-                          />
-                        </div>
-                      ) : ''}
-                    </CardActions>
-                  </Card>
-                </td>
-              </tr>
+                      </Table>
+                      <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
+                        <RaisedButton
+                          label="Agregar"
+                          onTouchTap={this.handleOpenContactDialog}
+                          primary
+                        />
+                        {this.state.selected.length ? (
+                          <div>
+                            <RaisedButton
+                              label="Editar"
+                              onTouchTap={this.handleOpenContactDialog}
+                              primary
+                            />
+                            &nbsp;&nbsp;
+                            <RaisedButton
+                              label="Borrar"
+                              onTouchTap={this.handleEraseContact}
+                              primary
+                            />
+                          </div>
+                        ) : ''}
+                      </CardActions>
+                    </Card>
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton

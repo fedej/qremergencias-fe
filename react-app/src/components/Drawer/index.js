@@ -59,7 +59,10 @@ class DrawerComponent extends Component {
             >
               Historia Clínica
             </MenuItem>,
-            <MenuItem onTouchTap={() => this.handleChangeRoute('/carga')}>
+            <MenuItem
+              key="carga"
+              onTouchTap={() => this.handleChangeRoute('/carga')}
+            >
               Cargar Historia
             </MenuItem>,
             <MenuItem
