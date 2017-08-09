@@ -77,6 +77,7 @@ export const uploadHistoriClinica = form => (dispatch) => {
 const INITIAL_STATE = {
   todas: [],
   error: '',
+  uploaded: false,
   isFetching: false,
 };
 
@@ -91,7 +92,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case UPLOAD_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case UPLOAD_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false };
+      return { ...INITIAL_STATE, isFetching: false, uploaded: true };
     case UPLOAD_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     default:

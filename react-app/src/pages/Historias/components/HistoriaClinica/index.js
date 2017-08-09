@@ -42,16 +42,6 @@ export default class HistoriaClinica extends Component {
 
   render() {
     const { historia } = this.props;
-
-
-    let url = 'http://2.bp.blogspot.com/_rA5gQI4magc/TTNttosjLZI/AAAAAAAACc0/RYOji7Gj6AE/s1600/Historia_Clinica_Neurologica+1.png';
-
-    if (historia.files[0]) {
-      url = 'http://localhost:8082/qremergencias/api/medicalRecord/file/' + historia.files[0];
-    }
-
-    // TODO: mostrar archivos
-    // historia.files
     const fecha = moment(historia.performed).format('DD / MM / YYYY');
 
     return (
@@ -67,12 +57,14 @@ export default class HistoriaClinica extends Component {
           actAsExpander
           showExpandableButton
         />
+        { historia.files[0] &&
         <CardMedia expandable>
           <img
-            src={url}
+            src={historia.files[0]}
             alt=""
           />
         </CardMedia>
+        }
         <CardText expandable>
           {historia.text}
         </CardText>

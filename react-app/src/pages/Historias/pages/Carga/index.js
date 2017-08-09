@@ -14,8 +14,11 @@ import { hasEmptyStringProperties } from '../../../../utils/validations';
 
 const INITIAL_STATE = {
   showError: false,
+  showSuccess: false,
   nombre: '',
   nombreError: '',
+  user: '',
+  userError: '',
   fechaRealizacion: null,
   fechaRealizacionError: '',
   informe: '',
@@ -31,6 +34,7 @@ class CargaHistoriaClinica extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
+    uploaded: PropTypes.bool.isRequired,
   }
 
   state = INITIAL_STATE
@@ -40,9 +44,11 @@ class CargaHistoriaClinica extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { error } = nextProps;
+    const { error, uploaded } = nextProps;
     if (error !== '') {
       this.setState({ showError: true });
+    } else if (uploaded) {
+      this.setState({ showSuccess: true });
     }
   }
 
@@ -69,7 +75,7 @@ class CargaHistoriaClinica extends React.Component {
           name: this.state.nombre,
           performed: moment(this.state.fechaRealizacion).format('YYYY-MM-DD'),
           text: this.state.informe,
-          user: 'paciente@rrramundo.com.ar',
+          user: this.state.user,
         };
         dispatch(uploadHistoriClinica(data));
       });
@@ -84,6 +90,14 @@ class CargaHistoriaClinica extends React.Component {
         <Card style={{ margin: '2%' }}>
           <CardTitle title="Cargar Historia" />
           <CardText>
+            <TextField
+              onChange={(e, user) => this.setState({ user })}
+              value={this.state.user}
+              errorText={this.state.userError}
+              hintText="Nombre del usuario"
+              floatingLabelText="Usuario"
+              fullWidth
+            />
             <TextField
               onChange={(e, nombre) => this.setState({ nombre })}
               value={this.state.nombre}
@@ -132,6 +146,12 @@ class CargaHistoriaClinica extends React.Component {
             text={this.props.error}
             onConfirm={() => this.setState({ showError: false })}
           />
+          <SweetAlert
+            show={this.state.showSuccess}
+            title="Exito"
+            text="Carga realizada con exito"
+            onConfirm={() => this.setState({ showSuccess: false })}
+          />
         </Card>
       </Home>
     );
@@ -141,6 +161,7 @@ class CargaHistoriaClinica extends React.Component {
 function mapStateToProps(state) {
   return {
     error: state.historias.error,
+    uploaded: state.historias.uploaded,
   };
 }
 
