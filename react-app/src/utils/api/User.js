@@ -1,5 +1,6 @@
 import ApiClient from '../client/ApiClient';
 import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
+import config from '../../constants/app';
 
 export default class UserService {
 
@@ -10,7 +11,7 @@ export default class UserService {
     if (!this.apiClient) {
       this.apiClient = new ApiClient();
       this.apiClient.enableCookies = true;
-      this.apiClient.basePath = 'http://localhost:8083/qremergencias';
+      this.apiClient.basePath = `${config.BASE_URL}/qremergencias`;
     }
 
     return this.apiClient;
