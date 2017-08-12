@@ -13,6 +13,7 @@
 
 
 import ApiClient from "../ApiClient";
+import ApiError from '../model/ApiError';
 import UserProfileDTO from '../model/UserProfileDTO';
 
 /**

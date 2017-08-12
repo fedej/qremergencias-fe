@@ -13,14 +13,17 @@
 
 
 import ApiClient from './ApiClient';
+import ApiError from './model/ApiError';
+import ApiFieldError from './model/ApiFieldError';
 import CreateUserDTO from './model/CreateUserDTO';
+import LoginUserDTO from './model/LoginUserDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import Sort from './model/Sort';
-import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
+import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
 import ProfilecontrollerApi from './api/ProfilecontrollerApi';
 import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
 
@@ -64,10 +67,28 @@ export {
     ApiClient,
 
     /**
+     * The ApiError model constructor.
+     * @property {module:model/ApiError}
+     */
+    ApiError,
+
+    /**
+     * The ApiFieldError model constructor.
+     * @property {module:model/ApiFieldError}
+     */
+    ApiFieldError,
+
+    /**
      * The CreateUserDTO model constructor.
      * @property {module:model/CreateUserDTO}
      */
     CreateUserDTO,
+
+    /**
+     * The LoginUserDTO model constructor.
+     * @property {module:model/LoginUserDTO}
+     */
+    LoginUserDTO,
 
     /**
      * The MedicalRecordChangeDTO model constructor.
