@@ -24,7 +24,10 @@ class Verificacion extends React.Component {
       // TODO: guardar en el state la verificacion con fecha de caducidad
       PacienteService
         .verificar(this.state.token)
-        .then(pacienteId => browserHistory.push(`/datos/${pacienteId}`))
+        .then((pacienteId) => {
+          // TODO: guardar en state datos del paciente
+          browserHistory.push('/datos');
+        })
         .catch(error => this.setState({ error, showError: true }));
     }
   }
