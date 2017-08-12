@@ -49,6 +49,21 @@ function uploadError(message) {
   };
 }
 
+export const fetchHistoriasClinicasDePaciente = (id, token) => (dispatch) => {
+  dispatch(requestHistorias());
+
+  HistoriasService.listByUser(id, token)
+    .then((records) => {
+      const historias = records.content.map((h) => {
+        const historia = h;
+        historia.performed = h.performed.toISOString();
+        return historia;
+      });
+
+      dispatch(historiasSuccess(historias));
+    })
+    .catch(err => dispatch(historiasError(err.message)));
+}
 
 export const fetchHistoriasClinicas = () => (dispatch) => {
   dispatch(requestHistorias());
