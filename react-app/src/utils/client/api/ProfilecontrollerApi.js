@@ -40,7 +40,7 @@ export default class ProfilecontrollerApi {
      * list
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/UserProfileDTO} and HTTP response
      */
-    listUsingGET1WithHttpInfo() {
+    listUsingGETWithHttpInfo() {
       let postBody = null;
 
 
@@ -69,8 +69,8 @@ export default class ProfilecontrollerApi {
      * list
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/UserProfileDTO}
      */
-    listUsingGET1() {
-      return this.listUsingGET1WithHttpInfo()
+    listUsingGET() {
+      return this.listUsingGETWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
