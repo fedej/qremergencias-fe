@@ -6,8 +6,17 @@ const color = 'white';
 
 export default function Landing() {
   return (
-    <div className="homeBackground">
-      <div style={{ flexDirection: 'column', marginTop: '10%' }}>
+    <div className="homeBackground" style={{ flexDirection: 'column', justifyContent: 'flex-start' }}>
+      <div style={{ textAlign: 'right', marginTop: '1%', marginRight: '1%' }}>
+        <RaisedButton
+          onClick={() => browserHistory.push('/login')}
+          style={{ marginRight: '5px' }}
+          labelStyle={{ fontWeight: 'bold' }}
+          label="Login"
+          primary
+        />
+      </div>
+      <div style={{ flexDirection: 'column', marginTop: '9%' }}>
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ fontSize: '5em', color }}>QR Emergencias</h1>
           <h4 style={{ fontSize: '2.5em', color }}>Proyecto UTN.BA</h4>
