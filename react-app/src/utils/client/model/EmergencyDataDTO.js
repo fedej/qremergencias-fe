@@ -16,6 +16,7 @@ import ApiClient from '../ApiClient';
 import GeneralDataDTO from './GeneralDataDTO';
 import HospitalizationDTO from './HospitalizationDTO';
 import MedicationDTO from './MedicationDTO';
+import PathologyDTO from './PathologyDTO';
 
 
 
@@ -71,6 +72,9 @@ export default class EmergencyDataDTO {
             if (data.hasOwnProperty('medications')) {
                 obj['medications'] = ApiClient.convertToType(data['medications'], [MedicationDTO]);
             }
+            if (data.hasOwnProperty('pathologies')) {
+                obj['pathologies'] = ApiClient.convertToType(data['pathologies'], [PathologyDTO]);
+            }
             if (data.hasOwnProperty('surgeries')) {
                 obj['surgeries'] = ApiClient.convertToType(data['surgeries'], [HospitalizationDTO]);
             }
@@ -94,6 +98,10 @@ export default class EmergencyDataDTO {
     * @member {Array.<module:model/MedicationDTO>} medications
     */
     medications = undefined;
+    /**
+    * @member {Array.<module:model/PathologyDTO>} pathologies
+    */
+    pathologies = undefined;
     /**
     * @member {Array.<module:model/HospitalizationDTO>} surgeries
     */

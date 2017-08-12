@@ -21,6 +21,7 @@ import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
 import MedicationDTO from './model/MedicationDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
+import PathologyDTO from './model/PathologyDTO';
 import Sort from './model/Sort';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
@@ -115,6 +116,12 @@ export {
      * @property {module:model/PageOfMedicalRecordDTO}
      */
     PageOfMedicalRecordDTO,
+
+    /**
+     * The PathologyDTO model constructor.
+     * @property {module:model/PathologyDTO}
+     */
+    PathologyDTO,
 
     /**
      * The Sort model constructor.

@@ -31,6 +31,7 @@ class DatosDeEmergencia extends React.Component {
         allergic: PropTypes.bool,
         allergies: PropTypes.array,
       }),
+      patologias: PropTypes.array,
     }),
   }
 
@@ -38,6 +39,7 @@ class DatosDeEmergencia extends React.Component {
     showError: false,
     general: {},
     error: '',
+    patologias: [],
   }
 
   componentWillMount() {
@@ -61,6 +63,11 @@ class DatosDeEmergencia extends React.Component {
         general: data.general,
       });
     }
+    if (data.patologias) {
+      this.setState({
+        patologias: data.patologias,
+      })
+    }
   }
 
   handleGeneralChange = (newGeneral) => {
@@ -74,6 +81,7 @@ class DatosDeEmergencia extends React.Component {
 
   render() {
     const general = this.state.general;
+    const patologias = this.state.patologias;
     return (
       <Home>
         <div className={classnames('formCenter')}>
@@ -84,7 +92,7 @@ class DatosDeEmergencia extends React.Component {
                   <Generales onGeneralChange={this.handleGeneralChange} general={general} />
                 </Tab>
                 <Tab label="Patologias">
-                  <Patologias />
+                  <Patologias patologias={patologias}/>
                 </Tab>
                 <Tab label="Internaciones">
                   <Internaciones />
