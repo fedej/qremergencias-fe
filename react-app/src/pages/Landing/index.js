@@ -18,7 +18,7 @@ export default function Landing() {
       </div>
       <div style={{ flexDirection: 'column', marginTop: '9%' }}>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: '5em', color }}>QR Emergencias</h1>
+          <h1 style={{ fontSize: '4.2em', color }}>QR Emergencias</h1>
           <h4 style={{ fontSize: '2.5em', color }}>Proyecto UTN.BA</h4>
         </div>
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
