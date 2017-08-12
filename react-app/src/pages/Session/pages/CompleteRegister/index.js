@@ -8,8 +8,8 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import classnames from 'classnames';
 import moment from 'moment';
 import SweetAlert from 'sweetalert-react';
-import 'sweetalert/dist/sweetalert.css';
 
+import 'sweetalert/dist/sweetalert.css';
 import { isValidDNI } from '../../../../utils/validations';
 
 import { completeRegistration } from '../../../../store/Auth';
@@ -41,6 +41,7 @@ class CompleteRegister extends React.Component {
     if (this.props.auth.isFetching && !nextProps.auth.isFetching && nextProps.auth.error === '') {
       browserHistory.push('/login');
     }
+
     if (nextProps.auth.error) {
       this.setState({ showError: true });
     }
@@ -99,7 +100,7 @@ class CompleteRegister extends React.Component {
               onChange={(e, lastName) => this.setState({ lastName })}
               errorText={this.state.lastNameError}
               hintText="Ingresa tu apellido"
-              type="text"
+              type="number"
               floatingLabelText="Apellido"
               fullWidth
             />
@@ -117,8 +118,10 @@ class CompleteRegister extends React.Component {
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha de Nacimiento"
                 onChange={(e, birthDate) => this.setState({ birthDate })}
-                errorText={this.state.birthDateError}
               />
+              <p style={{ color: 'rgb(244, 67, 54)' }}>
+                {this.state.birthDateError}
+              </p>
             </div>
             <div style={{ fontWeight: 'bold', marginTop: '16' }}>
               Elija su sexo:

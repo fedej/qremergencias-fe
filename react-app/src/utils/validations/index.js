@@ -14,3 +14,15 @@ export function isValidPhoneNumber(phone) {
   const re = /^(\+)?\d{1,4}(( |\(| \(|-)?\d{1,4}( |\)|\) |-)?)?(\d{2} )?\d{2,4}[- ]?\d{2,3}[- ]?\d{0,2}$/;
   return re.test(phone);
 }
+
+export function hasEmptyStringProperties(object) {
+  let isEmpty = true;
+
+  Object.values(object).forEach((value) => {
+    if (typeof value === 'string' && value !== '') {
+      isEmpty = false;
+    }
+  });
+
+  return isEmpty;
+}

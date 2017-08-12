@@ -10,6 +10,7 @@ import { logOut } from '../../store/Auth';
 class DrawerComponent extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
+    isMedico: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
   }
 
@@ -35,6 +36,7 @@ class DrawerComponent extends Component {
 
   handleLogout = () => {
     const { dispatch } = this.props;
+    dispatch(setDrawer(false));
     dispatch(logOut());
   }
 
@@ -48,15 +50,45 @@ class DrawerComponent extends Component {
         <MenuItem onTouchTap={() => this.handleChangeRoute('/perfil')}>
           Perfil
         </MenuItem>
-        <MenuItem onTouchTap={() => this.handleChangeRoute('/datos')}>
-          Datos de Emergencia
-        </MenuItem>
-        <MenuItem onTouchTap={() => this.handleChangeRoute('/historia')}>
-          Historia Clínica
-        </MenuItem>
-        <MenuItem onTouchTap={() => this.handleChangeRoute('/codigo')}>
-          Gestionar QR
-        </MenuItem>
+        {
+          this.props.isMedico ? (
+          [
+            <MenuItem
+              key="historias"
+              onTouchTap={() => this.handleChangeRoute('/historias')}
+            >
+              Historia Clínica
+            </MenuItem>,
+            <MenuItem
+              key="carga"
+              onTouchTap={() => this.handleChangeRoute('/carga')}
+            >
+              Cargar Historia
+            </MenuItem>,
+            <MenuItem
+              key="verificacion"
+              onTouchTap={() => this.handleChangeRoute('/verificacion')}
+            >
+              Editar Paciente
+            </MenuItem>,
+          ]
+          ) : (
+            [
+              <MenuItem
+                key="historias"
+                onTouchTap={() => this.handleChangeRoute('/historias')}
+              >
+                Historia Clínica
+              </MenuItem>,
+              <MenuItem
+                key="codigo"
+                onTouchTap={() => this.handleChangeRoute('/codigo')}
+              >
+                Gestionar QR
+              </MenuItem>,
+            ].map(m => m)
+          )
+        }
         <MenuItem onTouchTap={this.handleLogout}>
           Cerrar Sesión
         </MenuItem>
@@ -67,4 +99,5 @@ class DrawerComponent extends Component {
 
 export default connect(state => ({
   isOpen: state.drawer.isOpen,
+  isMedico: state.auth.isMedico,
 }))(DrawerComponent);

@@ -18,9 +18,9 @@ import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import Sort from './model/Sort';
+import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
-import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
 import ProfilecontrollerApi from './api/ProfilecontrollerApi';
 import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
 

@@ -13,12 +13,18 @@ import ForgotPasswordSuccess from './pages/Session/pages/ForgotPasswordSuccess';
 import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
-import Datos from './pages/Datos';
-import Historia from './pages/Historia';
-import Codigo from './pages/Codigo';
+import Datos from './pages/Emergencia/pages/Datos';
+import Historias from './pages/Historias';
+import Carga from './pages/Historias/pages/Carga';
+import Verificacion from './pages/Verificacion';
 import NotFound from './pages/NotFound';
 
-import { UserIsAuthenticated, VisibleOnlyLoggedOut } from './utils/session';
+import {
+  UserIsAuthenticated,
+  VisibleOnlyLoggedOut,
+  UserIsMedico,
+  UserIsPaciente,
+} from './utils/session';
 
 
 const Authenticated = UserIsAuthenticated(props => props.children);
@@ -39,10 +45,18 @@ export default function Routes({ history }) {
       </Route>
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
-        <Route path="datos" component={Datos} />
         <Route path="perfil" component={Perfil} />
-        <Route path="historia" component={Historia} />
-        <Route path="codigo" component={Codigo} />
+        {/* TODO: el medico solo puede editar si esta verificado y por cierto tiempo */}
+        <Route path="datos/:pacienteId" component={Datos} />
+        {/* TODO: hacer funcionar UserIsPaciente */}
+        {/* <Route component={UserIsPaciente}> */}
+          <Route path="historias" component={Historias} />
+        {/* </Route> */}
+        {/* TODO: hacer funcionar UserIsMedico */}
+        {/* <Route component={UserIsMedico}> */}
+          <Route path="verificacion" component={Verificacion} />
+          <Route path="carga" component={Carga} />
+        {/* </Route> */}
       </Route>
       <Route path="*" component={NotFound} />
     </Router>
