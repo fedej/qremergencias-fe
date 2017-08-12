@@ -56,6 +56,9 @@ export default class FileDTO {
             
             
 
+            if (data.hasOwnProperty('extension')) {
+                obj['extension'] = ApiClient.convertToType(data['extension'], 'String');
+            }
             if (data.hasOwnProperty('mimeType')) {
                 obj['mimeType'] = ApiClient.convertToType(data['mimeType'], 'String');
             }
@@ -66,6 +69,10 @@ export default class FileDTO {
         return obj;
     }
 
+    /**
+    * @member {String} extension
+    */
+    extension = undefined;
     /**
     * @member {String} mimeType
     */
