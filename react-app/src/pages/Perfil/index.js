@@ -33,18 +33,16 @@ class Perfil extends React.Component {
   }
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    profile: PropTypes.shape({
-      perfil: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-        idNumber: PropTypes.string,
-        birthDate: PropTypes.string,
-        sex: PropTypes.string,
-        contacts: PropTypes.array,
-      }).isRequired,
-      error: PropTypes.string.isRequired,
-      isFetching: PropTypes.bool.isRequired,
-    }),
+    perfil: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      idNumber: PropTypes.string,
+      birthDate: PropTypes.instanceOf(Date),
+      sex: PropTypes.string,
+      contacts: PropTypes.array,
+    }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
   }
 
   state = {
@@ -58,7 +56,7 @@ class Perfil extends React.Component {
     lastNameError: '',
     idNumber: '',
     idNumberError: '',
-    birthDate: '',
+    birthDate: new Date(),
     birthDateError: '',
     sex: '',
     contacts: [],
@@ -75,26 +73,27 @@ class Perfil extends React.Component {
     const { dispatch } = this.props;
     dispatch(fetchProfile());
 
-    if (this.props.profile.error) {
+    if (this.props.error) {
       this.setState({ showError: true });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { profile } = nextProps;
+    const { perfil } = nextProps;
 
-    if (profile.error) {
+    if (perfil.error) {
       this.setState({ showError: true });
     }
 
-    if (profile) {
+    if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
+      console.log(perfil.birthDate);
       this.setState({
-        firstName: profile.perfil.firstName,
-        lastName: profile.perfil.lastName,
-        idNumber: profile.perfil.idNumber || '',
-        birthDate: profile.perfil.birthDate,
-        sex: profile.perfil.sex,
-        contacts: profile.perfil.contacts,
+        firstName: perfil.firstName,
+        lastName: perfil.lastName,
+        idNumber: perfil.idNumber || '',
+        birthDate: perfil.birthDate,
+        sex: perfil.sex,
+        contacts: perfil.contacts,
       });
     }
   }
@@ -400,7 +399,7 @@ class Perfil extends React.Component {
           <SweetAlert
             show={this.state.showError}
             title="Error al actualizar perfil"
-            text={this.props.profile.error}
+            text={this.props.error}
             onConfirm={() => this.setState({ showError: false })}
           />
         </div>
@@ -411,7 +410,9 @@ class Perfil extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    profile: state.profile,
+    perfil: state.profile.perfil,
+    error: state.profile.error,
+    isFetching: state.profile.isFetching,
   };
 }
 

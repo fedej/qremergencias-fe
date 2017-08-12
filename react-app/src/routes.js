@@ -14,6 +14,7 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
 import EditarPaciente from './pages/Paciente/pages/Editar';
+import HistoriasPaciente from './pages/Paciente/pages/Historias';
 import Historias from './pages/Historias';
 import Carga from './pages/Historias/pages/Carga';
 import Verificacion from './pages/Verificacion';
@@ -56,6 +57,7 @@ export default function Routes({ history }) {
           <Route path="verificacion" component={Verificacion} />
           <Route path="editar" component={EditarPaciente} />
           <Route path="carga" component={Carga} />
+          <Route path="historiasPaciente" component={HistoriasPaciente} />
         {/* </Route> */}
       </Route>
       <Route path="*" component={NotFound} />

@@ -28,10 +28,6 @@ class EditarPaciente extends React.Component {
     console.log('handleModificarDatos');
   }
 
-  handleViewHistoriasClinicas = () => {
-    console.log('handleViewHistoriasClinicas');
-  }
-
   render() {
     return (
       <Home>
@@ -52,7 +48,7 @@ class EditarPaciente extends React.Component {
               <RaisedButton
                 style={{ marginTop: '1vh' }}
                 label="Ver Historia Clinica"
-                onTouchTap={this.handleViewHistoriasClinicas}
+                onTouchTap={() => browserHistory.push('/historiasPaciente')}
                 primary
               />
               <RaisedButton
