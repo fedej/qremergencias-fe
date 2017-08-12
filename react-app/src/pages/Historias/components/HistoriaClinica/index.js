@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { RaisedButton } from 'material-ui';
 import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import moment from 'moment';
 
 const icono = require('./medicine-bowl-icon.png');
+
+function downloadFile(url) {
+  const link = document.createElement('a');
+  document.body.appendChild(link);
+  link.href = url;
+  link.click();
+  link.remove();
+}
 
 export default class HistoriaClinica extends Component {
   static propTypes = {
@@ -44,6 +53,32 @@ export default class HistoriaClinica extends Component {
     const { historia } = this.props;
     const fecha = moment(historia.performed).format('DD / MM / YYYY');
 
+    const file = historia.files[0];
+    let viewer;
+
+    if (file) {
+      if (file.mimeType.includes('image')) {
+        viewer = <img src={file.url} alt="Imagen" />;
+      } else if (file.mimeType.includes('pdf')) {
+        viewer = (
+          <RaisedButton
+            href={`${file.url}.pdf`}
+            target="_blank"
+            label="Descargar"
+            primary
+          />
+        );
+      } else {
+        viewer = (
+          <RaisedButton
+            label="Descargar"
+            primary
+            onTouchTap={() => downloadFile(file.url)}
+          />
+        );
+      }
+    }
+
     return (
       <Card
         expanded={this.state.expanded}
@@ -59,10 +94,9 @@ export default class HistoriaClinica extends Component {
         />
         { historia.files[0] &&
         <CardMedia expandable>
-          <img
-            src={historia.files[0]}
-            alt=""
-          />
+          <div>
+            {viewer}
+          </div>
         </CardMedia>
         }
         <CardText expandable>
