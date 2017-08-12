@@ -13,6 +13,7 @@
 
 
 import ApiClient from "../ApiClient";
+import ApiError from '../model/ApiError';
 import MedicalRecordDTO from '../model/MedicalRecordDTO';
 import PageOfMedicalRecordDTO from '../model/PageOfMedicalRecordDTO';
 

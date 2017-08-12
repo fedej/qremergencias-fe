@@ -15,6 +15,11 @@ import { isValidDNI } from '../../../../utils/validations';
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
 
+function disableLastTenYears(date) {
+  const fecha = moment().subtract(18, 'y');
+  return date > fecha;
+}
+
 class CompleteRegister extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -31,7 +36,7 @@ class CompleteRegister extends React.Component {
     lastNameError: '',
     idNumber: '',
     idNumberError: '',
-    birthDate: null,
+    birthDate: moment().subtract(20, 'y').toDate(),
     birthDateError: '',
     sex: null,
     showError: false,
@@ -78,6 +83,7 @@ class CompleteRegister extends React.Component {
 
   render() {
     // TODO: mostrar error de Store.auth.error
+
     return (
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>
@@ -100,7 +106,7 @@ class CompleteRegister extends React.Component {
               onChange={(e, lastName) => this.setState({ lastName })}
               errorText={this.state.lastNameError}
               hintText="Ingresa tu apellido"
-              type="number"
+              type="text"
               floatingLabelText="Apellido"
               fullWidth
             />
@@ -117,19 +123,21 @@ class CompleteRegister extends React.Component {
               <DatePicker
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha de Nacimiento"
+                shouldDisableDate={disableLastTenYears}
                 onChange={(e, birthDate) => this.setState({ birthDate })}
+                value={this.state.birthDate}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>
                 {this.state.birthDateError}
               </p>
             </div>
-            <div style={{ fontWeight: 'bold', marginTop: '16' }}>
+            <div style={{ fontWeight: 'bold', marginTop: 16 }}>
               Elija su sexo:
               <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected="F">
                 <RadioButton
                   value="F"
                   label="Femenino"
-                  style={{ marginTop: '16' }}
+                  style={{ marginTop: 16 }}
                 />
                 <RadioButton
                   value="M"
