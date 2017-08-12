@@ -16,6 +16,7 @@ import ApiClient from './ApiClient';
 import ApiError from './model/ApiError';
 import ApiFieldError from './model/ApiFieldError';
 import CreateUserDTO from './model/CreateUserDTO';
+import FileDTO from './model/FileDTO';
 import LoginUserDTO from './model/LoginUserDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
@@ -83,6 +84,12 @@ export {
      * @property {module:model/CreateUserDTO}
      */
     CreateUserDTO,
+
+    /**
+     * The FileDTO model constructor.
+     * @property {module:model/FileDTO}
+     */
+    FileDTO,
 
     /**
      * The LoginUserDTO model constructor.
