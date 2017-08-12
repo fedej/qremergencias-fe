@@ -5,6 +5,8 @@ import classnames from 'classnames';
 
 import '../../styles.css';
 
+const icon = require('../success.png');
+
 export default function RegisterSuccess() {
   setTimeout(() => {
     browserHistory.push('/login');
@@ -15,7 +17,7 @@ export default function RegisterSuccess() {
       <Card>
         <CardTitle title="Te registraste con éxito!" />
         <CardText style={{ textAlign: 'center' }}>
-          <img src="http://osmhotels.com//assets/check-true.jpg" alt="Logo" />
+          <img src={icon} alt="Logo" />
           <p style={{ marginTop: '20px' }}>
             Gracias por registrarte, te enviamos un mail a tu casilla de correo,
             confirma tu cuenta por favor.

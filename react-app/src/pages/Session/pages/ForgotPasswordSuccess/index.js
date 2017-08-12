@@ -5,6 +5,8 @@ import classnames from 'classnames';
 
 import '../../styles.css';
 
+const icon = require('../success.png');
+
 export default class RegisterSuccess extends React.Component {
   componentDidMount() {
     this.timer = setTimeout(() => {
@@ -22,7 +24,7 @@ export default class RegisterSuccess extends React.Component {
         <Card>
           <CardTitle title="Revisa tu mail" />
           <CardText style={{ textAlign: 'center' }}>
-            <img src="http://osmhotels.com//assets/check-true.jpg" alt="Logo" />
+            <img src={icon} alt="Logo" />
             <p style={{ marginTop: '20px' }}>
               Te enviamos un mail con instrucciones para restablecer tu contraseña
             </p>

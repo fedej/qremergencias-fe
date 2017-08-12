@@ -100,7 +100,7 @@ class CompleteRegister extends React.Component {
               onChange={(e, lastName) => this.setState({ lastName })}
               errorText={this.state.lastNameError}
               hintText="Ingresa tu apellido"
-              type="number"
+              type="text"
               floatingLabelText="Apellido"
               fullWidth
             />
