@@ -112,28 +112,18 @@ class DatosDeEmergencia extends React.Component {
   }
 
   handleSaveData = () => {
-    // TODO: arreglar esta goma
-    const pathologies = this.state.pathologies.map((p) => {
-      p.date = moment(p.date).format('YYYY-MM-DD');
-      return p;
-    });
-    this.setState({ pathologies });
+    const { general, pathologies, hospitalizations, medications, surgeries } = this.state;
 
-    // TODO: esta tambien
-    const hospitalizations = this.state.hospitalizations.map((p) => {
-      p.date = moment(p.date).format('YYYY-MM-DD');
-      return p;
-    });
-    this.setState({ hospitalizations });
-    // TODO: esta tambien
-    const surgeries = this.state.surgeries.map((p) => {
-      p.date = moment(p.date).format('YYYY-MM-DD');
-      return p;
-    });
-    this.setState({ surgeries });
+    const data = {
+      general,
+      pathologies,
+      hospitalizations,
+      medications,
+      surgeries,
+    };
 
     const { dispatch } = this.props;
-    dispatch(updateData(this.state));
+    dispatch(updateData(data));
   }
 
   render() {
