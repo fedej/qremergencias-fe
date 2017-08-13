@@ -100,13 +100,9 @@ class Perfil extends React.Component {
     return result;
   };
 
-  handleEraseContact = () => {
-    const contacts = [];
-    for (let i = 0; i < this.state.contacts.length; i += 1) {
-      if (i !== this.state.selected[0]) {
-        contacts.push(this.state.contacts[i]);
-      }
-    }
+  handleEraseContact = (key) => {
+    const contacts = this.state.contacts;
+    contacts.splice(key, 1);
     this.setState({ contacts, selected: [] });
   }
 
@@ -161,18 +157,12 @@ class Perfil extends React.Component {
       } else {
         if (this.state.contacts) {
           contacts = this.state.contacts;
-          contacts.push({
-            firstName: contactFirstName,
-            lastName: contactLastName,
-            phoneNumber: contactPhoneNumber,
-          });
-        } else {
-          contacts = [{
-            firstName: contactFirstName,
-            lastName: contactLastName,
-            phoneNumber: contactPhoneNumber,
-          }];
         }
+        contacts.push({
+          firstName: contactFirstName,
+          lastName: contactLastName,
+          phoneNumber: contactPhoneNumber,
+        });
       }
       this.setState({ contacts, contactDialogOpened: false });
       this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
@@ -204,7 +194,6 @@ class Perfil extends React.Component {
 
       // TODO = devolver un mensaje de guardado exitoso
       dispatch(updateProfile(data));
-      window.location.reload();
     }
   }
 
@@ -351,7 +340,7 @@ class Perfil extends React.Component {
                           &nbsp;&nbsp;
                           <RaisedButton
                             label="Borrar"
-                            onTouchTap={this.handleEraseContact}
+                            onTouchTap={() => this.handleEraseContact(this.state.selected[0])}
                             primary
                           />
                         </div>
