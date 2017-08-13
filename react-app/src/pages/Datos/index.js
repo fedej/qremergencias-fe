@@ -35,6 +35,7 @@ class DatosDeEmergencia extends React.Component {
       pathologies: PropTypes.array,
       hospitalizations: PropTypes.array,
       medications: PropTypes.array,
+      surgeries: PropTypes.array,
     }),
   }
 
@@ -82,6 +83,11 @@ class DatosDeEmergencia extends React.Component {
         medications: data.medications,
       });
     }
+    if (data.surgeries) {
+      this.setState({
+        surgeries: data.surgeries,
+      });
+    }
   }
 
   handleGeneralChange = (newGeneral) => {
@@ -101,6 +107,10 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ medications });
   }
 
+  handleSurgeriesChange = (surgeries) => {
+    this.setState({ surgeries });
+  }
+
   handleSaveData = () => {
     // TODO: arreglar esta goma
     const pathologies = this.state.pathologies.map((p) => {
@@ -115,6 +125,12 @@ class DatosDeEmergencia extends React.Component {
       return p;
     });
     this.setState({ hospitalizations });
+    // TODO: esta tambien
+    const surgeries = this.state.surgeries.map((p) => {
+      p.date = moment(p.date).format('YYYY-MM-DD');
+      return p;
+    });
+    this.setState({ surgeries });
 
     const { dispatch } = this.props;
     dispatch(updateData(this.state));
@@ -125,6 +141,7 @@ class DatosDeEmergencia extends React.Component {
     const pathologies = this.state.pathologies;
     const hospitalizations = this.state.hospitalizations;
     const medications = this.state.medications;
+    const surgeries = this.state.surgeries;
     return (
       <Home>
         <div className={classnames('formCenter')}>
@@ -141,7 +158,7 @@ class DatosDeEmergencia extends React.Component {
                   <Internaciones onHospitalizationsChange={this.handleHospitalizationsChange} hospitalizations={hospitalizations} />
                 </Tab>
                 <Tab label="Cirugias">
-                  <Cirugias />
+                  <Cirugias onSurgeriesChange={this.handleSurgeriesChange} surgeries={surgeries} />
                 </Tab>
                 <Tab label="Medicaciones">
                   <Medicaciones onMedicationChange={this.handleMedicationChange} medications={medications} />
