@@ -69,6 +69,7 @@ const INITIAL_STATE = {
   general: {},
   pathologies: [],
   hospitalizations: [],
+  medications: [],
   error: '',
   isFetching: false,
 };
@@ -78,7 +79,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case DATA_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case DATA_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, general: action.data.general, pathologies: action.data.pathologies, hospitalizations: action.data.hospitalizations };
+      return { ...INITIAL_STATE, isFetching: false, general: action.data.general, pathologies: action.data.pathologies, hospitalizations: action.data.hospitalizations, medications: action.data.medications};    
     case DATA_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case UPDATE_REQUEST:

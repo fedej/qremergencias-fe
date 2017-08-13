@@ -34,6 +34,7 @@ class DatosDeEmergencia extends React.Component {
       }),
       pathologies: PropTypes.array,
       hospitalizations: PropTypes.array,
+      medications: PropTypes.array,
     }),
   }
 
@@ -43,6 +44,7 @@ class DatosDeEmergencia extends React.Component {
     error: '',
     pathologies: [],
     hospitalizations: [],
+    medications: [],
   }
 
   componentWillMount() {
@@ -60,7 +62,6 @@ class DatosDeEmergencia extends React.Component {
     if (data.error) {
       this.setState({ showError: true });
     }
-
     if (data.general) {
       this.setState({
         general: data.general,
@@ -76,6 +77,11 @@ class DatosDeEmergencia extends React.Component {
         hospitalizations: data.hospitalizations,
       });
     }
+    if (data.medications) {
+      this.setState({
+        medications: data.medications,
+      });
+    }
   }
 
   handleGeneralChange = (newGeneral) => {
@@ -86,8 +92,13 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ pathologies });
   }
 
+
   handleHospitalizationsChange = (hospitalizations) => {
     this.setState({ hospitalizations });
+  }
+
+  handleMedicationChange = (medications) => {
+    this.setState({ medications });
   }
 
   handleSaveData = () => {
@@ -97,6 +108,7 @@ class DatosDeEmergencia extends React.Component {
       return p;
     });
     this.setState({ pathologies });
+
     // TODO: esta tambien
     const hospitalizations = this.state.hospitalizations.map((p) => {
       p.date = moment(p.date).format('YYYY-MM-DD');
@@ -112,6 +124,7 @@ class DatosDeEmergencia extends React.Component {
     const general = this.state.general;
     const pathologies = this.state.pathologies;
     const hospitalizations = this.state.hospitalizations;
+    const medications = this.state.medications;
     return (
       <Home>
         <div className={classnames('formCenter')}>
@@ -131,7 +144,7 @@ class DatosDeEmergencia extends React.Component {
                   <Cirugias />
                 </Tab>
                 <Tab label="Medicaciones">
-                  <Medicaciones />
+                  <Medicaciones onMedicationChange={this.handleMedicationChange} medications={medications} />
                 </Tab>
               </Tabs>
             </CardText>
