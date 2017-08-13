@@ -33,6 +33,7 @@ class DatosDeEmergencia extends React.Component {
         allergies: PropTypes.array,
       }),
       pathologies: PropTypes.array,
+      hospitalizations: PropTypes.array,
     }),
   }
 
@@ -41,6 +42,7 @@ class DatosDeEmergencia extends React.Component {
     general: {},
     error: '',
     pathologies: [],
+    hospitalizations: [],
   }
 
   componentWillMount() {
@@ -69,6 +71,11 @@ class DatosDeEmergencia extends React.Component {
         pathologies: data.pathologies,
       });
     }
+    if (data.hospitalizations) {
+      this.setState({
+        hospitalizations: data.hospitalizations,
+      });
+    }
   }
 
   handleGeneralChange = (newGeneral) => {
@@ -79,6 +86,10 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ pathologies });
   }
 
+  handleHospitalizationsChange = (hospitalizations) => {
+    this.setState({ hospitalizations });
+  }
+
   handleSaveData = () => {
     // TODO: arreglar esta goma
     const pathologies = this.state.pathologies.map((p) => {
@@ -86,6 +97,12 @@ class DatosDeEmergencia extends React.Component {
       return p;
     });
     this.setState({ pathologies });
+    // TODO: esta tambien
+    const hospitalizations = this.state.hospitalizations.map((p) => {
+      p.date = moment(p.date).format('YYYY-MM-DD');
+      return p;
+    });
+    this.setState({ hospitalizations });
 
     const { dispatch } = this.props;
     dispatch(updateData(this.state));
@@ -94,6 +111,7 @@ class DatosDeEmergencia extends React.Component {
   render() {
     const general = this.state.general;
     const pathologies = this.state.pathologies;
+    const hospitalizations = this.state.hospitalizations;
     return (
       <Home>
         <div className={classnames('formCenter')}>
@@ -107,7 +125,7 @@ class DatosDeEmergencia extends React.Component {
                   <Patologias onPathologiesChange={this.handlePathologiesChange} pathologies={pathologies} />
                 </Tab>
                 <Tab label="Internaciones">
-                  <Internaciones />
+                  <Internaciones onHospitalizationsChange={this.handleHospitalizationsChange} hospitalizations={hospitalizations} />
                 </Tab>
                 <Tab label="Cirugias">
                   <Cirugias />
