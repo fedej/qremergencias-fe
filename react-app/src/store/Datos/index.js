@@ -67,7 +67,7 @@ export const updateData = data => (dispatch) => {
 
 const INITIAL_STATE = {
   general: {},
-  patologias: [],
+  pathologies: [],
   error: '',
   isFetching: false,
 };
@@ -77,7 +77,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case DATA_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case DATA_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, general: action.data.general, patologias: action.data.patologias };
+      return { ...INITIAL_STATE, isFetching: false, general: action.data.general, pathologies: action.data.pathologies };
     case DATA_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case UPDATE_REQUEST:

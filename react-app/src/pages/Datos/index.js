@@ -5,6 +5,7 @@ import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
+import moment from 'moment';
 import Patologias from './Patologias';
 import Generales from './Generales';
 import Internaciones from './Internaciones';
@@ -31,7 +32,7 @@ class DatosDeEmergencia extends React.Component {
         allergic: PropTypes.bool,
         allergies: PropTypes.array,
       }),
-      patologias: PropTypes.array,
+      pathologies: PropTypes.array,
     }),
   }
 
@@ -39,7 +40,7 @@ class DatosDeEmergencia extends React.Component {
     showError: false,
     general: {},
     error: '',
-    patologias: [],
+    pathologies: [],
   }
 
   componentWillMount() {
@@ -63,10 +64,10 @@ class DatosDeEmergencia extends React.Component {
         general: data.general,
       });
     }
-    if (data.patologias) {
+    if (data.pathologies) {
       this.setState({
-        patologias: data.patologias,
-      })
+        pathologies: data.pathologies,
+      });
     }
   }
 
@@ -74,14 +75,25 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ general: newGeneral });
   }
 
+  handlePathologiesChange = (pathologies) => {
+    this.setState({ pathologies });
+  }
+
   handleSaveData = () => {
+    // TODO: arreglar esta goma
+    const pathologies = this.state.pathologies.map((p) => {
+      p.date = moment(p.date).format('YYYY-MM-DD');
+      return p;
+    });
+    this.setState({ pathologies });
+
     const { dispatch } = this.props;
     dispatch(updateData(this.state));
   }
 
   render() {
     const general = this.state.general;
-    const patologias = this.state.patologias;
+    const pathologies = this.state.pathologies;
     return (
       <Home>
         <div className={classnames('formCenter')}>
@@ -92,7 +104,7 @@ class DatosDeEmergencia extends React.Component {
                   <Generales onGeneralChange={this.handleGeneralChange} general={general} />
                 </Tab>
                 <Tab label="Patologias">
-                  <Patologias patologias={patologias}/>
+                  <Patologias onPathologiesChange={this.handlePathologiesChange} pathologies={pathologies} />
                 </Tab>
                 <Tab label="Internaciones">
                   <Internaciones />
