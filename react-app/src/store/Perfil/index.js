@@ -61,7 +61,7 @@ export const updateProfile = profile => (dispatch) => {
   dispatch(requestUpdate());
 
   ProfileService.updateProfile(profile)
-    .then(() => dispatch(updateSuccess()))
+    .then(() => dispatch(fetchProfile()))
     .catch(err => dispatch(updateError(err.message)));
 };
 
