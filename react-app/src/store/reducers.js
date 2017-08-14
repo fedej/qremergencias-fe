@@ -7,6 +7,7 @@ import drawer from './Drawer';
 import historias from './Historias';
 import profile from './Perfil';
 import paciente from './Paciente';
+import data from './Datos';
 
 export default combineReducers({
   auth,
@@ -16,4 +17,5 @@ export default combineReducers({
   historias,
   profile,
   paciente,
+  data,
 });

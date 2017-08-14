@@ -17,13 +17,19 @@ import ApiError from './model/ApiError';
 import ApiFieldError from './model/ApiFieldError';
 import CreateUserDTO from './model/CreateUserDTO';
 import FileDTO from './model/FileDTO';
+import EmergencyDataDTO from './model/EmergencyDataDTO';
+import GeneralDataDTO from './model/GeneralDataDTO';
+import HospitalizationDTO from './model/HospitalizationDTO';
 import LoginUserDTO from './model/LoginUserDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
+import MedicationDTO from './model/MedicationDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
+import PathologyDTO from './model/PathologyDTO';
 import Sort from './model/Sort';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
+import EmergencydatacontrollerApi from './api/EmergencydatacontrollerApi';
 import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
 import ProfilecontrollerApi from './api/ProfilecontrollerApi';
 import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
@@ -93,6 +99,23 @@ export {
 
     /**
      * The LoginUserDTO model constructor.
+     * The EmergencyDataDTO model constructor.
+     * @property {module:model/EmergencyDataDTO}
+     */
+    EmergencyDataDTO,
+
+    /**
+     * The GeneralDataDTO model constructor.
+     * @property {module:model/GeneralDataDTO}
+     */
+    GeneralDataDTO,
+
+    /**
+     * The HospitalizationDTO model constructor.
+     * @property {module:model/HospitalizationDTO}
+     */
+    HospitalizationDTO,
+     /* The LoginUserDTO model constructor.
      * @property {module:model/LoginUserDTO}
      */
     LoginUserDTO,
@@ -110,10 +133,22 @@ export {
     MedicalRecordDTO,
 
     /**
+     * The MedicationDTO model constructor.
+     * @property {module:model/MedicationDTO}
+     */
+    MedicationDTO,
+
+    /**
      * The PageOfMedicalRecordDTO model constructor.
      * @property {module:model/PageOfMedicalRecordDTO}
      */
     PageOfMedicalRecordDTO,
+
+    /**
+     * The PathologyDTO model constructor.
+     * @property {module:model/PathologyDTO}
+     */
+    PathologyDTO,
 
     /**
      * The Sort model constructor.
@@ -132,6 +167,12 @@ export {
      * @property {module:model/UserProfileDTO}
      */
     UserProfileDTO,
+
+    /**
+    * The EmergencydatacontrollerApi service constructor.
+    * @property {module:api/EmergencydatacontrollerApi}
+    */
+    EmergencydatacontrollerApi,
 
     /**
     * The MedicalrecordcontrollerApi service constructor.

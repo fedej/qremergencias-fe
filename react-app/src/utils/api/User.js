@@ -1,6 +1,5 @@
 import ApiClient from '../client/ApiClient';
 import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
-
 import config from '../../constants/app';
 
 export default class UserService {
