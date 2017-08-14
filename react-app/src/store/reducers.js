@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import auth from './Auth';
 import navigation from './Navigation';
 import drawer from './Drawer';
+import historias from './Historias';
 import profile from './Perfil';
 import data from './Datos';
 
@@ -12,6 +13,7 @@ export default combineReducers({
   routing,
   navigation,
   drawer,
+  historias,
   profile,
   data,
 });

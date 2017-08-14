@@ -13,10 +13,13 @@
 
 
 import ApiClient from './ApiClient';
+import ApiError from './model/ApiError';
+import ApiFieldError from './model/ApiFieldError';
 import CreateUserDTO from './model/CreateUserDTO';
 import EmergencyDataDTO from './model/EmergencyDataDTO';
 import GeneralDataDTO from './model/GeneralDataDTO';
 import HospitalizationDTO from './model/HospitalizationDTO';
+import LoginUserDTO from './model/LoginUserDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
 import MedicationDTO from './model/MedicationDTO';
@@ -70,6 +73,18 @@ export {
     ApiClient,
 
     /**
+     * The ApiError model constructor.
+     * @property {module:model/ApiError}
+     */
+    ApiError,
+
+    /**
+     * The ApiFieldError model constructor.
+     * @property {module:model/ApiFieldError}
+     */
+    ApiFieldError,
+
+    /**
      * The CreateUserDTO model constructor.
      * @property {module:model/CreateUserDTO}
      */
@@ -92,6 +107,10 @@ export {
      * @property {module:model/HospitalizationDTO}
      */
     HospitalizationDTO,
+     /* The LoginUserDTO model constructor.
+     * @property {module:model/LoginUserDTO}
+     */
+    LoginUserDTO,
 
     /**
      * The MedicalRecordChangeDTO model constructor.

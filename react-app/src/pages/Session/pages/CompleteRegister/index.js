@@ -4,17 +4,21 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import classnames from 'classnames';
 import moment from 'moment';
+import SweetAlert from 'sweetalert-react';
 
+import 'sweetalert/dist/sweetalert.css';
 import { isValidDNI } from '../../../../utils/validations';
 
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
 
-import SweetAlert from 'sweetalert-react';
-import 'sweetalert/dist/sweetalert.css';
-
+function disableLastTenYears(date) {
+  const fecha = moment().subtract(18, 'y');
+  return date > fecha;
+}
 
 class CompleteRegister extends React.Component {
   static propTypes = {
@@ -30,10 +34,11 @@ class CompleteRegister extends React.Component {
     nameError: '',
     lastName: '',
     lastNameError: '',
-    numeroDocumento: '',
-    numeroDocumentoError: '',
-    birthDate: null,
+    idNumber: '',
+    idNumberError: '',
+    birthDate: moment().subtract(20, 'y').toDate(),
     birthDateError: '',
+    sex: null,
     showError: false,
   }
 
@@ -41,31 +46,33 @@ class CompleteRegister extends React.Component {
     if (this.props.auth.isFetching && !nextProps.auth.isFetching && nextProps.auth.error === '') {
       browserHistory.push('/login');
     }
+
     if (nextProps.auth.error) {
       this.setState({ showError: true });
     }
   }
 
   handleCompleteRegister = () => {
-    const { name, lastName, numeroDocumento, birthDate } = this.state;
+    const { name, lastName, idNumber, birthDate, sex } = this.state;
 
     if (name === '') {
       this.setState({ nameError: 'Ingrese un nombre.' });
     } else if (lastName === '') {
       this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (numeroDocumento === '' || !isValidDNI(numeroDocumento)) {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: 'Ingrese un DNI valido: xx.xx.xx' });
+    } else if (idNumber === '' || !isValidDNI(idNumber)) {
+      this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI valido: xx.xx.xx' });
     } else if (birthDate === null) {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+      this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {
-      this.setState({ nameError: '', lastNameError: '', numeroDocumentoError: '', birthDateError: '' });
+      this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
       const token = new URLSearchParams(window.location.search).get('token');
 
       const data = {
         name,
         lastName,
-        numeroDocumento,
+        idNumber,
+        sex,
         birthDate: moment(birthDate).format('YYYY-MM-DD'),
         token,
       };
@@ -76,6 +83,7 @@ class CompleteRegister extends React.Component {
 
   render() {
     // TODO: mostrar error de Store.auth.error
+
     return (
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>
@@ -103,9 +111,9 @@ class CompleteRegister extends React.Component {
               fullWidth
             />
             <TextField
-              value={this.state.numeroDocumento}
-              onChange={(e, numeroDocumento) => this.setState({ numeroDocumento })}
-              errorText={this.state.numeroDocumentoError}
+              value={this.state.idNumber}
+              onChange={(e, idNumber) => this.setState({ idNumber })}
+              errorText={this.state.idNumberError}
               hintText="Ingresa tu DNI"
               type="text"
               floatingLabelText="DNI"
@@ -115,9 +123,31 @@ class CompleteRegister extends React.Component {
               <DatePicker
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha de Nacimiento"
+                shouldDisableDate={disableLastTenYears}
                 onChange={(e, birthDate) => this.setState({ birthDate })}
-                errorText={this.state.birthDateError}
+                value={this.state.birthDate}
               />
+              <p style={{ color: 'rgb(244, 67, 54)' }}>
+                {this.state.birthDateError}
+              </p>
+            </div>
+            <div style={{ fontWeight: 'bold', marginTop: 16 }}>
+              Elija su sexo:
+              <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected="F">
+                <RadioButton
+                  value="F"
+                  label="Femenino"
+                  style={{ marginTop: 16 }}
+                />
+                <RadioButton
+                  value="M"
+                  label="Masculino"
+                />
+                <RadioButton
+                  value="O"
+                  label="Otro"
+                />
+              </RadioButtonGroup>
             </div>
           </CardText>
           <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>

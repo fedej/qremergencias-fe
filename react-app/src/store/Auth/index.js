@@ -114,6 +114,7 @@ export const completeRegistration = data => (dispatch) => {
 const INITIAL_STATE = {
   isLoggedIn: false,
   isFetching: false,
+  isMedico: true,
   profile: {},
   error: '',
 };
@@ -123,7 +124,14 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case LOGIN_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case LOGIN_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, isLoggedIn: true, error: '', profile: action.profile };
+      return {
+        ...INITIAL_STATE,
+        isFetching: false,
+        isLoggedIn: true,
+        error: '',
+        profile: action.profile,
+        isMedico: action.profile.roles.includes('ROLE_MEDICO'),
+      };
     case LOGIN_FAILURE:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case REGISTER_REQUEST:

@@ -12,7 +12,7 @@ import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
 
 import { signUp } from '../../store/Auth';
-import { isValidEmail } from '../../utils/validations';
+import { isValidEmail, isValidPassword } from '../../utils/validations';
 import './styles.css';
 
 class Register extends React.Component {
@@ -53,8 +53,8 @@ class Register extends React.Component {
 
     if (email === '' || !isValidEmail(email)) {
       this.setState({ emailError: 'Ingrese una dirección de mail válida.' });
-    } else if (password === '') {
-      this.setState({ emailError: '', passwordError: 'Ingrese su contraseña' });
+    } else if (password === '' || !isValidPassword(password)) {
+      this.setState({ emailError: '', passwordError: 'Ingrese una contraseña válida.' });
     } else {
       this.setState({ emailError: '', passwordError: '' });
 
@@ -90,6 +90,14 @@ class Register extends React.Component {
               fullWidth
             />
           </CardText>
+          {this.state.passwordError ? (<CardText color="gray">
+            La contraseña debe contener:<br />
+            • Una letra mayúscula<br />
+            • Una letra minúscula<br />
+            • Un número<br />
+            • Un caracter especial !@#&/()?¿¡$%<br />
+            • Al menos 8 caracteres </CardText>) : ''
+          }
           <CardText>
             <Toggle
               toggled={this.state.esMedico}
@@ -114,7 +122,7 @@ class Register extends React.Component {
         </Card>
         <SweetAlert
           show={this.state.showError}
-          title="Error"
+          title="Error al registrarse"
           text={this.props.auth.error}
           onConfirm={() => this.setState({ showError: false })}
         />

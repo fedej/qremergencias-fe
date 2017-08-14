@@ -13,7 +13,9 @@
 
 
 import ApiClient from "../ApiClient";
+import ApiError from '../model/ApiError';
 import CreateUserDTO from '../model/CreateUserDTO';
+import LoginUserDTO from '../model/LoginUserDTO';
 
 /**
 * Userfrontcontroller service.
@@ -101,7 +103,8 @@ export default class UserfrontcontrollerApi {
      * @param {String} opts.lastName 
      * @param {String} opts.name 
      * @param {Date} opts.birthDate 
-     * @param {String} opts.numeroDocumento 
+     * @param {String} opts.idNumber 
+     * @param {String} opts.sex 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     completeRegistrationUsingPOSTWithHttpInfo(opts) {
@@ -116,7 +119,8 @@ export default class UserfrontcontrollerApi {
         'lastName': opts['lastName'],
         'name': opts['name'],
         'birthDate': opts['birthDate'],
-        'numeroDocumento': opts['numeroDocumento']
+        'idNumber': opts['idNumber'],
+        'sex': opts['sex']
       };
       let headerParams = {
       };
@@ -142,7 +146,8 @@ export default class UserfrontcontrollerApi {
      * @param {String} opts.lastName 
      * @param {String} opts.name 
      * @param {Date} opts.birthDate 
-     * @param {String} opts.numeroDocumento 
+     * @param {String} opts.idNumber 
+     * @param {String} opts.sex 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     completeRegistrationUsingPOST(opts) {
@@ -158,7 +163,7 @@ export default class UserfrontcontrollerApi {
      * @param {String} password 
      * @param {Object} opts Optional parameters
      * @param {String} opts.gRecaptchaResponse 
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/LoginUserDTO} and HTTP response
      */
     loginUsingPOSTWithHttpInfo(username, password, opts) {
       opts = opts || {};
@@ -189,8 +194,8 @@ export default class UserfrontcontrollerApi {
 
       let authNames = [];
       let contentTypes = ['application/x-www-form-urlencoded'];
-      let accepts = [];
-      let returnType = null;
+      let accepts = ['application/json;charset=UTF-8'];
+      let returnType = LoginUserDTO;
 
       return this.apiClient.callApi(
         '/api/login', 'POST',
@@ -204,7 +209,7 @@ export default class UserfrontcontrollerApi {
      * @param {String} password 
      * @param {Object} opts Optional parameters
      * @param {String} opts.gRecaptchaResponse 
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/LoginUserDTO}
      */
     loginUsingPOST(username, password, opts) {
       return this.loginUsingPOSTWithHttpInfo(username, password, opts)
