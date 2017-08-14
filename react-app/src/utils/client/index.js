@@ -16,8 +16,8 @@ import ApiClient from './ApiClient';
 import ApiError from './model/ApiError';
 import ApiFieldError from './model/ApiFieldError';
 import CreateUserDTO from './model/CreateUserDTO';
-import FileDTO from './model/FileDTO';
 import EmergencyDataDTO from './model/EmergencyDataDTO';
+import FileDTO from './model/FileDTO';
 import GeneralDataDTO from './model/GeneralDataDTO';
 import HospitalizationDTO from './model/HospitalizationDTO';
 import LoginUserDTO from './model/LoginUserDTO';
@@ -92,17 +92,16 @@ export {
     CreateUserDTO,
 
     /**
-     * The FileDTO model constructor.
-     * @property {module:model/FileDTO}
-     */
-    FileDTO,
-
-    /**
-     * The LoginUserDTO model constructor.
      * The EmergencyDataDTO model constructor.
      * @property {module:model/EmergencyDataDTO}
      */
     EmergencyDataDTO,
+
+    /**
+     * The FileDTO model constructor.
+     * @property {module:model/FileDTO}
+     */
+    FileDTO,
 
     /**
      * The GeneralDataDTO model constructor.
@@ -115,7 +114,9 @@ export {
      * @property {module:model/HospitalizationDTO}
      */
     HospitalizationDTO,
-     /* The LoginUserDTO model constructor.
+
+    /**
+     * The LoginUserDTO model constructor.
      * @property {module:model/LoginUserDTO}
      */
     LoginUserDTO,

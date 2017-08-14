@@ -24,10 +24,6 @@ class EditarPaciente extends React.Component {
     // TODO: traer state paciente que se esta editando
   }
 
-  handleModificarDatos = () => {
-    console.log('handleModificarDatos');
-  }
-
   render() {
     return (
       <Home>
@@ -41,8 +37,7 @@ class EditarPaciente extends React.Component {
               <RaisedButton
                 style={{ marginTop: '1vh' }}
                 label="Editar Datos de Emergencia"
-                // TODO: goto Datos de Emergencia
-                onTouchTap={this.handleModificarDatos}
+                onTouchTap={() => browserHistory.push('/datos')}
                 primary
               />
               <RaisedButton

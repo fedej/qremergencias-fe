@@ -49,8 +49,8 @@ class DatosDeEmergencia extends React.Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchData());
+    const { dispatch, paciente } = this.props;
+    dispatch(fetchData(paciente));
 
     if (this.props.error) {
       this.setState({ showError: true });
@@ -122,8 +122,8 @@ class DatosDeEmergencia extends React.Component {
       surgeries,
     };
 
-    const { dispatch } = this.props;
-    dispatch(updateData(data));
+    const { dispatch, paciente } = this.props;
+    dispatch(updateData(data, paciente));
   }
 
   render() {
@@ -177,6 +177,7 @@ class DatosDeEmergencia extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.data,
+    paciente: state.paciente.editando,
   };
 }
 

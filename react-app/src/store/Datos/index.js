@@ -49,19 +49,19 @@ function updateError(message) {
   };
 }
 
-export const fetchData = () => (dispatch) => {
+export const fetchData = user => (dispatch) => {
   dispatch(requestData());
 
-  DataService.getData()
+  DataService.getData(user)
     .then(data => dispatch(dataSuccess(data)))
     .catch(err => dispatch(dataError(err.message)));
 };
 
-export const updateData = data => (dispatch) => {
+export const updateData = (data, user) => (dispatch) => {
   dispatch(requestUpdate());
 
-  DataService.updateData(data)
-    .then(() => dispatch(fetchData()))
+  DataService.updateData(data, user)
+    .then(() => dispatch(fetchData(user)))
     .catch(err => dispatch(updateError(err.message)));
 };
 
