@@ -61,7 +61,7 @@ export const updateData = (data, user) => (dispatch) => {
   dispatch(requestUpdate());
 
   DataService.updateData(data, user)
-    .then(() => dispatch(fetchData(user)))
+    .then(() => dispatch(updateSuccess(user)))
     .catch(err => dispatch(updateError(err.message)));
 };
 
@@ -86,7 +86,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case UPDATE_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case UPDATE_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false };
+      return { ...INITIAL_STATE, isFetching: false, uploaded: true };
     case UPDATE_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     default:

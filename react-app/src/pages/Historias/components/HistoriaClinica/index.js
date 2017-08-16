@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { RaisedButton } from 'material-ui';
 import { Card, CardActions, CardHeader, CardMedia, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import moment from 'moment';
+
+import { fetchHistoriasClinicasDePaciente, deleteHistoriaClinica } from '../../../../store/Historias';
 
 const icono = require('./medicine-bowl-icon.png');
 
@@ -15,7 +18,7 @@ function downloadFile(url) {
   link.remove();
 }
 
-export default class HistoriaClinica extends Component {
+class HistoriaClinica extends Component {
   static propTypes = {
     historia: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -24,6 +27,7 @@ export default class HistoriaClinica extends Component {
       text: PropTypes.string,
       files: PropTypes.array,
     }).isRequired,
+    dispatch: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -47,6 +51,14 @@ export default class HistoriaClinica extends Component {
 
   handleReduce = () => {
     this.setState({ expanded: false });
+  };
+
+  handleDelete = (id) => {
+    const { dispatch, paciente } = this.props;
+    // TODO: traer del store
+    const token = '1234';
+    dispatch(deleteHistoriaClinica(id));
+    dispatch(fetchHistoriasClinicasDePaciente(paciente, token));
   };
 
   render() {
@@ -110,8 +122,20 @@ export default class HistoriaClinica extends Component {
               <FlatButton label="Ver" onTouchTap={this.handleExpand} />
             )
           }
+
+          {
+            this.props.isMedico ? (
+              <FlatButton label="Borrar" onTouchTap={() => this.handleDelete(historia.id)} />)
+              : ''
+          }
         </CardActions>
       </Card>
     );
   }
 }
+
+export default connect(state => ({
+  historias: state.historias.todas,
+  paciente: state.paciente.editando,
+  isMedico: state.auth.isMedico,
+}))(HistoriaClinica);

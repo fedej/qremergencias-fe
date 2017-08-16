@@ -45,7 +45,7 @@ class Historias extends React.Component {
       <Home>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
           {
-            this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
+            this.state.historias.map((h, i) => <HistoriaClinica dispatch={this.props.dispatch} historia={h} key={i} />)
           }
         </div>
       </Home>

@@ -5,7 +5,8 @@ import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
-import moment from 'moment';
+import { browserHistory } from 'react-router';
+import SweetAlert from 'sweetalert-react';
 import Patologias from './Patologias';
 import Generales from './Generales';
 import Internaciones from './Internaciones';
@@ -41,6 +42,7 @@ class DatosDeEmergencia extends React.Component {
 
   state = {
     showError: false,
+    showSuccess: false,
     general: {},
     error: '',
     pathologies: [],
@@ -62,6 +64,8 @@ class DatosDeEmergencia extends React.Component {
 
     if (data.error) {
       this.setState({ showError: true });
+    } else if (data.uploaded) {
+      this.setState({ showSuccess: true });
     }
     if (data.general) {
       this.setState({
@@ -98,7 +102,6 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ pathologies });
   }
 
-
   handleHospitalizationsChange = (hospitalizations) => {
     this.setState({ hospitalizations });
   }
@@ -124,6 +127,12 @@ class DatosDeEmergencia extends React.Component {
 
     const { dispatch, paciente } = this.props;
     dispatch(updateData(data, paciente));
+  }
+
+  handleSuccessCallback = () => {
+    this.setState({ showSuccess: false });
+    const { dispatch, paciente } = this.props;
+    dispatch(fetchData(paciente));
   }
 
   render() {
@@ -163,11 +172,17 @@ class DatosDeEmergencia extends React.Component {
               />
               <RaisedButton
                 label="Cancelar"
-                onTouchTap={this.handleCancel}
+                onTouchTap={browserHistory.goBack}
                 primary
               />
             </CardActions>
           </Card>
+          <SweetAlert
+            show={this.state.showSuccess}
+            title="Exito"
+            text="Los datos se han cargado con exito"
+            onConfirm={this.handleSuccessCallback}
+          />
         </div>
       </Home>
     );

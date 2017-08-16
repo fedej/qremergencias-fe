@@ -27,4 +27,9 @@ export default class HistoriasService {
     const API = new MedicalrecordcontrollerApi(UserService.getApiClient());
     return API.createUsingPOST(form);
   }
+
+  static delete(id) {
+    const API = new MedicalrecordcontrollerApi(UserService.getApiClient());
+    return API.deleteUsingDELETE(id);
+  }
 }
