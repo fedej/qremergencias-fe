@@ -42,6 +42,7 @@ class Perfil extends React.Component {
       contacts: PropTypes.array,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
+    isMedico: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
   }
 
@@ -86,7 +87,6 @@ class Perfil extends React.Component {
     }
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
-      console.log(perfil.birthDate);
       this.setState({
         firstName: perfil.firstName,
         lastName: perfil.lastName,
@@ -320,56 +320,59 @@ class Perfil extends React.Component {
                       </Dialog>
                     </Card>
                   </td>
-                  <td style={{ width: '50%' }}>
-                    <Card style={{ margin: '20px' }}>
-                      <CardTitle
-                        title="Contactos de Emergencia"
-                        subtitle="Carga los datos de tu contactos para un caso de emergencia"
-                      />
-                      <Table onRowSelection={this.handleRowSelection}>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHeaderColumn>Nombre</TableHeaderColumn>
-                            <TableHeaderColumn>Apellido</TableHeaderColumn>
-                            <TableHeaderColumn>Telefono</TableHeaderColumn>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {
-                            this.state.contacts && this.state.contacts.map((c, i) =>
-                              (<TableRow selected={this.isSelected(i)}  key={i}>
-                                <TableRowColumn>{c.firstName}</TableRowColumn>
-                                <TableRowColumn>{c.lastName}</TableRowColumn>
-                                <TableRowColumn>{c.phoneNumber}</TableRowColumn>
-                              </TableRow>),
-                            )
-                          }
-                        </TableBody>
-                      </Table>
-                      <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
-                        <RaisedButton
-                          label="Agregar"
-                          onTouchTap={this.handleOpenContactDialog}
-                          primary
-                        />
-                        {this.state.selected.length ? (
-                          <div>
+                  {
+                    !this.props.isMedico ? (
+                      <td style={{ width: '50%' }}>
+                        <Card style={{ margin: '20px' }}>
+                          <CardTitle
+                            title="Contactos de Emergencia"
+                            subtitle="Carga los datos de tu contactos para un caso de emergencia"
+                          />
+                          <Table onRowSelection={this.handleRowSelection}>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHeaderColumn>Nombre</TableHeaderColumn>
+                                <TableHeaderColumn>Apellido</TableHeaderColumn>
+                                <TableHeaderColumn>Telefono</TableHeaderColumn>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {
+                                this.state.contacts && this.state.contacts.map((c, i) =>
+                                  (<TableRow selected={this.isSelected(i)} key={i}>
+                                    <TableRowColumn>{c.firstName}</TableRowColumn>
+                                    <TableRowColumn>{c.lastName}</TableRowColumn>
+                                    <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                                  </TableRow>),
+                                )
+                              }
+                            </TableBody>
+                          </Table>
+                          <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
                             <RaisedButton
-                              label="Editar"
+                              label="Agregar"
                               onTouchTap={this.handleOpenContactDialog}
                               primary
                             />
-                            &nbsp;&nbsp;
-                            <RaisedButton
-                              label="Borrar"
-                              onTouchTap={this.handleEraseContact}
-                              primary
-                            />
-                          </div>
-                        ) : ''}
-                      </CardActions>
-                    </Card>
-                  </td>
+                            {this.state.selected.length ? (
+                              <div>
+                                <RaisedButton
+                                  label="Editar"
+                                  onTouchTap={this.handleOpenContactDialog}
+                                  primary
+                                />
+                                &nbsp;&nbsp;
+                                <RaisedButton
+                                  label="Borrar"
+                                  onTouchTap={this.handleEraseContact}
+                                  primary
+                                />
+                              </div>
+                            ) : ''}
+                          </CardActions>
+                        </Card>
+                      </td>)
+                      : null}
                 </tr>
               </tbody>
             </table>
@@ -402,6 +405,7 @@ function mapStateToProps(state) {
   return {
     perfil: state.profile.perfil,
     error: state.profile.error,
+    isMedico: state.auth.isMedico,
     isFetching: state.profile.isFetching,
   };
 }
