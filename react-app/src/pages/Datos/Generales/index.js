@@ -57,12 +57,6 @@ export default class Generales extends React.Component {
     this.props.onGeneralChange(general);
   }
 
-  handleAllergicChange = (event, isInputChecked) => {
-    const general = this.props.general;
-    general.allergic = isInputChecked;
-    this.props.onGeneralChange(general);
-  }
-
   handleOrganDonorChange = (event, isInputChecked) => {
     const general = this.props.general;
     general.organDonor = isInputChecked;
@@ -72,6 +66,9 @@ export default class Generales extends React.Component {
   handleAddAllergy = () => {
     const general = this.props.general;
     const { allergy } = this.state;
+    if (!general.allergies) {
+      general.allergies = [];
+    }
     general.allergies.push(allergy);
     this.props.onGeneralChange(general);
   }
@@ -110,7 +107,6 @@ export default class Generales extends React.Component {
             <Toggle
               toggled={general.allergic}
               label="¿Es alérgico?"
-              onToggle={this.handleAllergicChange}
               style={styles.toggle}
             />
             <table>
