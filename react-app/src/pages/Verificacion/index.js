@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { TextField, RaisedButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
@@ -8,24 +10,37 @@ import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../Home';
-import PacienteService from '../../utils/api/Paciente';
+import { vincularPaciente } from '../../store/Paciente';
 
 class Verificacion extends React.Component {
+  static propTypes = {
+    error: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+  }
+
   state = {
     token: '',
     error: '',
     showError: false,
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.error) {
+      this.setState({ error: nextProps.error, showError: true });
+    }
+
+    if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
+      browserHistory.push('/editar');
+    }
+  }
+
   handleVerificarPaciente = () => {
     if (this.state.token === '') {
       this.setState({ error: 'Ingrese el código de verificación', showError: true });
     } else {
-      // TODO: guardar en el state la verificacion con fecha de caducidad
-      PacienteService
-        .verificar(this.state.token)
-        .then(pacienteId => browserHistory.push(`/datos/${pacienteId}`))
-        .catch(error => this.setState({ error, showError: true }));
+      const { dispatch } = this.props;
+      dispatch(vincularPaciente(this.state.token));
     }
   }
 
@@ -74,5 +89,11 @@ class Verificacion extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    error: state.paciente.error,
+    isFetching: state.paciente.isFetching,
+  };
+}
 
-export default Verificacion;
+export default connect(mapStateToProps)(Verificacion);

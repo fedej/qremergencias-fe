@@ -85,7 +85,7 @@ export default class MedicationDTO {
     */
     name = undefined;
     /**
-    * @member {String} period
+    * @member {module:model/MedicationDTO.PeriodEnum} period
     */
     period = undefined;
 
@@ -93,6 +93,32 @@ export default class MedicationDTO {
 
 
 
+
+    /**
+    * Allowed values for the <code>period</code> property.
+    * @enum {String}
+    * @readonly
+    */
+    static PeriodEnum = {
+    
+        /**
+         * value: "DAILY"
+         * @const
+         */
+        "DAILY": "DAILY",
+    
+        /**
+         * value: "WEEKLY"
+         * @const
+         */
+        "WEEKLY": "WEEKLY",
+    
+        /**
+         * value: "MONTHLY"
+         * @const
+         */
+        "MONTHLY": "MONTHLY"    
+    };
 
 
 

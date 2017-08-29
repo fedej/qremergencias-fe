@@ -33,18 +33,17 @@ class Perfil extends React.Component {
   }
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    profile: PropTypes.shape({
-      perfil: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-        idNumber: PropTypes.string,
-        birthDate: PropTypes.string,
-        sex: PropTypes.string,
-        contacts: PropTypes.array,
-      }).isRequired,
-      error: PropTypes.string.isRequired,
-      isFetching: PropTypes.bool.isRequired,
-    }),
+    perfil: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      idNumber: PropTypes.string,
+      birthDate: PropTypes.instanceOf(Date),
+      sex: PropTypes.string,
+      contacts: PropTypes.array,
+    }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    isMedico: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
   }
 
   state = {
@@ -58,7 +57,7 @@ class Perfil extends React.Component {
     lastNameError: '',
     idNumber: '',
     idNumberError: '',
-    birthDate: '',
+    birthDate: new Date(),
     birthDateError: '',
     sex: '',
     contacts: [],
@@ -75,26 +74,26 @@ class Perfil extends React.Component {
     const { dispatch } = this.props;
     dispatch(fetchProfile());
 
-    if (this.props.profile.error) {
+    if (this.props.error) {
       this.setState({ showError: true });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { profile } = nextProps;
+    const { perfil } = nextProps;
 
-    if (profile.error) {
+    if (perfil.error) {
       this.setState({ showError: true });
     }
 
-    if (profile) {
+    if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
       this.setState({
-        firstName: profile.perfil.firstName,
-        lastName: profile.perfil.lastName,
-        idNumber: profile.perfil.idNumber || '',
-        birthDate: profile.perfil.birthDate,
-        sex: profile.perfil.sex,
-        contacts: profile.perfil.contacts,
+        firstName: perfil.firstName,
+        lastName: perfil.lastName,
+        idNumber: perfil.idNumber || '',
+        birthDate: perfil.birthDate,
+        sex: perfil.sex,
+        contacts: perfil.contacts,
       });
     }
   }
@@ -321,56 +320,59 @@ class Perfil extends React.Component {
                       </Dialog>
                     </Card>
                   </td>
-                  <td style={{ width: '50%' }}>
-                    <Card style={{ margin: '20px' }}>
-                      <CardTitle
-                        title="Contactos de Emergencia"
-                        subtitle="Carga los datos de tu contactos para un caso de emergencia"
-                      />
-                      <Table onRowSelection={this.handleRowSelection}>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHeaderColumn>Nombre</TableHeaderColumn>
-                            <TableHeaderColumn>Apellido</TableHeaderColumn>
-                            <TableHeaderColumn>Telefono</TableHeaderColumn>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {
-                            this.state.contacts && this.state.contacts.map((c, i) =>
-                              (<TableRow selected={this.isSelected(i)}  key={i}>
-                                <TableRowColumn>{c.firstName}</TableRowColumn>
-                                <TableRowColumn>{c.lastName}</TableRowColumn>
-                                <TableRowColumn>{c.phoneNumber}</TableRowColumn>
-                              </TableRow>),
-                            )
-                          }
-                        </TableBody>
-                      </Table>
-                      <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
-                        <RaisedButton
-                          label="Agregar"
-                          onTouchTap={this.handleOpenContactDialog}
-                          primary
-                        />
-                        {this.state.selected.length ? (
-                          <div>
+                  {
+                    !this.props.isMedico ? (
+                      <td style={{ width: '50%' }}>
+                        <Card style={{ margin: '20px' }}>
+                          <CardTitle
+                            title="Contactos de Emergencia"
+                            subtitle="Carga los datos de tu contactos para un caso de emergencia"
+                          />
+                          <Table onRowSelection={this.handleRowSelection}>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHeaderColumn>Nombre</TableHeaderColumn>
+                                <TableHeaderColumn>Apellido</TableHeaderColumn>
+                                <TableHeaderColumn>Telefono</TableHeaderColumn>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {
+                                this.state.contacts && this.state.contacts.map((c, i) =>
+                                  (<TableRow selected={this.isSelected(i)} key={i}>
+                                    <TableRowColumn>{c.firstName}</TableRowColumn>
+                                    <TableRowColumn>{c.lastName}</TableRowColumn>
+                                    <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                                  </TableRow>),
+                                )
+                              }
+                            </TableBody>
+                          </Table>
+                          <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>
                             <RaisedButton
-                              label="Editar"
+                              label="Agregar"
                               onTouchTap={this.handleOpenContactDialog}
                               primary
                             />
-                            &nbsp;&nbsp;
-                            <RaisedButton
-                              label="Borrar"
-                              onTouchTap={this.handleEraseContact}
-                              primary
-                            />
-                          </div>
-                        ) : ''}
-                      </CardActions>
-                    </Card>
-                  </td>
+                            {this.state.selected.length ? (
+                              <div>
+                                <RaisedButton
+                                  label="Editar"
+                                  onTouchTap={this.handleOpenContactDialog}
+                                  primary
+                                />
+                                &nbsp;&nbsp;
+                                <RaisedButton
+                                  label="Borrar"
+                                  onTouchTap={this.handleEraseContact}
+                                  primary
+                                />
+                              </div>
+                            ) : ''}
+                          </CardActions>
+                        </Card>
+                      </td>)
+                      : null}
                 </tr>
               </tbody>
             </table>
@@ -390,7 +392,7 @@ class Perfil extends React.Component {
           <SweetAlert
             show={this.state.showError}
             title="Error al actualizar perfil"
-            text={this.props.profile.error}
+            text={this.props.error}
             onConfirm={() => this.setState({ showError: false })}
           />
         </div>
@@ -401,7 +403,10 @@ class Perfil extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    profile: state.profile,
+    perfil: state.profile.perfil,
+    error: state.profile.error,
+    isMedico: state.auth.isMedico,
+    isFetching: state.profile.isFetching,
   };
 }
 

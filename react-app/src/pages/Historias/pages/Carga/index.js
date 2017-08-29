@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import SweetAlert from 'sweetalert-react';
@@ -17,8 +18,6 @@ const INITIAL_STATE = {
   showSuccess: false,
   nombre: '',
   nombreError: '',
-  user: '',
-  userError: '',
   fechaRealizacion: null,
   fechaRealizacionError: '',
   informe: '',
@@ -53,7 +52,8 @@ class CargaHistoriaClinica extends React.Component {
   }
 
   handleSubmitHistoriaClinica = () => {
-    const { dispatch } = this.props;
+    // TODO: modificar props.paciente
+    const { dispatch, paciente } = this.props;
     const errores = {};
 
     errores.nombreError = this.state.nombre === '' ?
@@ -75,7 +75,7 @@ class CargaHistoriaClinica extends React.Component {
           name: this.state.nombre,
           performed: moment(this.state.fechaRealizacion).format('YYYY-MM-DD'),
           text: this.state.informe,
-          user: this.state.user,
+          user: paciente,
         };
         dispatch(uploadHistoriClinica(data));
       });
@@ -84,20 +84,19 @@ class CargaHistoriaClinica extends React.Component {
     }
   }
 
+  handleSuccessCallback = () => {
+    this.setState({ showSuccess: false });
+    setTimeout(() => {
+      browserHistory.push('/editar');
+    }, 1000);
+  }
+
   render() {
     return (
       <Home>
         <Card style={{ margin: '2%' }}>
           <CardTitle title="Cargar Historia" />
           <CardText>
-            <TextField
-              onChange={(e, user) => this.setState({ user })}
-              value={this.state.user}
-              errorText={this.state.userError}
-              hintText="Nombre del usuario"
-              floatingLabelText="Usuario"
-              fullWidth
-            />
             <TextField
               onChange={(e, nombre) => this.setState({ nombre })}
               value={this.state.nombre}
@@ -150,7 +149,7 @@ class CargaHistoriaClinica extends React.Component {
             show={this.state.showSuccess}
             title="Exito"
             text="Carga realizada con exito"
-            onConfirm={() => this.setState({ showSuccess: false })}
+            onConfirm={this.handleSuccessCallback}
           />
         </Card>
       </Home>
@@ -162,6 +161,7 @@ function mapStateToProps(state) {
   return {
     error: state.historias.error,
     uploaded: state.historias.uploaded,
+    paciente: state.paciente.editando,
   };
 }
 

@@ -13,6 +13,7 @@
 
 
 import ApiClient from "../ApiClient";
+import ApiError from '../model/ApiError';
 import EmergencyDataDTO from '../model/EmergencyDataDTO';
 
 /**
@@ -36,64 +37,23 @@ export default class EmergencydatacontrollerApi {
 
 
     /**
-     * createEmergencyData
-     * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     * getEmergencyData
+     * @param {String} userId userId
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmergencyDataDTO} and HTTP response
      */
-    createEmergencyDataUsingPOSTWithHttpInfo(emergencyDataDTO) {
-      let postBody = emergencyDataDTO;
+    getEmergencyDataUsingGETWithHttpInfo(userId) {
+      let postBody = null;
 
-      // verify the required parameter 'emergencyDataDTO' is set
-      if (emergencyDataDTO === undefined || emergencyDataDTO === null) {
-        throw new Error("Missing the required parameter 'emergencyDataDTO' when calling createEmergencyDataUsingPOST");
+      // verify the required parameter 'userId' is set
+      if (userId === undefined || userId === null) {
+        throw new Error("Missing the required parameter 'userId' when calling getEmergencyDataUsingGET");
       }
 
 
       let pathParams = {
       };
       let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = [];
-      let contentTypes = ['application/json'];
-      let accepts = ['*/*'];
-      let returnType = null;
-
-      return this.apiClient.callApi(
-        '/api/emergencyData', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-    }
-
-    /**
-     * createEmergencyData
-     * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
-     */
-    createEmergencyDataUsingPOST(emergencyDataDTO) {
-      return this.createEmergencyDataUsingPOSTWithHttpInfo(emergencyDataDTO)
-        .then(function(response_and_data) {
-          return response_and_data.data;
-        });
-    }
-
-
-    /**
-     * getEmergencyData
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmergencyDataDTO} and HTTP response
-     */
-    getEmergencyDataUsingGETWithHttpInfo() {
-      let postBody = null;
-
-
-      let pathParams = {
-      };
-      let queryParams = {
+        'userId': userId
       };
       let headerParams = {
       };
@@ -114,10 +74,11 @@ export default class EmergencydatacontrollerApi {
 
     /**
      * getEmergencyData
+     * @param {String} userId userId
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmergencyDataDTO}
      */
-    getEmergencyDataUsingGET() {
-      return this.getEmergencyDataUsingGETWithHttpInfo()
+    getEmergencyDataUsingGET(userId) {
+      return this.getEmergencyDataUsingGETWithHttpInfo(userId)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -127,9 +88,10 @@ export default class EmergencydatacontrollerApi {
     /**
      * updateEmergencyData
      * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
+     * @param {String} userId userId
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO) {
+    updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO, userId) {
       let postBody = emergencyDataDTO;
 
       // verify the required parameter 'emergencyDataDTO' is set
@@ -137,10 +99,16 @@ export default class EmergencydatacontrollerApi {
         throw new Error("Missing the required parameter 'emergencyDataDTO' when calling updateEmergencyDataUsingPATCH");
       }
 
+      // verify the required parameter 'userId' is set
+      if (userId === undefined || userId === null) {
+        throw new Error("Missing the required parameter 'userId' when calling updateEmergencyDataUsingPATCH");
+      }
+
 
       let pathParams = {
       };
       let queryParams = {
+        'userId': userId
       };
       let headerParams = {
       };
@@ -162,10 +130,11 @@ export default class EmergencydatacontrollerApi {
     /**
      * updateEmergencyData
      * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
+     * @param {String} userId userId
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateEmergencyDataUsingPATCH(emergencyDataDTO) {
-      return this.updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO)
+    updateEmergencyDataUsingPATCH(emergencyDataDTO, userId) {
+      return this.updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO, userId)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

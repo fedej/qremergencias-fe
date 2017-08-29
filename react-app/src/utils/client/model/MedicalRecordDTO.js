@@ -13,6 +13,7 @@
 
 
 import ApiClient from '../ApiClient';
+import FileDTO from './FileDTO';
 import MedicalRecordChangeDTO from './MedicalRecordChangeDTO';
 
 
@@ -61,7 +62,7 @@ export default class MedicalRecordDTO {
                 obj['changes'] = ApiClient.convertToType(data['changes'], [MedicalRecordChangeDTO]);
             }
             if (data.hasOwnProperty('files')) {
-                obj['files'] = ApiClient.convertToType(data['files'], ['String']);
+                obj['files'] = ApiClient.convertToType(data['files'], [FileDTO]);
             }
             if (data.hasOwnProperty('id')) {
                 obj['id'] = ApiClient.convertToType(data['id'], 'String');
@@ -87,7 +88,7 @@ export default class MedicalRecordDTO {
     */
     changes = undefined;
     /**
-    * @member {Array.<String>} files
+    * @member {Array.<module:model/FileDTO>} files
     */
     files = undefined;
     /**

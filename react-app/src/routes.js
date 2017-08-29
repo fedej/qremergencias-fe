@@ -13,8 +13,10 @@ import ForgotPasswordSuccess from './pages/Session/pages/ForgotPasswordSuccess';
 import Landing from './pages/Landing';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
-import Datos from './pages/Emergencia/pages/Datos';
+import EditarPaciente from './pages/Paciente/pages/Editar';
+import HistoriasPaciente from './pages/Paciente/pages/Historias';
 import Historias from './pages/Historias';
+import Datos from './pages/Datos';
 import Carga from './pages/Historias/pages/Carga';
 import Verificacion from './pages/Verificacion';
 import NotFound from './pages/NotFound';
@@ -46,16 +48,18 @@ export default function Routes({ history }) {
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
         <Route path="perfil" component={Perfil} />
-        {/* TODO: el medico solo puede editar si esta verificado y por cierto tiempo */}
-        <Route path="datos/:pacienteId" component={Datos} />
         {/* TODO: hacer funcionar UserIsPaciente */}
         {/* <Route component={UserIsPaciente}> */}
-          <Route path="historias" component={Historias} />
+        <Route path="historias" component={Historias} />
         {/* </Route> */}
         {/* TODO: hacer funcionar UserIsMedico */}
         {/* <Route component={UserIsMedico}> */}
-          <Route path="verificacion" component={Verificacion} />
-          <Route path="carga" component={Carga} />
+        {/* TODO: el medico solo puede editar si esta verificado y por cierto tiempo */}
+        <Route path="verificacion" component={Verificacion} />
+        <Route path="datos" component={Datos} />
+        <Route path="editar" component={EditarPaciente} />
+        <Route path="carga" component={Carga} />
+        <Route path="historiasPaciente" component={HistoriasPaciente} />
         {/* </Route> */}
       </Route>
       <Route path="*" component={NotFound} />

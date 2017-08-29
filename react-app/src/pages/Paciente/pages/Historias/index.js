@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Home from '../Home';
-import HistoriaClinica from './components/HistoriaClinica';
+import Home from '../../../Home';
+import HistoriaClinica from '../../../Historias/components/HistoriaClinica';
 
-import { fetchHistoriasClinicas } from '../../store/Historias';
+import { fetchHistoriasClinicasDePaciente } from '../../../../store/Historias';
 
-class Historias extends React.Component {
+class HistoriasPaciente extends React.Component {
   static defaultProps = {
     historias: [],
   }
@@ -28,8 +28,10 @@ class Historias extends React.Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchHistoriasClinicas());
+    const { dispatch, paciente } = this.props;
+    // TODO: traer del store
+    const token = '1234';
+    dispatch(fetchHistoriasClinicasDePaciente(paciente, token));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,7 +47,7 @@ class Historias extends React.Component {
       <Home>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
           {
-            this.state.historias.map((h, i) => <HistoriaClinica dispatch={this.props.dispatch} historia={h} key={i} />)
+            this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
           }
         </div>
       </Home>
@@ -55,4 +57,5 @@ class Historias extends React.Component {
 
 export default connect(state => ({
   historias: state.historias.todas,
-}))(Historias);
+  paciente: state.paciente.editando,
+}))(HistoriasPaciente);

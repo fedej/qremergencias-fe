@@ -5,7 +5,7 @@ export default class ProfileService {
 
   static getProfile() {
     const API = new ProfilecontrollerApi(UserService.getApiClient());
-    return API.listUsingGET1();
+    return API.listUsingGET();
   }
 
   static updateProfile(data) {

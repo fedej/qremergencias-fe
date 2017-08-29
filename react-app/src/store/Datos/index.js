@@ -49,19 +49,19 @@ function updateError(message) {
   };
 }
 
-export const fetchData = () => (dispatch) => {
+export const fetchData = user => (dispatch) => {
   dispatch(requestData());
 
-  DataService.getData()
+  DataService.getData(user)
     .then(data => dispatch(dataSuccess(data)))
     .catch(err => dispatch(dataError(err.message)));
 };
 
-export const updateData = data => (dispatch) => {
+export const updateData = (data, user) => (dispatch) => {
   dispatch(requestUpdate());
 
-  DataService.updateData(data)
-    .then(() => dispatch(fetchData()))
+  DataService.updateData(data, user)
+    .then(() => dispatch(updateSuccess(user)))
     .catch(err => dispatch(updateError(err.message)));
 };
 
@@ -86,7 +86,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case UPDATE_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case UPDATE_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false };
+      return { ...INITIAL_STATE, isFetching: false, uploaded: true };
     case UPDATE_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     default:

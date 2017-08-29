@@ -195,14 +195,14 @@ export default class MedicalrecordcontrollerApi {
 
 
     /**
-     * list
+     * listMyRecords
      * @param {Object} opts Optional parameters
      * @param {Number} opts.page Results page you want to retrieve (0..N)
      * @param {Number} opts.size Number of records per page
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfMedicalRecordDTO} and HTTP response
      */
-    listUsingGETWithHttpInfo(opts) {
+    listMyRecordsUsingGETWithHttpInfo(opts) {
       opts = opts || {};
       let postBody = null;
 
@@ -232,15 +232,76 @@ export default class MedicalrecordcontrollerApi {
     }
 
     /**
-     * list
+     * listMyRecords
      * @param {Object} opts Optional parameters
      * @param {Number} opts.page Results page you want to retrieve (0..N)
      * @param {Number} opts.size Number of records per page
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfMedicalRecordDTO}
      */
-    listUsingGET(opts) {
-      return this.listUsingGETWithHttpInfo(opts)
+    listMyRecordsUsingGET(opts) {
+      return this.listMyRecordsUsingGETWithHttpInfo(opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * listPatientRecords
+     * @param {String} username username
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.page Results page you want to retrieve (0..N)
+     * @param {Number} opts.size Number of records per page
+     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfMedicalRecordDTO} and HTTP response
+     */
+    listPatientRecordsUsingGETWithHttpInfo(username, opts) {
+      opts = opts || {};
+      let postBody = null;
+
+      // verify the required parameter 'username' is set
+      if (username === undefined || username === null) {
+        throw new Error("Missing the required parameter 'username' when calling listPatientRecordsUsingGET");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'username': username,
+        'page': opts['page'],
+        'size': opts['size'],
+        'sort': this.apiClient.buildCollectionParam(opts['sort'], 'multi')
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = PageOfMedicalRecordDTO;
+
+      return this.apiClient.callApi(
+        '/api/medicalRecord/user', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * listPatientRecords
+     * @param {String} username username
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.page Results page you want to retrieve (0..N)
+     * @param {Number} opts.size Number of records per page
+     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfMedicalRecordDTO}
+     */
+    listPatientRecordsUsingGET(username, opts) {
+      return this.listPatientRecordsUsingGETWithHttpInfo(username, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

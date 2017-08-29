@@ -6,6 +6,7 @@ import navigation from './Navigation';
 import drawer from './Drawer';
 import historias from './Historias';
 import profile from './Perfil';
+import paciente from './Paciente';
 import data from './Datos';
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
   drawer,
   historias,
   profile,
+  paciente,
   data,
 });
