@@ -148,19 +148,34 @@ class DatosDeEmergencia extends React.Component {
             <CardText>
               <Tabs>
                 <Tab label="Generales">
-                  <Generales onGeneralChange={this.handleGeneralChange} general={general} />
+                  <Generales
+                    onGeneralChange={this.handleGeneralChange}
+                    general={general}
+                  />
                 </Tab>
                 <Tab label="Patologias">
-                  <Patologias onPathologiesChange={this.handlePathologiesChange} pathologies={pathologies} />
+                  <Patologias
+                    onPathologiesChange={this.handlePathologiesChange}
+                    pathologies={pathologies}
+                  />
                 </Tab>
                 <Tab label="Internaciones">
-                  <Internaciones onHospitalizationsChange={this.handleHospitalizationsChange} hospitalizations={hospitalizations} />
+                  <Internaciones
+                    onHospitalizationsChange={this.handleHospitalizationsChange}
+                    hospitalizations={hospitalizations}
+                  />
                 </Tab>
                 <Tab label="Cirugias">
-                  <Cirugias onSurgeriesChange={this.handleSurgeriesChange} surgeries={surgeries} />
+                  <Cirugias
+                    onSurgeriesChange={this.handleSurgeriesChange}
+                    surgeries={surgeries}
+                  />
                 </Tab>
                 <Tab label="Medicaciones">
-                  <Medicaciones onMedicationChange={this.handleMedicationChange} medications={medications} />
+                  <Medicaciones
+                    onMedicationChange={this.handleMedicationChange}
+                    medications={medications}
+                  />
                 </Tab>
               </Tabs>
             </CardText>

@@ -142,19 +142,21 @@ export default class Internaciones extends React.Component {
                   <TableHeaderColumn>Establecimiento</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
-              {hospitalizations ? (
-                <TableBody>
-                  {
-                    hospitalizations.map((p, i) =>
-                      (<TableRow selected={this.isSelected(i)}>
-                        <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
+              <TableBody>
+                {
+                  hospitalizations && hospitalizations.length && hospitalizations.map((p, i) =>
+                    (
+                      <TableRow selected={this.isSelected(i)} key={i}>
+                        <TableRowColumn>
+                          {moment(p.date).format('DD / MM / YYYY')}
+                        </TableRowColumn>
                         <TableRowColumn>{p.reason}</TableRowColumn>
                         <TableRowColumn>{p.institution}</TableRowColumn>
-                      </TableRow>),
-                    )
-                  }
-                </TableBody>
-              ) : ''}
+                      </TableRow>
+                    ),
+                  )
+                }
+              </TableBody>
             </Table>
           </CardText>
           <Dialog

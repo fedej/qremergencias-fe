@@ -127,7 +127,6 @@ export default class Medicaciones extends React.Component {
   };
 
   render() {
-
     const medications = this.props.medications;
     const actions = [
       <RaisedButton
@@ -144,22 +143,21 @@ export default class Medicaciones extends React.Component {
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
-          <CardTitle title="Medicaciones"/>
+          <CardTitle title="Medicaciones" />
           <CardText>
-          <Table onRowSelection={this.handleRowSelection}>
-            <TableHeader>
-              <TableRow>
-                <TableHeaderColumn>Nombre</TableHeaderColumn>
-                <TableHeaderColumn>Descripcion</TableHeaderColumn>
-                <TableHeaderColumn>Cantidad</TableHeaderColumn>
-                <TableHeaderColumn>Periodo</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            {medications ? (
+            <Table onRowSelection={this.handleRowSelection}>
+              <TableHeader>
+                <TableRow>
+                  <TableHeaderColumn>Nombre</TableHeaderColumn>
+                  <TableHeaderColumn>Descripcion</TableHeaderColumn>
+                  <TableHeaderColumn>Cantidad</TableHeaderColumn>
+                  <TableHeaderColumn>Periodo</TableHeaderColumn>
+                </TableRow>
+              </TableHeader>
               <TableBody>
                 {
-                  medications.map((m, i) =>
-                    (<TableRow selected={this.isSelected(i)}>
+                  medications && medications.length && medications.map((m, i) =>
+                    (<TableRow selected={this.isSelected(i)} key={i}>
                       <TableRowColumn>{m.name}</TableRowColumn>
                       <TableRowColumn>{m.description}</TableRowColumn>
                       <TableRowColumn>{m.amount}</TableRowColumn>
@@ -168,8 +166,7 @@ export default class Medicaciones extends React.Component {
                   )
                 }
               </TableBody>
-            ) : ''}
-          </Table>
+            </Table>
           </CardText>
           <Dialog
             open={this.state.dialogOpened}

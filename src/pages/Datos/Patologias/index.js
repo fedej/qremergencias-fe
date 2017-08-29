@@ -150,19 +150,17 @@ export default class Patologias extends React.Component {
                   <TableHeaderColumn>Fecha</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
-              {pathologies ? (
-                <TableBody>
-                  {
-                    pathologies.map((p, i) =>
-                      (<TableRow selected={this.isSelected(i)}>
-                        <TableRowColumn>{p.type}</TableRowColumn>
-                        <TableRowColumn>{p.description}</TableRowColumn>
-                        <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
-                      </TableRow>),
-                    )
-                  }
-                </TableBody>
-              ) : ''}
+              <TableBody>
+                {
+                  pathologies && pathologies.length && pathologies.map((p, i) =>
+                    (<TableRow selected={this.isSelected(i)} key={i}>
+                      <TableRowColumn>{p.type}</TableRowColumn>
+                      <TableRowColumn>{p.description}</TableRowColumn>
+                      <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
+                    </TableRow>),
+                  )
+                }
+              </TableBody>
             </Table>
           </CardText>
           <Dialog
