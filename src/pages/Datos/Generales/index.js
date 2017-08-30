@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TextField, RaisedButton } from 'material-ui';
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -66,11 +66,16 @@ export default class Generales extends React.Component {
   handleAddAllergy = () => {
     const general = this.props.general;
     const { allergy } = this.state;
-    if (!general.allergies) {
-      general.allergies = [];
+
+    if (allergy) {
+      if (!general.allergies) {
+        general.allergies = [];
+      }
+
+      general.allergies.push(allergy);
+      this.props.onGeneralChange(general);
+      this.setState({ allergy: '' });
     }
-    general.allergies.push(allergy);
-    this.props.onGeneralChange(general);
   }
 
   handleDeleteAllergy = (key) => {
