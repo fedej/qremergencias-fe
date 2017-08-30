@@ -6,7 +6,8 @@ import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import SweetAlert from 'sweetalert-react';
 import moment from 'moment';
-
+import Progress from 'react-progress-2';
+import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../../../Home';
@@ -34,6 +35,7 @@ class CargaHistoriaClinica extends React.Component {
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
     uploaded: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   state = INITIAL_STATE
@@ -48,6 +50,12 @@ class CargaHistoriaClinica extends React.Component {
       this.setState({ showError: true });
     } else if (uploaded) {
       this.setState({ showSuccess: true });
+    }
+
+    if (nextProps.isFetching && !this.props.isFetching) {
+      Progress.show();
+    } else {
+      Progress.hide();
     }
   }
 
@@ -85,15 +93,20 @@ class CargaHistoriaClinica extends React.Component {
   }
 
   handleSuccessCallback = () => {
-    this.setState({ showSuccess: false });
-    setTimeout(() => {
-      browserHistory.push('/editar');
-    }, 1000);
+    this.setState({ showSuccess: false }, () => {
+      setTimeout(() => {
+        browserHistory.push('/editar');
+      }, 1000);
+    });
   }
 
   render() {
     return (
       <Home>
+        <Progress.Component
+          style={{ background: 'white' }}
+          thumbStyle={{ background: 'red' }}
+        />
         <Card style={{ margin: '2%' }}>
           <CardTitle title="Cargar Historia" />
           <CardText>
@@ -161,6 +174,7 @@ function mapStateToProps(state) {
   return {
     error: state.historias.error,
     uploaded: state.historias.uploaded,
+    isFetching: state.historias.isFetching,
     paciente: state.paciente.editando,
   };
 }

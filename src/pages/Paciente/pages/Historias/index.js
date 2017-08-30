@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Progress from 'react-progress-2';
+import 'react-progress-2/main.css';
 
 import Home from '../../../Home';
 import HistoriaClinica from '../../../Historias/components/HistoriaClinica';
@@ -21,6 +23,7 @@ class HistoriasPaciente extends React.Component {
       files: PropTypes.array,
     })),
     dispatch: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -34,17 +37,36 @@ class HistoriasPaciente extends React.Component {
     dispatch(fetchHistoriasClinicasDePaciente(paciente, token));
   }
 
+  componentDidMount() {
+    if (this.props.isFetching) {
+      Progress.show();
+    } else {
+      Progress.hide();
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const { historias } = nextProps;
 
     if (historias) {
       this.setState({ historias });
     }
+
+    if ((this.props.isFetching && nextProps.isFetching)
+    || (nextProps.isFetching && !this.props.isFetching)) {
+      Progress.show();
+    } else {
+      Progress.hide();
+    }
   }
 
   render() {
     return (
       <Home>
+        <Progress.Component
+          style={{ background: 'white' }}
+          thumbStyle={{ background: 'red' }}
+        />
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
           {
             this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
@@ -58,4 +80,5 @@ class HistoriasPaciente extends React.Component {
 export default connect(state => ({
   historias: state.historias.todas,
   paciente: state.paciente.editando,
+  isFetching: state.historias.isFetching,
 }))(HistoriasPaciente);

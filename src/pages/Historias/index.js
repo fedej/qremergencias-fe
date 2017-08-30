@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Progress from 'react-progress-2';
+import 'react-progress-2/main.css';
 
 import Home from '../Home';
 import HistoriaClinica from './components/HistoriaClinica';
@@ -21,6 +23,7 @@ class Historias extends React.Component {
       files: PropTypes.array,
     })),
     dispatch: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -32,8 +35,21 @@ class Historias extends React.Component {
     dispatch(fetchHistoriasClinicas());
   }
 
+  componentDidMount() {
+    if (this.props.isFetching) {
+      Progress.show();
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const { historias } = nextProps;
+
+    if ((this.props.isFetching && nextProps.isFetching)
+      || (nextProps.isFetching && !this.props.isFetching)) {
+      Progress.show();
+    } else {
+      Progress.hide();
+    }
 
     if (historias) {
       this.setState({ historias });
@@ -43,9 +59,19 @@ class Historias extends React.Component {
   render() {
     return (
       <Home>
+        <Progress.Component
+          style={{ background: 'white' }}
+          thumbStyle={{ background: 'red' }}
+        />
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
           {
-            this.state.historias.map((h, i) => <HistoriaClinica dispatch={this.props.dispatch} historia={h} key={i} />)
+            this.state.historias.map((h, i) => (
+              <HistoriaClinica
+                dispatch={this.props.dispatch}
+                historia={h}
+                key={i}
+              />
+            ))
           }
         </div>
       </Home>
@@ -55,4 +81,5 @@ class Historias extends React.Component {
 
 export default connect(state => ({
   historias: state.historias.todas,
+  isFetching: state.historias.isFetching,
 }))(Historias);

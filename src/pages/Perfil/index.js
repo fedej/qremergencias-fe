@@ -16,7 +16,8 @@ import {
 import classnames from 'classnames';
 import SweetAlert from 'sweetalert-react';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-
+import Progress from 'react-progress-2';
+import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
 
 import { fetchProfile, updateProfile } from '../../store/Perfil';
@@ -94,7 +95,11 @@ class Perfil extends React.Component {
         birthDate: perfil.birthDate,
         sex: perfil.sex,
         contacts: perfil.contacts,
-      });
+      }, Progress.hide);
+    } else if (this.props.isFetching || (nextProps.isFetching && !this.props.isFetching)) {
+      Progress.show();
+    } else {
+      Progress.hide();
     }
   }
 
@@ -215,6 +220,10 @@ class Perfil extends React.Component {
     ];
     return (
       <Home>
+        <Progress.Component
+          style={{ background: 'white' }}
+          thumbStyle={{ background: 'red' }}
+        />
         <div className={classnames('formCenter')}>
           <Card style={{ margin: '20px' }}>
             <table style={{ width: '100%', tableLayout: 'fixed' }}>

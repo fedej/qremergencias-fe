@@ -122,18 +122,19 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case HISTORIAS_REQUEST:
+      return { ...state, isFetching: true };
     case HISTORIA_DELETE:
     case UPLOAD_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true, uploaded: false };
     case HISTORIAS_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, todas: action.historias };
+      return { ...state, isFetching: false, todas: action.historias };
     case HISTORIAS_ERROR:
     case UPLOAD_ERROR:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     case UPLOAD_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, uploaded: true };
+      return { ...state, isFetching: false, uploaded: true };
     case HISTORIA_DELETE_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false };
+      return { ...state, isFetching: false };
     default:
       return state;
   }
