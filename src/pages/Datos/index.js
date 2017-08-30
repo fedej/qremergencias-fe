@@ -7,6 +7,10 @@ import { Card, CardActions, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import { browserHistory } from 'react-router';
 import SweetAlert from 'sweetalert-react';
+import Progress from 'react-progress-2';
+import 'react-progress-2/main.css';
+
+
 import Patologias from './Patologias';
 import Generales from './Generales';
 import Internaciones from './Internaciones';
@@ -38,6 +42,7 @@ class DatosDeEmergencia extends React.Component {
       medications: PropTypes.array,
       surgeries: PropTypes.array,
     }),
+    isFetching: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -59,38 +64,30 @@ class DatosDeEmergencia extends React.Component {
     }
   }
 
+  componentDidMount() {
+    Progress.hide();
+  }
+
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
 
     if (data.error) {
       this.setState({ showError: true });
+      Progress.hide();
     } else if (data.uploaded) {
-      this.setState({ showSuccess: true });
-    }
-    if (data.general) {
       this.setState({
-        general: data.general,
+        ...data,
+        showSuccess: true,
       });
+    } else {
+      this.setState(data);
     }
-    if (data.pathologies) {
-      this.setState({
-        pathologies: data.pathologies,
-      });
-    }
-    if (data.hospitalizations) {
-      this.setState({
-        hospitalizations: data.hospitalizations,
-      });
-    }
-    if (data.medications) {
-      this.setState({
-        medications: data.medications,
-      });
-    }
-    if (data.surgeries) {
-      this.setState({
-        surgeries: data.surgeries,
-      });
+
+
+    if (nextProps.isFetching && !this.props.isFetching) {
+      Progress.show();
+    } else {
+      Progress.hide();
     }
   }
 
@@ -136,13 +133,20 @@ class DatosDeEmergencia extends React.Component {
   }
 
   render() {
-    const general = this.state.general;
-    const pathologies = this.state.pathologies;
-    const hospitalizations = this.state.hospitalizations;
-    const medications = this.state.medications;
-    const surgeries = this.state.surgeries;
+    const {
+      general,
+      pathologies,
+      hospitalizations,
+      medications,
+      surgeries,
+    } = this.state;
+
     return (
       <Home>
+        <Progress.Component
+          style={{ background: 'white' }}
+          thumbStyle={{ background: 'red' }}
+        />
         <div className={classnames('formCenter')}>
           <Card style={{ display: 'flex', alignContent: 'space-between', flexDirection: 'column' }}>
             <CardText>
@@ -208,6 +212,7 @@ function mapStateToProps(state) {
   return {
     data: state.data,
     paciente: state.paciente.editando,
+    isFetching: state.data.isFetching,
   };
 }
 

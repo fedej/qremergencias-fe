@@ -80,7 +80,15 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case DATA_REQUEST:
       return { ...INITIAL_STATE, isFetching: true };
     case DATA_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, general: action.data.general, pathologies: action.data.pathologies, hospitalizations: action.data.hospitalizations, medications: action.data.medications, surgeries: action.data.surgeries };
+      return {
+        ...INITIAL_STATE,
+        isFetching: false,
+        general: action.data.general,
+        pathologies: action.data.pathologies,
+        hospitalizations: action.data.hospitalizations,
+        medications: action.data.medications,
+        surgeries: action.data.surgeries,
+      };
     case DATA_ERROR:
       return { ...INITIAL_STATE, isFetching: false, error: action.message };
     case UPDATE_REQUEST:
