@@ -74,17 +74,17 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case PROFILE_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case PROFILE_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, perfil: action.profile };
+      return { ...state, isFetching: false, perfil: action.profile };
     case PROFILE_ERROR:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     case UPDATE_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case UPDATE_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false };
+      return { ...state, isFetching: false };
     case UPDATE_ERROR:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     default:
       return state;
   }

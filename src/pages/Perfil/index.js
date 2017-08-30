@@ -48,7 +48,7 @@ class Perfil extends React.Component {
   }
 
   state = {
-    showError: false,
+    showMessage: false,
     selected: [],
     selectedIndex: '',
     perfil: {},
@@ -69,14 +69,21 @@ class Perfil extends React.Component {
     contactLastNameError: '',
     contactPhoneNumber: '',
     contactPhoneNumberError: '',
+    message: '',
+    title: '',
+    loaded: false,
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch, error } = this.props;
     dispatch(fetchProfile());
 
-    if (this.props.error) {
-      this.setState({ showError: true });
+    if (error) {
+      this.setState({
+        showMessage: true,
+        message: error,
+        title: 'Error al actualizar perfil',
+      });
     }
   }
 
@@ -84,10 +91,21 @@ class Perfil extends React.Component {
     const { perfil } = nextProps;
 
     if (perfil.error) {
-      this.setState({ showError: true });
+      this.setState({ showMessage: true, message: perfil.error });
     }
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
+      let more = {};
+      if (this.state.loaded) {
+        more = {
+          showMessage: true,
+          title: 'Perfil actualizado',
+          message: 'Perfil actualizado',
+        };
+      } else {
+        more = { loaded: true };
+      }
+
       this.setState({
         firstName: perfil.firstName,
         lastName: perfil.lastName,
@@ -95,11 +113,16 @@ class Perfil extends React.Component {
         birthDate: perfil.birthDate,
         sex: perfil.sex,
         contacts: perfil.contacts,
+        ...more,
       }, Progress.hide);
     } else if (this.props.isFetching || (nextProps.isFetching && !this.props.isFetching)) {
       Progress.show();
     } else {
       Progress.hide();
+      this.setState({
+        showMessage: true,
+        message: 'Perfil actualizado',
+      });
     }
   }
 
@@ -399,10 +422,10 @@ class Perfil extends React.Component {
 
           </Card>
           <SweetAlert
-            show={this.state.showError}
-            title="Error al actualizar perfil"
-            text={this.props.error}
-            onConfirm={() => this.setState({ showError: false })}
+            show={this.state.showMessage}
+            title={this.state.title}
+            text={this.state.message}
+            onConfirm={() => this.setState({ showMessage: false })}
           />
         </div>
       </Home>
