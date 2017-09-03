@@ -41,7 +41,10 @@ export const VisibleOnlyLoggedOut = UserAuthWrapper({
   redirectAction: routerActions.replace,
   wrapperDisplayName: 'VisibleOnlyAdmin',
   predicate: auth => !auth.isLoggedIn,
-  failureRedirectPath: '/home',
+  failureRedirectPath: (state) => {
+    if (state.auth.isMedico) return '/home';
+    return '/historias';
+  },
   allowRedirectBack: false,
 });
 
