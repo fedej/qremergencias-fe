@@ -70,7 +70,7 @@ class HistoriaClinica extends Component {
 
     if (file) {
       if (file.mimeType.includes('image')) {
-        viewer = <img src={file.url} alt="Imagen" />;
+        viewer = <img style={{ maxWidth: '98%' }} src={file.url} alt="Imagen" />;
       } else if (file.mimeType.includes('pdf')) {
         viewer = (
           <RaisedButton
@@ -105,7 +105,7 @@ class HistoriaClinica extends Component {
           showExpandableButton
         />
         { historia.files[0] &&
-        <CardMedia expandable>
+        <CardMedia expandable style={{ margin: '3%' }}>
           <div>
             {viewer}
           </div>

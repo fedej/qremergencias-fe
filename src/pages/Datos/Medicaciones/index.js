@@ -15,10 +15,16 @@ import Dialog from 'material-ui/Dialog';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 
+const periodsMapping = {
+  DAILY: 'DIARIAMENTE',
+  WEEKLY: 'SEMANALMENTE',
+  MONTHLY: 'MENSUALMENTE',
+};
+
 const periods = [
-  <MenuItem key={1} value={'DAILY'} primaryText="DIARIAMENTE" />,
-  <MenuItem key={2} value={'WEEKLY'} primaryText="SEMANALMENTE" />,
-  <MenuItem key={3} value={'MONTHLY'} primaryText="MENSUALMENTE" />,
+  <MenuItem key={1} value={'DAILY'} primaryText={periodsMapping.DAILY} />,
+  <MenuItem key={2} value={'WEEKLY'} primaryText={periodsMapping.WEEKLY} />,
+  <MenuItem key={3} value={'MONTHLY'} primaryText={periodsMapping.MONTHLY} />,
 ];
 
 export default class Medicaciones extends React.Component {
@@ -161,7 +167,7 @@ export default class Medicaciones extends React.Component {
                       <TableRowColumn>{m.name}</TableRowColumn>
                       <TableRowColumn>{m.description}</TableRowColumn>
                       <TableRowColumn>{m.amount}</TableRowColumn>
-                      <TableRowColumn>{m.period}</TableRowColumn>
+                      <TableRowColumn>{periodsMapping[m.period]}</TableRowColumn>
                     </TableRow>),
                   )
                 }
@@ -203,7 +209,7 @@ export default class Medicaciones extends React.Component {
             />
             <SelectField
               value={this.state.period}
-              floatingLabelText="Frencuencia"
+              floatingLabelText="Frecuencia"
               onChange={(e, key, period) => this.setState({ period })}
               floatingLabelFixed
               errorText={this.state.periodError}
