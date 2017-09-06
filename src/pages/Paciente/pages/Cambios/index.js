@@ -26,8 +26,7 @@ class CambiosDatosEmergencia extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
-    // TODO: traer del store
-    dispatch(fetchCambiosDatosPaciente('1234'));
+    dispatch(fetchCambiosDatosPaciente());
   }
 
   componentDidMount() {

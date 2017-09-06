@@ -10,7 +10,6 @@ import {
 } from 'material-ui/Table';
 import moment from 'moment';
 
-
 function TipoCambio({ changes, tipo }) {
   return (
     <Table selectable={false}>
@@ -26,8 +25,8 @@ function TipoCambio({ changes, tipo }) {
           changes.map((c, i) => (
             <TableRow key={i}>
               <TableRowColumn>{c.property}</TableRowColumn>
-              <TableRowColumn>{c.oldValue}</TableRowColumn>
-              <TableRowColumn>{c.newValue}</TableRowColumn>
+              <TableRowColumn>{c.oldValue ? c.oldValue : `Removidos: ${c.removed}` }</TableRowColumn>
+              <TableRowColumn>{c.newValue ? c.newValue : `Agregados: ${c.added}` }</TableRowColumn>
             </TableRow>
           ))
         }

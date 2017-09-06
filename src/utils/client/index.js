@@ -15,6 +15,8 @@
 import ApiClient from './ApiClient';
 import ApiError from './model/ApiError';
 import ApiFieldError from './model/ApiFieldError';
+import ChangeDTO from './model/ChangeDTO';
+import ChangesDTO from './model/ChangesDTO';
 import CreateUserDTO from './model/CreateUserDTO';
 import EmergencyDataDTO from './model/EmergencyDataDTO';
 import FileDTO from './model/FileDTO';
@@ -24,6 +26,7 @@ import LoginUserDTO from './model/LoginUserDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
 import MedicationDTO from './model/MedicationDTO';
+import PageOfChangesDTO from './model/PageOfChangesDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import PathologyDTO from './model/PathologyDTO';
 import Sort from './model/Sort';
@@ -86,6 +89,18 @@ export {
     ApiFieldError,
 
     /**
+     * The ChangeDTO model constructor.
+     * @property {module:model/ChangeDTO}
+     */
+    ChangeDTO,
+
+    /**
+     * The ChangesDTO model constructor.
+     * @property {module:model/ChangesDTO}
+     */
+    ChangesDTO,
+
+    /**
      * The CreateUserDTO model constructor.
      * @property {module:model/CreateUserDTO}
      */
@@ -138,6 +153,12 @@ export {
      * @property {module:model/MedicationDTO}
      */
     MedicationDTO,
+
+    /**
+     * The PageOfChangesDTO model constructor.
+     * @property {module:model/PageOfChangesDTO}
+     */
+    PageOfChangesDTO,
 
     /**
      * The PageOfMedicalRecordDTO model constructor.
