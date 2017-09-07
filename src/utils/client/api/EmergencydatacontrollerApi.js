@@ -15,6 +15,7 @@
 import ApiClient from "../ApiClient";
 import ApiError from '../model/ApiError';
 import EmergencyDataDTO from '../model/EmergencyDataDTO';
+import PageOfChangesDTO from '../model/PageOfChangesDTO';
 
 /**
 * Emergencydatacontroller service.
@@ -34,6 +35,47 @@ export default class EmergencydatacontrollerApi {
         this.apiClient = apiClient || ApiClient.instance;
     }
 
+
+
+    /**
+     * getChanges
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfChangesDTO} and HTTP response
+     */
+    getChangesUsingGETWithHttpInfo() {
+      let postBody = null;
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = PageOfChangesDTO;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/changes', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * getChanges
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfChangesDTO}
+     */
+    getChangesUsingGET() {
+      return this.getChangesUsingGETWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
 
 
     /**

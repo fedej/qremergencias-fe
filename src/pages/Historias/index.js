@@ -59,20 +59,22 @@ class Historias extends React.Component {
   render() {
     return (
       <Home>
-        <Progress.Component
-          style={{ background: 'white' }}
-          thumbStyle={{ background: 'red' }}
-        />
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
-          {
-            this.state.historias.map((h, i) => (
-              <HistoriaClinica
-                dispatch={this.props.dispatch}
-                historia={h}
-                key={i}
-              />
-            ))
-          }
+        <div>
+          <Progress.Component
+            style={{ background: 'white' }}
+            thumbStyle={{ background: 'red' }}
+          />
+          <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
+            {
+              this.state.historias.map((h, i) => (
+                <HistoriaClinica
+                  dispatch={this.props.dispatch}
+                  historia={h}
+                  key={i}
+                />
+              ))
+            }
+          </div>
         </div>
       </Home>
     );

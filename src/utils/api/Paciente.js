@@ -1,4 +1,5 @@
 import MedicalrecordcontrollerApi from '../client/api/MedicalrecordcontrollerApi';
+import EmergencydatacontrollerApi from '../client/api/EmergencydatacontrollerApi';
 import UserService from './User';
 
 export default class PacienteService {
@@ -19,5 +20,10 @@ export default class PacienteService {
         campoB: 123,
       });
     });
+  }
+
+  static getCambiosDatosEmergencia() {
+    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    return API.getChangesUsingGET();
   }
 }

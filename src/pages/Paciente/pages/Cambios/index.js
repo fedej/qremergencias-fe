@@ -5,36 +5,28 @@ import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 
 import Home from '../../../Home';
-import HistoriaClinica from '../../../Historias/components/HistoriaClinica';
 
-import { fetchHistoriasClinicasDePaciente } from '../../../../store/Historias';
+import { fetchCambiosDatosPaciente } from '../../../../store/Paciente';
+import Cambio from './components/Cambio';
 
-class HistoriasPaciente extends React.Component {
+class CambiosDatosEmergencia extends React.Component {
   static defaultProps = {
-    historias: [],
+    cambios: {},
   }
 
   static propTypes = {
-    historias: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      performed: PropTypes.string.isRequired,
-      text: PropTypes.string,
-      files: PropTypes.array,
-    })),
+    cambios: PropTypes.shape({}),
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }
 
   state = {
-    historias: [],
+    cambios: {},
   }
 
   componentWillMount() {
-    const { dispatch, paciente } = this.props;
-    // TODO: traer del store
-    const token = '1234';
-    dispatch(fetchHistoriasClinicasDePaciente(paciente, token));
+    const { dispatch } = this.props;
+    dispatch(fetchCambiosDatosPaciente());
   }
 
   componentDidMount() {
@@ -46,10 +38,10 @@ class HistoriasPaciente extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { historias } = nextProps;
+    const { cambios } = nextProps;
 
-    if (historias) {
-      this.setState({ historias });
+    if (cambios) {
+      this.setState({ cambios });
     }
 
     if ((this.props.isFetching && nextProps.isFetching)
@@ -61,6 +53,7 @@ class HistoriasPaciente extends React.Component {
   }
 
   render() {
+    const { cambios } = this.state;
     return (
       <Home>
         <div>
@@ -68,9 +61,11 @@ class HistoriasPaciente extends React.Component {
             style={{ background: 'white' }}
             thumbStyle={{ background: 'red' }}
           />
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
+          <div style={{ padding: 10 }}>
             {
-              this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
+              cambios.content && cambios.content.map((c, i) => (
+                <Cambio cambio={c} key={i} />
+              ))
             }
           </div>
         </div>
@@ -80,7 +75,6 @@ class HistoriasPaciente extends React.Component {
 }
 
 export default connect(state => ({
-  historias: state.historias.todas,
-  paciente: state.paciente.editando,
-  isFetching: state.historias.isFetching,
-}))(HistoriasPaciente);
+  isFetching: state.paciente.isFetching,
+  cambios: state.paciente.cambios,
+}))(CambiosDatosEmergencia);
