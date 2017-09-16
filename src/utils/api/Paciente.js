@@ -26,4 +26,33 @@ export default class PacienteService {
     const API = new EmergencydatacontrollerApi(UserService.getApiClient());
     return API.getChangesUsingGET();
   }
+
+  static getCodigoQR() {
+    return new Promise((resolve, reject) => {
+      const URL = 'http://localhost:8082/qremergencias/api/emergencyData/qr';
+
+      fetch(URL)
+        .then(response => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(err => console.log(err));
+    });
+  }
+
+  static generarCodigoQR() {
+    return new Promise((resolve, reject) => {
+      const URL = 'http://localhost:8082/qremergencias/api/emergencyData/qr';
+      const request = new Request(URL, {
+        method: 'POST',
+      });
+
+      fetch(request)
+        .then(response => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(err => console.log(err));
+    });
+  }
 }

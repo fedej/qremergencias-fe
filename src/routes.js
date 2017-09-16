@@ -16,6 +16,7 @@ import Perfil from './pages/Perfil';
 import EditarPaciente from './pages/Paciente/pages/Editar';
 import HistoriasPaciente from './pages/Paciente/pages/Historias';
 import Cambios from './pages/Paciente/pages/Cambios';
+import CodigoQR from './pages/Paciente/pages/QR';
 import Historias from './pages/Historias';
 import Datos from './pages/Datos';
 import Carga from './pages/Historias/pages/Carga';
@@ -53,6 +54,7 @@ export default function Routes({ history }) {
         {/* <Route component={UserIsPaciente}> */}
         <Route path="cambios" component={Cambios} />
         <Route path="historias" component={Historias} />
+        <Route path="codigo" component={CodigoQR} />
         {/* </Route> */}
         {/* TODO: hacer funcionar UserIsMedico */}
         {/* <Route component={UserIsMedico}> */}

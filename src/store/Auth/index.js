@@ -122,10 +122,10 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case LOGIN_SUCCESS:
       return {
-        ...INITIAL_STATE,
+        ...state,
         isFetching: false,
         isLoggedIn: true,
         error: '',
@@ -133,21 +133,21 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
         isMedico: action.profile.roles.includes('ROLE_MEDICO'),
       };
     case LOGIN_FAILURE:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     case REGISTER_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case REGISTER_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, error: '' };
+      return { ...state, isFetching: false, error: '' };
     case REGISTER_FAILURE:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     case LOGOUT_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case LOGOUT_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, isLoggedIn: false, error: '', profile: {} };
+      return { ...state, isFetching: false, isLoggedIn: false, error: '', profile: {} };
     case LOGOUT_FAILURE:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     case LOGOUT:
-      return { ...INITIAL_STATE, isOpen: !state.isOpen };
+      return { ...state, isOpen: !state.isOpen };
     default:
       return state;
   }
