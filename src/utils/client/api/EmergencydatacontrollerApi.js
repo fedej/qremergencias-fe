@@ -38,6 +38,47 @@ export default class EmergencydatacontrollerApi {
 
 
     /**
+     * createQR
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    createQRUsingPOSTWithHttpInfo() {
+      let postBody = null;
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/qr', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * createQR
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    createQRUsingPOST() {
+      return this.createQRUsingPOSTWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * getChanges
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfChangesDTO} and HTTP response
      */
@@ -121,6 +162,47 @@ export default class EmergencydatacontrollerApi {
      */
     getEmergencyDataUsingGET(userId) {
       return this.getEmergencyDataUsingGETWithHttpInfo(userId)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * getQR
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link File} and HTTP response
+     */
+    getQRUsingGETWithHttpInfo() {
+      let postBody = null;
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = File;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/qr', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * getQR
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link File}
+     */
+    getQRUsingGET() {
+      return this.getQRUsingGETWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -28,31 +28,12 @@ export default class PacienteService {
   }
 
   static getCodigoQR() {
-    return new Promise((resolve, reject) => {
-      const URL = 'http://localhost:8082/qremergencias/api/emergencyData/qr';
-
-      fetch(URL)
-        .then(response => response.json())
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(err => console.log(err));
-    });
+    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    return API.getQRUsingGET();
   }
 
   static generarCodigoQR() {
-    return new Promise((resolve, reject) => {
-      const URL = 'http://localhost:8082/qremergencias/api/emergencyData/qr';
-      const request = new Request(URL, {
-        method: 'POST',
-      });
-
-      fetch(request)
-        .then(response => response.json())
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(err => console.log(err));
-    });
+    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    return API.createQRUsingPOST();
   }
 }
