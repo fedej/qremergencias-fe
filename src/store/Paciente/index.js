@@ -63,14 +63,17 @@ export const fetchCodigo = () => (dispatch) => {
 
   PacienteService.getCodigoQR()
     .then(codigo => dispatch({ type: OBTENER_QR_SUCCESS, codigo }))
-    .catch(err => dispatch({ type: OBTENER_QR_ERROR, error: err.message }));
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: OBTENER_QR_ERROR, error: err.message });
+    });
 };
 
 export const generarCodigo = () => (dispatch) => {
   dispatch({ type: GENERAR_QR_REQUEST });
 
   PacienteService.generarCodigoQR()
-    .then(codigo => dispatch({ type: GENERAR_QR_SUCCESS, codigo }))
+    .then(() => dispatch({ type: GENERAR_QR_SUCCESS }))
     .catch(err => dispatch({ type: GENERAR_QR_ERROR, error: err.message }));
 };
 
@@ -97,8 +100,18 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
       return { ...state, isFetching: false, cambios: action.cambios };
     case PACIENTE_CAMBIOS_DATOS_ERROR:
       return { ...state, isFetching: false, error: action.error };
+    case GENERAR_QR_REQUEST:
+      return { ...state, isFetching: true };
     case GENERAR_QR_SUCCESS:
-      return { ...state, isFetching: true, hasCodigo: true, codigo: action.codigo };
+      return { ...state, isFetching: false, hasCodigo: true };
+    case GENERAR_QR_ERROR:
+      return { ...state, isFetching: false, error: action.message };
+    case OBTENER_QR_REQUEST:
+      return { ...state, isFetching: true };
+    case OBTENER_QR_SUCCESS:
+      return { ...state, isFetching: false, hasCodigo: true, codigo: action.codigo };
+    case OBTENER_QR_ERROR:
+      return { ...state, isFetching: false, error: action.message };
     default:
       return state;
   }

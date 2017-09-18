@@ -15,17 +15,21 @@ class CodigoQR extends React.Component {
     doGenerarCodigo: PropTypes.func.isRequired,
     doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    hasCodigo: PropTypes.bool.isRequired,
   }
 
   state = {
     expanded: false,
-    hasCodigo: true,
+    hasCodigo: false,
   }
 
   componentWillMount() {
-    if (this.state.hasCodigo) {
+    // TODO: el GET deberia decirnos si tiene o no QR generado
+    // if (this.state.hasCodigo) {
       this.props.doFetchCodigo();
-    }
+    // } else {
+    //   this.props.doGenerarCodigo();
+    // }
   }
 
   componentDidMount() {
@@ -37,12 +41,19 @@ class CodigoQR extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps');
+    console.log(this.props);
+    console.log(nextProps);
     // TODO: obtener nextProps.codigo
     if ((this.props.isFetching && nextProps.isFetching)
     || (nextProps.isFetching && !this.props.isFetching)) {
       Progress.show();
     } else {
       Progress.hide();
+      if (!this.props.hasCodigo && nextProps.hasCodigo) {
+        this.setState({ hasCodigo: true });
+        this.props.doFetchCodigo();
+      }
     }
   }
 
