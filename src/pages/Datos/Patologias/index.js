@@ -18,10 +18,11 @@ import SelectField from 'material-ui/SelectField';
 
 
 const pathologyType = [
-  <MenuItem key={1} value={'ANATOMICAL'} primaryText="ANATÓMICO" />,
-  <MenuItem key={2} value={'CLINICAL'} primaryText="CLÍNICO" />,
-  <MenuItem key={3} value={'MOLECULAR'} primaryText="MOLECULAR" />,
-  <MenuItem key={4} value={'ORAL'} primaryText="ORAL" />,
+  <MenuItem key={1} value={'ASTHMA'} primaryText="ASMA" />,
+  <MenuItem key={2} value={'HYPERTENSION'} primaryText="HIPERTENSIÓN" />,
+  <MenuItem key={3} value={'ONCOLOGICAL_BACKGROUND'} primaryText="ANTECEDENTE ONCOLÓGICO" />,
+  <MenuItem key={4} value={'RENAL_INSUFFICIENCY'} primaryText="INSUFICIENCIA SUPRARENAL" />,
+  <MenuItem key={5} value={'OTHER'} primaryText="OTRO" />,
 ];
 
 
@@ -59,7 +60,7 @@ export default class Patologias extends React.Component {
 
     if (type === '') {
       this.setState({ typeError: 'Ingrese tipo.' });
-    } else if (description === '') {
+    } else if (description === '' && type === 'OTHER') {
       this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
     } else if (date === '') {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
@@ -171,8 +172,8 @@ export default class Patologias extends React.Component {
           >
             <SelectField
               value={this.state.type}
-              floatingLabelText="Tipo de patología"
-              onChange={(e, key, type) => this.setState({ type })}
+              floatingLabelText="Tipo de patología"            
+              onChange={(e, key, type) => this.setState({ type, description : '' })}
               floatingLabelFixed
               errorText={this.state.typeError}
             >
@@ -181,6 +182,7 @@ export default class Patologias extends React.Component {
             <TextField
               value={this.state.description}
               errorText={this.state.descriptionError}
+              disabled={this.state.type !== 'OTHER'}
               onChange={(e, description) => this.setState({ description })}
               hintText="Descripción"
               type="text"
