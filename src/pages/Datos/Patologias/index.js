@@ -66,21 +66,20 @@ export default class Patologias extends React.Component {
     } else {
       this.setState({ typeError: '', descriptionError: '', dateError: '' });
 
-      let pathologies = this.props.pathologies;
+      var pathos = this.props.pathologies.slice();
 
       if (selectedIndex === '') {
-        pathologies.push({
+        pathos.push({
           type,
           description,
           date,
         });
       } else {
-        pathologies = this.props.pathologies;
-        pathologies[selectedIndex].type = type;
-        pathologies[selectedIndex].description = description;
-        pathologies[selectedIndex].date = date;
+        pathos[selectedIndex].type = type;
+        pathos[selectedIndex].description = description;
+        pathos[selectedIndex].date = date;
       }
-      this.props.onPathologiesChange(pathologies);
+      this.props.onPathologiesChange(pathos);
       this.setState({ dialogOpened: false });
       this.setState({ type: '', description: '', date: '', selectedIndex: '' });
     }
