@@ -5,6 +5,7 @@ import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { FlatButton, RaisedButton } from 'material-ui';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
+import config from '../../../../constants/app';
 
 import Home from '../../../Home';
 
@@ -16,6 +17,7 @@ class CodigoQR extends React.Component {
     doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasCodigo: PropTypes.bool.isRequired,
+    username: PropTypes.string.isRequired,
   }
 
   state = {
@@ -98,10 +100,9 @@ class CodigoQR extends React.Component {
                   style={{ textAlign: 'center' }}
                   expandable
                 >
-                  {/* TODO: render QR */}
                   <img
                     alt="Código QR"
-                    src="http://localhost:8082/qremergencias/api/emergencyData/qr/paciente@rrramundo.com.ar"
+                    src={`${config.BASE_URL}/qremergencias/api/emergencyData/qr?user=${this.props.username}`}
                   />
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -138,6 +139,7 @@ class CodigoQR extends React.Component {
 const mapStateToProps = state => ({
   hasCodigo: state.paciente.hasCodigo,
   isFetching: state.paciente.isFetching,
+  username: state.auth.profile.email,
   codigo: state.paciente.codigo,
 });
 
