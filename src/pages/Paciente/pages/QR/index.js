@@ -20,13 +20,13 @@ class CodigoQR extends React.Component {
 
   state = {
     expanded: false,
-    hasCodigo: false,
+    hasCodigo: true,
   }
 
   componentWillMount() {
     // TODO: el GET deberia decirnos si tiene o no QR generado
     // if (this.state.hasCodigo) {
-      this.props.doFetchCodigo();
+      // this.props.doFetchCodigo();
     // } else {
     //   this.props.doGenerarCodigo();
     // }
@@ -101,7 +101,7 @@ class CodigoQR extends React.Component {
                   {/* TODO: render QR */}
                   <img
                     alt="Código QR"
-                    src="https://www.unitag.io/images/generator/templates/classic.png"
+                    src="http://localhost:8082/qremergencias/api/emergencyData/qr/paciente@rrramundo.com.ar"
                   />
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
