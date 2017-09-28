@@ -14,7 +14,7 @@ import { fetchCodigo, generarCodigo } from '../../../../store/Paciente';
 class CodigoQR extends React.Component {
   static propTypes = {
     doGenerarCodigo: PropTypes.func.isRequired,
-    doFetchCodigo: PropTypes.func.isRequired,
+    // doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasCodigo: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
@@ -22,16 +22,11 @@ class CodigoQR extends React.Component {
 
   state = {
     expanded: false,
-    hasCodigo: true,
+    hasCodigo: false,
   }
 
   componentWillMount() {
-    // TODO: el GET deberia decirnos si tiene o no QR generado
-    // if (this.state.hasCodigo) {
-      // this.props.doFetchCodigo();
-    // } else {
-    //   this.props.doGenerarCodigo();
-    // }
+    this.props.doGenerarCodigo();
   }
 
   componentDidMount() {
@@ -43,18 +38,13 @@ class CodigoQR extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps');
-    console.log(this.props);
-    console.log(nextProps);
-    // TODO: obtener nextProps.codigo
     if ((this.props.isFetching && nextProps.isFetching)
     || (nextProps.isFetching && !this.props.isFetching)) {
       Progress.show();
     } else {
       Progress.hide();
-      if (!this.props.hasCodigo && nextProps.hasCodigo) {
+      if (nextProps.hasCodigo) {
         this.setState({ hasCodigo: true });
-        this.props.doFetchCodigo();
       }
     }
   }
@@ -104,30 +94,23 @@ class CodigoQR extends React.Component {
                     alt="Código QR"
                     src={`${config.BASE_URL}/qremergencias/api/emergencyData/qr?user=${this.props.username}`}
                   />
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin.
-                    Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                  </p>
                 </CardText>
               )
             }
             <CardActions>
               {
-                this.state.hasCodigo ?
+                this.state.hasCodigo && (
                   <FlatButton
                     label={this.state.expanded ? 'Ocultar' : 'Ver'}
                     onClick={this.handleToggle}
                   />
-                  :
-                  <RaisedButton
-                    label="Generar Código"
-                    primary
-                    onClick={this.handleGenerarQR}
-                  />
+                )
               }
+              <RaisedButton
+                label="Generar Código"
+                primary
+                onClick={this.handleGenerarQR}
+              />
             </CardActions>
           </Card>
         </div>
