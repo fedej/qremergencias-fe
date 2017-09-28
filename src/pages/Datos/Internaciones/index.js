@@ -57,7 +57,7 @@ export default class Internaciones extends React.Component {
     } else {
       this.setState({ reasonError: '', institutionError: '', dateError: '' });
 
-      let hospitalizations = this.props.hospitalizations;
+      let hospitalizations = this.props.hospitalizations.slice();
 
       if (selectedIndex === '') {
         hospitalizations.push({
