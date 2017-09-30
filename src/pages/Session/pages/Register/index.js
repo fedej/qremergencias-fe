@@ -47,6 +47,10 @@ class Register extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState({ showError: false });
+  }
+
   handleRegister = () => {
     const { email, password, esMedico } = this.state;
 

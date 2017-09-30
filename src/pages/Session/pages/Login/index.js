@@ -61,6 +61,10 @@ class Login extends React.Component {
       if (this.readCookie('showCaptcha')) {
         // grecaptcha.reset();
         // grecaptcha.execute();
+
+        // TODO: chequear si se puede hacer esto de una
+        const { dispatch } = this.props;
+        dispatch(logIn({ username: email, password }));
       } else {
         const { dispatch } = this.props;
         dispatch(logIn({ username: email, password }));
