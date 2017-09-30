@@ -14,7 +14,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import Dialog from 'material-ui/Dialog';
 
-export default class Internaciones extends React.Component {
+export default class Cirugias extends React.Component {
 
   static defaultProps = {
     surgeries: [],
@@ -145,13 +145,13 @@ export default class Internaciones extends React.Component {
               {surgeries ? (
                 <TableBody>
                   {
-                    surgeries.map((p, i) =>
-                      (<TableRow selected={this.isSelected(i)}>
+                    surgeries.map((p, i) => (
+                      <TableRow selected={this.isSelected(i)} key={i}>
                         <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                         <TableRowColumn>{p.reason}</TableRowColumn>
                         <TableRowColumn>{p.institution}</TableRowColumn>
-                      </TableRow>),
-                    )
+                      </TableRow>
+                    ))
                   }
                 </TableBody>
               ) : ''}

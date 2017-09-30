@@ -103,68 +103,70 @@ class CargaHistoriaClinica extends React.Component {
   render() {
     return (
       <Home>
-        <Progress.Component
-          style={{ background: 'white' }}
-          thumbStyle={{ background: 'red' }}
-        />
-        <Card style={{ margin: '2%' }}>
-          <CardTitle title="Cargar Historia" />
-          <CardText>
-            <TextField
-              onChange={(e, nombre) => this.setState({ nombre })}
-              value={this.state.nombre}
-              errorText={this.state.nombreError}
-              hintText="Nombre del estudio"
-              floatingLabelText="Estudio"
-              fullWidth
-            />
-            <DatePicker
-              textFieldStyle={{ width: '100%' }}
-              hintText="Fecha del informe"
-              shouldDisableDate={disableFutureDays}
-              onChange={(e, fechaRealizacion) => this.setState({ fechaRealizacion })}
-            />
-            <p style={{ color: 'rgb(244, 67, 54)' }}>
-              {this.state.fechaRealizacionError}
-            </p>
-            <TextField
-              hintText="Texto del informe"
-              errorText={this.state.informeError}
-              onChange={(e, informe) => this.setState({ informe })}
-              multiLine
-              fullWidth
-              rowsMax={20}
-            />
-            <input
-              ref={(input) => { this.fileInput = input; }}
-              style={{ marginTop: '2vh' }}
-              type="file"
-              name="archivo"
-            />
-            <p style={{ color: 'rgb(244, 67, 54)' }}>
-              {this.state.fileError}
-            </p>
-          </CardText>
-          <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-            <RaisedButton
-              label="Cargar"
-              onTouchTap={this.handleSubmitHistoriaClinica}
-              primary
-            />
-          </CardActions>
-          <SweetAlert
-            show={this.state.showError}
-            title="Error"
-            text={this.props.error}
-            onConfirm={() => this.setState({ showError: false })}
+        <div>
+          <Progress.Component
+            style={{ background: 'white' }}
+            thumbStyle={{ background: 'red' }}
           />
-          <SweetAlert
-            show={this.state.showSuccess}
-            title="Exito"
-            text="Carga realizada con exito"
-            onConfirm={this.handleSuccessCallback}
-          />
-        </Card>
+          <Card style={{ margin: '2%' }}>
+            <CardTitle title="Cargar Historia" />
+            <CardText>
+              <TextField
+                onChange={(e, nombre) => this.setState({ nombre })}
+                value={this.state.nombre}
+                errorText={this.state.nombreError}
+                hintText="Nombre del estudio"
+                floatingLabelText="Estudio"
+                fullWidth
+              />
+              <DatePicker
+                textFieldStyle={{ width: '100%' }}
+                hintText="Fecha del informe"
+                shouldDisableDate={disableFutureDays}
+                onChange={(e, fechaRealizacion) => this.setState({ fechaRealizacion })}
+              />
+              <p style={{ color: 'rgb(244, 67, 54)' }}>
+                {this.state.fechaRealizacionError}
+              </p>
+              <TextField
+                hintText="Texto del informe"
+                errorText={this.state.informeError}
+                onChange={(e, informe) => this.setState({ informe })}
+                multiLine
+                fullWidth
+                rowsMax={20}
+              />
+              <input
+                ref={(input) => { this.fileInput = input; }}
+                style={{ marginTop: '2vh' }}
+                type="file"
+                name="archivo"
+              />
+              <p style={{ color: 'rgb(244, 67, 54)' }}>
+                {this.state.fileError}
+              </p>
+            </CardText>
+            <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+              <RaisedButton
+                label="Cargar"
+                onTouchTap={this.handleSubmitHistoriaClinica}
+                primary
+              />
+            </CardActions>
+            <SweetAlert
+              show={this.state.showError}
+              title="Error"
+              text={this.props.error}
+              onConfirm={() => this.setState({ showError: false })}
+            />
+            <SweetAlert
+              show={this.state.showSuccess}
+              title="Exito"
+              text="Carga realizada con exito"
+              onConfirm={this.handleSuccessCallback}
+            />
+          </Card>
+        </div>
       </Home>
     );
   }
