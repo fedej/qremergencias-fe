@@ -60,7 +60,7 @@ class CompleteRegister extends React.Component {
     } else if (lastName === '') {
       this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
     } else if (idNumber === '' || !isValidDNI(idNumber)) {
-      this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI valido: xx.xx.xx' });
+      this.setState({ nameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {
