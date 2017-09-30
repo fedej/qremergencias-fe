@@ -206,7 +206,7 @@ class Perfil extends React.Component {
     } else if (lastName === '') {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
     } else if (idNumber === '' || !isValidDNI(idNumber)) {
-      this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI válido: xx.xx.xx' });
+      this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {

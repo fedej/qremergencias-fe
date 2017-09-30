@@ -5,7 +5,7 @@ export function isValidEmail(email) {
 }
 
 export function isValidDNI(dni) {
-  const re = /^(?:[0-9]+\.){2}[0-9]+$/;
+  const re = /^[0-9]+$/;
   return re.test(dni);
 }
 
