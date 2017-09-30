@@ -31,7 +31,6 @@ class EditarPaciente extends React.Component {
           <Card style={{ margin: '20px' }}>
             <CardTitle
               title="Editar Paciente"
-              subtitle="Fede Jaite"
             />
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
               <RaisedButton

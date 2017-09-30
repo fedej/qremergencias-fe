@@ -20,12 +20,35 @@ const items = [
 ];
 
 const basicAllergies = [
-  <MenuItem key={1} value={'PENICILINA'} primaryText="PENICILINA" />,
-  <MenuItem key={2} value={'INSULINA'} primaryText="INSULINA" />,
-  <MenuItem key={3} value={'RAYOS X CON YODO'} primaryText="RAYOS X CON YODO" />,
-  <MenuItem key={4} value={'SULFAMIDAS'} primaryText="SULFAMIDAS" />,
-  <MenuItem key={5} value={'OTRO'} primaryText="OTRO" />,
-];
+  {
+    key: 'penicilina',
+    value: 'penicilina',
+  },
+  {
+    key: 'insulina',
+    value: 'insulina',
+  },
+  {
+    key: 'rayos_x_con_yodo',
+    value: 'rayos x con yodo',
+  },
+  {
+    key: 'sulfamidas',
+    value: 'sulfamidas',
+  },
+  {
+    key: 'otro',
+    value: 'otro',
+  },
+]
+
+// const basicAllergies = [
+//   <MenuItem key={'penicilina'} value="penicilina" primaryText="penicilina" />,
+//   <MenuItem key={'insulina'} value="insulina" primaryText="insulina" />,
+//   <MenuItem key={'rayos_x_con_yodo'} value="rayos x con yodo" primaryText="rayos x con yodo" />,
+//   <MenuItem key={'sulfamidas'} value="sulfamidas" primaryText="sulfamidas" />,
+//   <MenuItem key={'otro'} value="otro" primaryText="otro" />,
+// ];
 
 const styles = {
   block: {
@@ -75,12 +98,14 @@ export default class Generales extends React.Component {
   handleAddAllergy = () => {
     const general = this.props.general;
     const { allergyBasic, allergyDescription } = this.state;
-
-    var allergy = '';
-    if (this.state.allergyBasic !== 'OTRO') {
-      allergy = this.state.allergyBasic
-    }else{
-      allergy = this.state.allergyDescription
+    console.log(allergyBasic);
+    let allergy = '';
+    if (this.state.allergyBasic !== 'otro') {
+      const alergia = basicAllergies.find(a => a.value === allergyBasic);
+      console.log(alergia);
+      allergy = this.state.allergyBasic;
+    } else {
+      allergy = this.state.allergyDescription;
     }
 
     if (allergy) {
@@ -132,15 +157,27 @@ export default class Generales extends React.Component {
                   <SelectField
                     value={this.state.allergyBasic}
                     floatingLabelText="¿A que es alérgico?"
-                    onChange={(e, key, allergyBasic) => this.setState({ allergyBasic, allergyDescription : '' })}
-                    floatingLabelFixed>
-                    {basicAllergies}
+                    onChange={(e, key, allergyBasic) => {
+                      console.log(key, allergyBasic);
+                      this.setState({ allergyBasic, allergyDescription: '' });
+                    }}
+                    floatingLabelFixed
+                  >
+                    {
+                      basicAllergies.map((allergy, index) => (
+                        <MenuItem
+                          key={allergy.key}
+                          value={allergy.value}
+                          primaryText={allergy.value}
+                        />
+                      ))
+                    }
                   </SelectField>
                 </td>
                 <td>
                   <TextField
                     type="text"
-                    disabled={this.state.allergyBasic !== 'OTRO'}
+                    disabled={this.state.allergyBasic !== 'otro'}
                     value={this.state.allergyDescription}
                     onChange={(e, allergyDescription) => this.setState({ allergyDescription })}
                     floatingLabelText="Descripción"
