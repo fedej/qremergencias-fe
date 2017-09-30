@@ -52,7 +52,7 @@ export default class Cirugias extends React.Component {
       this.setState({ reasonError: 'Ingrese tipo.' });
     } else if (institution === '') {
       this.setState({ reasonError: '', institutionError: 'Ingrese una descripción.' });
-    } else if (date === '') {
+    } else if (!date) {
       this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });
     } else {
       this.setState({ reasonError: '', institutionError: '', dateError: '' });
