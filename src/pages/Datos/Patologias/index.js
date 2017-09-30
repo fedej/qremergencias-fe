@@ -18,11 +18,11 @@ import SelectField from 'material-ui/SelectField';
 
 
 const pathologyType = [
-  <MenuItem key={1} value={'ASTHMA'} primaryText="ASMA" />,
-  <MenuItem key={2} value={'HYPERTENSION'} primaryText="HIPERTENSIÓN" />,
-  <MenuItem key={3} value={'ONCOLOGICAL_BACKGROUND'} primaryText="ANTECEDENTE ONCOLÓGICO" />,
-  <MenuItem key={4} value={'RENAL_INSUFFICIENCY'} primaryText="INSUFICIENCIA SUPRARENAL" />,
-  <MenuItem key={5} value={'OTHER'} primaryText="OTRO" />,
+  <MenuItem key={1} value={'asma'} primaryText="asma" />,
+  <MenuItem key={2} value={'hipertension'} primaryText="hipertension" />,
+  <MenuItem key={3} value={'antecedentes_oncologicos'} primaryText="antecedentes oncologicos" />,
+  <MenuItem key={4} value={'insuficiencia_suprarrenal'} primaryText="insuficiencia suprarrenal" />,
+  <MenuItem key={5} value={'otro'} primaryText="otro" />,
 ];
 
 
@@ -60,7 +60,7 @@ export default class Patologias extends React.Component {
 
     if (type === '') {
       this.setState({ typeError: 'Ingrese tipo.' });
-    } else if (description === '' && type === 'OTHER') {
+    } else if (description === '' && type === 'otro') {
       this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
     } else if (!date) {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
@@ -181,7 +181,7 @@ export default class Patologias extends React.Component {
             <TextField
               value={this.state.description}
               errorText={this.state.descriptionError}
-              disabled={this.state.type !== 'OTHER'}
+              disabled={this.state.type !== 'otro'}
               onChange={(e, description) => this.setState({ description })}
               hintText="Descripción"
               type="text"
