@@ -29,7 +29,6 @@ class DatosDeEmergencia extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    error: PropTypes.string.isRequired,
     data: PropTypes.shape({
       general: PropTypes.shape({
         bloodType: PropTypes.string,
@@ -41,6 +40,7 @@ class DatosDeEmergencia extends React.Component {
       hospitalizations: PropTypes.array,
       medications: PropTypes.array,
       surgeries: PropTypes.array,
+      error: PropTypes.string,
     }),
     isFetching: PropTypes.bool.isRequired,
   }
@@ -58,10 +58,6 @@ class DatosDeEmergencia extends React.Component {
   componentWillMount() {
     const { dispatch, paciente } = this.props;
     dispatch(fetchData(paciente));
-
-    if (this.props.error) {
-      this.setState({ showError: true });
-    }
   }
 
   componentDidMount() {
@@ -82,7 +78,6 @@ class DatosDeEmergencia extends React.Component {
     } else {
       this.setState(data);
     }
-
 
     if (nextProps.isFetching && !this.props.isFetching) {
       Progress.show();
@@ -141,65 +136,67 @@ class DatosDeEmergencia extends React.Component {
 
     return (
       <Home>
-        <Progress.Component
-          style={{ background: 'white' }}
-          thumbStyle={{ background: 'red' }}
-        />
-        <div className={classnames('formCenter')}>
-          <Card style={{ display: 'flex', alignContent: 'space-between', flexDirection: 'column' }}>
-            <CardText>
-              <Tabs>
-                <Tab label="Generales">
-                  <Generales
-                    onGeneralChange={this.handleGeneralChange}
-                    general={general}
-                  />
-                </Tab>
-                <Tab label="Patologias">
-                  <Patologias
-                    onPathologiesChange={this.handlePathologiesChange}
-                    pathologies={pathologies || []}
-                  />
-                </Tab>
-                <Tab label="Internaciones">
-                  <Internaciones
-                    onHospitalizationsChange={this.handleHospitalizationsChange}
-                    hospitalizations={hospitalizations || []}
-                  />
-                </Tab>
-                <Tab label="Cirugias">
-                  <Cirugias
-                    onSurgeriesChange={this.handleSurgeriesChange}
-                    surgeries={surgeries || []}
-                  />
-                </Tab>
-                <Tab label="Medicaciones">
-                  <Medicaciones
-                    onMedicationChange={this.handleMedicationChange}
-                    medications={medications || []}
-                  />
-                </Tab>
-              </Tabs>
-            </CardText>
-            <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-              <RaisedButton
-                label="Guardar"
-                onTouchTap={this.handleSaveData}
-                primary
-              />
-              <RaisedButton
-                label="Cancelar"
-                onTouchTap={browserHistory.goBack}
-                primary
-              />
-            </CardActions>
-          </Card>
-          <SweetAlert
-            show={this.state.showSuccess}
-            title="Exito"
-            text="Los datos se han cargado con exito"
-            onConfirm={this.handleSuccessCallback}
+        <div>
+          <Progress.Component
+            style={{ background: 'white' }}
+            thumbStyle={{ background: 'red' }}
           />
+          <div className={classnames('formCenter')}>
+            <Card style={{ display: 'flex', alignContent: 'space-between', flexDirection: 'column' }}>
+              <CardText>
+                <Tabs>
+                  <Tab label="Generales">
+                    <Generales
+                      onGeneralChange={this.handleGeneralChange}
+                      general={general}
+                    />
+                  </Tab>
+                  <Tab label="Patologias">
+                    <Patologias
+                      onPathologiesChange={this.handlePathologiesChange}
+                      pathologies={pathologies || []}
+                    />
+                  </Tab>
+                  <Tab label="Internaciones">
+                    <Internaciones
+                      onHospitalizationsChange={this.handleHospitalizationsChange}
+                      hospitalizations={hospitalizations || []}
+                    />
+                  </Tab>
+                  <Tab label="Cirugias">
+                    <Cirugias
+                      onSurgeriesChange={this.handleSurgeriesChange}
+                      surgeries={surgeries || []}
+                    />
+                  </Tab>
+                  <Tab label="Medicaciones">
+                    <Medicaciones
+                      onMedicationChange={this.handleMedicationChange}
+                      medications={medications || []}
+                    />
+                  </Tab>
+                </Tabs>
+              </CardText>
+              <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
+                <RaisedButton
+                  label="Guardar"
+                  onTouchTap={this.handleSaveData}
+                  primary
+                />
+                <RaisedButton
+                  label="Cancelar"
+                  onTouchTap={browserHistory.goBack}
+                  primary
+                />
+              </CardActions>
+            </Card>
+            <SweetAlert
+              show={this.state.showSuccess}
+              title="Exito"
+              text="Los datos se han cargado con exito"
+              onConfirm={this.handleSuccessCallback}
+            />
+          </div>
         </div>
       </Home>
     );
