@@ -27,7 +27,7 @@ import { isValidDNI, isValidPhoneNumber } from '../../utils/validations';
 import Home from '../Home';
 
 
-class Internaciones extends React.Component {
+class Perfil extends React.Component {
 
   static defaultProps = {
     profile: {},
@@ -89,7 +89,6 @@ class Internaciones extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { perfil } = nextProps;
-
     if (perfil.error) {
       this.setState({ showMessage: true, message: perfil.error });
     }
@@ -119,10 +118,13 @@ class Internaciones extends React.Component {
       Progress.show();
     } else {
       Progress.hide();
-      this.setState({
-        showMessage: true,
-        message: 'Perfil actualizado',
-      });
+
+      if (this.props.isFetching) {
+        this.setState({
+          showMessage: true,
+          message: 'Perfil actualizado',
+        });
+      }
     }
   }
 
@@ -131,17 +133,13 @@ class Internaciones extends React.Component {
     return result;
   };
 
-  handleEraseContact = (key) => {
-    const contacts = this.state.contacts;
-    contacts.splice(key, 1);
+  handleEraseContact = () => {
+    const { contacts, selected } = this.state;
+    contacts.splice(selected, 1);
     this.setState({ contacts, selected: [] });
   }
 
-  handleRowSelection = (selectedRows) => {
-    this.setState({
-      selected: selectedRows,
-    });
-  };
+  handleRowSelection = selected => this.setState({ selected });
 
   handleCloseContactDialog = () => {
     this.setState({ contactDialogOpened: false });
@@ -434,4 +432,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Internaciones);
+export default connect(mapStateToProps)(Perfil);

@@ -62,12 +62,12 @@ export default class Patologias extends React.Component {
       this.setState({ typeError: 'Ingrese tipo.' });
     } else if (description === '' && type === 'OTHER') {
       this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
-    } else if (date === '') {
+    } else if (!date) {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
     } else {
       this.setState({ typeError: '', descriptionError: '', dateError: '' });
 
-      var pathos = this.props.pathologies.slice();
+      const pathos = this.props.pathologies.slice();
 
       if (selectedIndex === '') {
         pathos.push({
@@ -140,7 +140,7 @@ export default class Patologias extends React.Component {
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
-          <CardTitle title="Patologias" />
+          <CardTitle title="Patologías" />
           <CardText>
             <Table onRowSelection={this.handleRowSelection}>
               <TableHeader>
@@ -171,8 +171,8 @@ export default class Patologias extends React.Component {
           >
             <SelectField
               value={this.state.type}
-              floatingLabelText="Tipo de patología"            
-              onChange={(e, key, type) => this.setState({ type, description : '' })}
+              floatingLabelText="Tipo de patología"
+              onChange={(e, key, type) => this.setState({ type, description: '' })}
               floatingLabelFixed
               errorText={this.state.typeError}
             >
