@@ -26,4 +26,14 @@ export default class PacienteService {
     const API = new EmergencydatacontrollerApi(UserService.getApiClient());
     return API.getChangesUsingGET();
   }
+
+  static getCodigoQR() {
+    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    return API.getQRUsingGET();
+  }
+
+  static generarCodigoQR() {
+    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    return API.createQRUsingPOST();
+  }
 }

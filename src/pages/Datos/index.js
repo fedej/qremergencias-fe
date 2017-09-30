@@ -128,8 +128,6 @@ class DatosDeEmergencia extends React.Component {
 
   handleSuccessCallback = () => {
     this.setState({ showSuccess: false });
-    const { dispatch, paciente } = this.props;
-    dispatch(fetchData(paciente));
   }
 
   render() {

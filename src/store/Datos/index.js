@@ -78,10 +78,10 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case DATA_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case DATA_SUCCESS:
       return {
-        ...INITIAL_STATE,
+        ...state,
         isFetching: false,
         general: action.data.general,
         pathologies: action.data.pathologies,
@@ -90,13 +90,13 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
         surgeries: action.data.surgeries,
       };
     case DATA_ERROR:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     case UPDATE_REQUEST:
-      return { ...INITIAL_STATE, isFetching: true };
+      return { ...state, isFetching: true };
     case UPDATE_SUCCESS:
-      return { ...INITIAL_STATE, isFetching: false, uploaded: true };
+      return { ...state, isFetching: false, uploaded: true };
     case UPDATE_ERROR:
-      return { ...INITIAL_STATE, isFetching: false, error: action.message };
+      return { ...state, isFetching: false, error: action.message };
     default:
       return state;
   }

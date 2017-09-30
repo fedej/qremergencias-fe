@@ -65,6 +65,9 @@ export default class LoginUserDTO {
             if (data.hasOwnProperty('roles')) {
                 obj['roles'] = ApiClient.convertToType(data['roles'], ['String']);
             }
+            if (data.hasOwnProperty('email')) {
+                obj['email'] = ApiClient.convertToType(data['email'], 'String');
+            }
         }
         return obj;
     }
@@ -81,6 +84,10 @@ export default class LoginUserDTO {
     * @member {Array.<String>} roles
     */
     roles = undefined;
+    /**
+    * @member {String} email
+    */
+    email = undefined;
 
 
 
