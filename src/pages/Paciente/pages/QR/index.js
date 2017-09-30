@@ -91,6 +91,7 @@ class CodigoQR extends React.Component {
                   expandable
                 >
                   <img
+                    style={{ width: '100%' }}
                     alt="Código QR"
                     src={`${config.BASE_URL}/qremergencias/api/emergencyData/qr?user=${this.props.username}`}
                   />

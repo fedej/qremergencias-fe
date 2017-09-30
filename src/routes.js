@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router, Route } from 'react-router';
 
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './pages/Session/pages/Login';
+import Register from './pages/Session/pages/Register';
 import RegisterSuccess from './pages/Session/pages/RegisterSuccess';
 import CompleteRegister from './pages/Session/pages/CompleteRegister';
 import ResetPassword from './pages/Session/pages/ResetPassword';

@@ -9,8 +9,8 @@ import SweetAlert from 'sweetalert-react';
 
 import 'sweetalert/dist/sweetalert.css';
 
-import { logIn } from '../../store/Auth';
-import { isValidEmail } from '../../utils/validations';
+import { logIn } from '../../../../store/Auth';
+import { isValidEmail } from '../../../../utils/validations';
 import './styles.css';
 
 
@@ -61,6 +61,10 @@ class Login extends React.Component {
       if (this.readCookie('showCaptcha')) {
         // grecaptcha.reset();
         // grecaptcha.execute();
+
+        // TODO: chequear si se puede hacer esto de una
+        const { dispatch } = this.props;
+        dispatch(logIn({ username: email, password }));
       } else {
         const { dispatch } = this.props;
         dispatch(logIn({ username: email, password }));

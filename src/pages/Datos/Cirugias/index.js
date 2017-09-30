@@ -14,7 +14,7 @@ import classnames from 'classnames';
 import moment from 'moment';
 import Dialog from 'material-ui/Dialog';
 
-export default class Internaciones extends React.Component {
+export default class Cirugias extends React.Component {
 
   static defaultProps = {
     surgeries: [],
@@ -52,7 +52,7 @@ export default class Internaciones extends React.Component {
       this.setState({ reasonError: 'Ingrese tipo.' });
     } else if (institution === '') {
       this.setState({ reasonError: '', institutionError: 'Ingrese una descripción.' });
-    } else if (date === '') {
+    } else if (!date) {
       this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });
     } else {
       this.setState({ reasonError: '', institutionError: '', dateError: '' });
@@ -132,7 +132,7 @@ export default class Internaciones extends React.Component {
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
-          <CardTitle title="Internaciones" />
+          <CardTitle title="Cirugías" />
           <CardText>
             <Table onRowSelection={this.handleRowSelection}>
               <TableHeader>
@@ -145,13 +145,13 @@ export default class Internaciones extends React.Component {
               {surgeries ? (
                 <TableBody>
                   {
-                    surgeries.map((p, i) =>
-                      (<TableRow selected={this.isSelected(i)}>
+                    surgeries.map((p, i) => (
+                      <TableRow selected={this.isSelected(i)} key={i}>
                         <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                         <TableRowColumn>{p.reason}</TableRowColumn>
                         <TableRowColumn>{p.institution}</TableRowColumn>
-                      </TableRow>),
-                    )
+                      </TableRow>
+                    ))
                   }
                 </TableBody>
               ) : ''}
@@ -159,7 +159,7 @@ export default class Internaciones extends React.Component {
           </CardText>
           <Dialog
             open={this.state.dialogOpened}
-            title="Detalle de Hospitalizacion"
+            title="Detalle de Cirugía"
             modal
             actions={actions}
           >

@@ -6,13 +6,12 @@ import { TextField, RaisedButton, FlatButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import Toggle from 'material-ui/Toggle';
 import classnames from 'classnames';
-
 import SweetAlert from 'sweetalert-react';
 
 import 'sweetalert/dist/sweetalert.css';
 
-import { signUp } from '../../store/Auth';
-import { isValidEmail, isValidPassword } from '../../utils/validations';
+import { signUp } from '../../../../store/Auth';
+import { isValidEmail, isValidPassword } from '../../../../utils/validations';
 import './styles.css';
 
 class Register extends React.Component {
@@ -46,6 +45,10 @@ class Register extends React.Component {
     if (nextProps.auth.error) {
       this.setState({ showError: true });
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({ showError: false });
   }
 
   handleRegister = () => {

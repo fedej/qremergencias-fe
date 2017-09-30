@@ -135,7 +135,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case LOGIN_FAILURE:
       return { ...state, isFetching: false, error: action.message };
     case REGISTER_REQUEST:
-      return { ...state, isFetching: true };
+      return { ...state, isFetching: true, error: '' };
     case REGISTER_SUCCESS:
       return { ...state, isFetching: false, error: '' };
     case REGISTER_FAILURE:
