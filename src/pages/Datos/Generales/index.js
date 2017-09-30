@@ -42,14 +42,6 @@ const basicAllergies = [
   },
 ]
 
-// const basicAllergies = [
-//   <MenuItem key={'penicilina'} value="penicilina" primaryText="penicilina" />,
-//   <MenuItem key={'insulina'} value="insulina" primaryText="insulina" />,
-//   <MenuItem key={'rayos_x_con_yodo'} value="rayos x con yodo" primaryText="rayos x con yodo" />,
-//   <MenuItem key={'sulfamidas'} value="sulfamidas" primaryText="sulfamidas" />,
-//   <MenuItem key={'otro'} value="otro" primaryText="otro" />,
-// ];
-
 const styles = {
   block: {
     maxWidth: 250,
