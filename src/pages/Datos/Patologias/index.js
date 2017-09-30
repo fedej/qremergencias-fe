@@ -140,7 +140,7 @@ export default class Patologias extends React.Component {
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
-          <CardTitle title="Patologias" />
+          <CardTitle title="Patologías" />
           <CardText>
             <Table onRowSelection={this.handleRowSelection}>
               <TableHeader>

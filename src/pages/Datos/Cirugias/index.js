@@ -132,7 +132,7 @@ export default class Cirugias extends React.Component {
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
-          <CardTitle title="Internaciones" />
+          <CardTitle title="Cirugías" />
           <CardText>
             <Table onRowSelection={this.handleRowSelection}>
               <TableHeader>
@@ -159,7 +159,7 @@ export default class Cirugias extends React.Component {
           </CardText>
           <Dialog
             open={this.state.dialogOpened}
-            title="Detalle de Hospitalizacion"
+            title="Detalle de Cirugía"
             modal
             actions={actions}
           >
