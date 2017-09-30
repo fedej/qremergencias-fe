@@ -158,25 +158,25 @@ class DatosDeEmergencia extends React.Component {
                 <Tab label="Patologias">
                   <Patologias
                     onPathologiesChange={this.handlePathologiesChange}
-                    pathologies={pathologies}
+                    pathologies={pathologies || []}
                   />
                 </Tab>
                 <Tab label="Internaciones">
                   <Internaciones
                     onHospitalizationsChange={this.handleHospitalizationsChange}
-                    hospitalizations={hospitalizations}
+                    hospitalizations={hospitalizations || []}
                   />
                 </Tab>
                 <Tab label="Cirugias">
                   <Cirugias
                     onSurgeriesChange={this.handleSurgeriesChange}
-                    surgeries={surgeries}
+                    surgeries={surgeries || []}
                   />
                 </Tab>
                 <Tab label="Medicaciones">
                   <Medicaciones
                     onMedicationChange={this.handleMedicationChange}
-                    medications={medications}
+                    medications={medications || []}
                   />
                 </Tab>
               </Tabs>
