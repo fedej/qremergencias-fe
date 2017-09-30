@@ -131,17 +131,13 @@ class Internaciones extends React.Component {
     return result;
   };
 
-  handleEraseContact = (key) => {
-    const contacts = this.state.contacts;
-    contacts.splice(key, 1);
+  handleEraseContact = () => {
+    const { contacts, selected } = this.state;
+    contacts.splice(selected, 1);
     this.setState({ contacts, selected: [] });
   }
 
-  handleRowSelection = (selectedRows) => {
-    this.setState({
-      selected: selectedRows,
-    });
-  };
+  handleRowSelection = selected => this.setState({ selected });
 
   handleCloseContactDialog = () => {
     this.setState({ contactDialogOpened: false });
