@@ -9,11 +9,12 @@ import config from '../../../../constants/app';
 
 import Home from '../../../Home';
 
-import { fetchCodigo, generarCodigo } from '../../../../store/Paciente';
+import { fetchCodigo, generarCodigo, deprecarCodigo } from '../../../../store/Paciente';
 
 class CodigoQR extends React.Component {
   static propTypes = {
     doGenerarCodigo: PropTypes.func.isRequired,
+    doDeprecarCodigo: PropTypes.func.isRequired,
     // doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasCodigo: PropTypes.bool.isRequired,
@@ -45,6 +46,8 @@ class CodigoQR extends React.Component {
       Progress.hide();
       if (nextProps.hasCodigo) {
         this.setState({ hasCodigo: true });
+      } else {
+        this.setState({ hasCodigo: false });
       }
     }
   }
@@ -58,6 +61,7 @@ class CodigoQR extends React.Component {
   }
 
   handleGenerarQR = () => this.props.doGenerarCodigo();
+  handleDeprecarQR = () => this.props.doDeprecarCodigo();
 
   render() {
     return (
@@ -101,10 +105,16 @@ class CodigoQR extends React.Component {
             <CardActions>
               {
                 this.state.hasCodigo && (
-                  <FlatButton
-                    label={this.state.expanded ? 'Ocultar' : 'Ver'}
-                    onClick={this.handleToggle}
-                  />
+                  <none>
+                    <FlatButton
+                      label={this.state.expanded ? 'Ocultar' : 'Ver'}
+                      onClick={this.handleToggle}
+                    />
+                    <FlatButton
+                      label="Deprecar Código"
+                      onClick={this.handleDeprecarQR}
+                    />
+                    </none>
                 )
               }
               <RaisedButton
@@ -130,6 +140,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   doFetchCodigo: () => dispatch(fetchCodigo()),
   doGenerarCodigo: () => dispatch(generarCodigo()),
+  doDeprecarCodigo: () => dispatch(deprecarCodigo()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CodigoQR);

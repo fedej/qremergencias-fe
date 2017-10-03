@@ -36,4 +36,9 @@ export default class PacienteService {
     const API = new EmergencydatacontrollerApi(UserService.getApiClient());
     return API.createQRUsingPOST();
   }
+
+  static deprecarCodigoQR() {
+    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    return API.deleteQRUsingDELETE();
+  }
 }

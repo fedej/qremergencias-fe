@@ -17,6 +17,10 @@ export const OBTENER_QR_REQUEST = 'PACIENTE/OBTENER_QR_REQUEST';
 export const OBTENER_QR_SUCCESS = 'PACIENTE/OBTENER_QR_SUCCESS';
 export const OBTENER_QR_ERROR = 'PACIENTE/OBTENER_QR_ERROR';
 
+export const DEPRECAR_QR_REQUEST = 'PACIENTE/DEPRECAR_QR_REQUEST';
+export const DEPRECAR_QR_SUCCESS = 'PACIENTE/DEPRECAR_QR_SUCCESS';
+export const DEPRECAR_QR_ERROR = 'PACIENTE/DEPRECAR_QR_ERROR';
+
 function cambiosSuccess(cambios) {
   return {
     type: PACIENTE_CAMBIOS_DATOS_SUCCESS,
@@ -77,6 +81,14 @@ export const generarCodigo = () => (dispatch) => {
     .catch(err => dispatch({ type: GENERAR_QR_ERROR, error: err.message }));
 };
 
+export const deprecarCodigo = () => (dispatch) => {
+  dispatch({ type: DEPRECAR_QR_REQUEST });
+
+  PacienteService.deprecarCodigoQR()
+    .then(() => dispatch({ type: DEPRECAR_QR_SUCCESS }))
+    .catch(err => dispatch({ type: DEPRECAR_QR_ERROR, error: err.message }));
+};
+
 const INITIAL_STATE = {
   editando: {},
   isFetching: false,
@@ -111,6 +123,12 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case OBTENER_QR_SUCCESS:
       return { ...state, isFetching: false, hasCodigo: true, codigo: action.codigo };
     case OBTENER_QR_ERROR:
+      return { ...state, isFetching: false, error: action.message };
+    case DEPRECAR_QR_REQUEST:
+      return { ...state, isFetching: true };
+    case DEPRECAR_QR_SUCCESS:
+      return { ...state, isFetching: false, hasCodigo: false };
+    case DEPRECAR_QR_ERROR:
       return { ...state, isFetching: false, error: action.message };
     default:
       return state;
