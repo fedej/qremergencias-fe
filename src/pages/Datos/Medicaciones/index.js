@@ -16,15 +16,15 @@ import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 
 const periodsMapping = {
-  DAILY: 'DIARIAMENTE',
-  WEEKLY: 'SEMANALMENTE',
-  MONTHLY: 'MENSUALMENTE',
+  diariamente: 'DIARIAMENTE',
+  semanalmente: 'SEMANALMENTE',
+  mensualmente: 'MENSUALMENTE',
 };
 
 const periods = [
-  <MenuItem key={1} value={'DAILY'} primaryText={periodsMapping.DAILY} />,
-  <MenuItem key={2} value={'WEEKLY'} primaryText={periodsMapping.WEEKLY} />,
-  <MenuItem key={3} value={'MONTHLY'} primaryText={periodsMapping.MONTHLY} />,
+  <MenuItem key={1} value={periodsMapping.diariamente.toLowerCase()} primaryText={periodsMapping.diariamente} />,
+  <MenuItem key={2} value={periodsMapping.semanalmente.toLowerCase()} primaryText={periodsMapping.semanalmente} />,
+  <MenuItem key={3} value={periodsMapping.mensualmente.toLowerCase()} primaryText={periodsMapping.mensualmente} />,
 ];
 
 export default class Medicaciones extends React.Component {

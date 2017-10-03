@@ -102,22 +102,22 @@ export default class MedicationDTO {
     static PeriodEnum = {
     
         /**
-         * value: "DAILY"
+         * value: "diariamente"
          * @const
          */
-        "DAILY": "DAILY",
+        "diariamente": "diariamente",
     
         /**
-         * value: "WEEKLY"
+         * value: "semanalmente"
          * @const
          */
-        "WEEKLY": "WEEKLY",
+        "semanalmente": "semanalmente",
     
         /**
-         * value: "MONTHLY"
+         * value: "mensualmente"
          * @const
          */
-        "MONTHLY": "MONTHLY"    
+        "mensualmente": "mensualmente"    
     };
 
 

@@ -102,16 +102,16 @@ export default class HospitalizationDTO {
     static TypeEnum = {
     
         /**
-         * value: "SURGERY"
+         * value: "cirugia"
          * @const
          */
-        "SURGERY": "SURGERY",
+        "cirugia": "cirugia",
     
         /**
-         * value: "ADMISSION"
+         * value: "admision"
          * @const
          */
-        "ADMISSION": "ADMISSION"    
+        "admision": "admision"    
     };
 
 

@@ -79,6 +79,47 @@ export default class EmergencydatacontrollerApi {
 
 
     /**
+     * deleteQR
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    deleteQRUsingDELETEWithHttpInfo() {
+      let postBody = null;
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/qr', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * deleteQR
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    deleteQRUsingDELETE() {
+      return this.deleteQRUsingDELETEWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * getChanges
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfChangesDTO} and HTTP response
      */
@@ -113,6 +154,55 @@ export default class EmergencydatacontrollerApi {
      */
     getChangesUsingGET() {
       return this.getChangesUsingGETWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * getEmergencyDataByUuid
+     * @param {String} uuid uuid
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmergencyDataDTO} and HTTP response
+     */
+    getEmergencyDataByUuidUsingGETWithHttpInfo(uuid) {
+      let postBody = null;
+
+      // verify the required parameter 'uuid' is set
+      if (uuid === undefined || uuid === null) {
+        throw new Error("Missing the required parameter 'uuid' when calling getEmergencyDataByUuidUsingGET");
+      }
+
+
+      let pathParams = {
+        'uuid': uuid
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = EmergencyDataDTO;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/{uuid}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * getEmergencyDataByUuid
+     * @param {String} uuid uuid
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmergencyDataDTO}
+     */
+    getEmergencyDataByUuidUsingGET(uuid) {
+      return this.getEmergencyDataByUuidUsingGETWithHttpInfo(uuid)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -170,15 +260,22 @@ export default class EmergencydatacontrollerApi {
 
     /**
      * getQR
+     * @param {String} user user
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link File} and HTTP response
      */
-    getQRUsingGETWithHttpInfo() {
+    getQRUsingGETWithHttpInfo(user) {
       let postBody = null;
+
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling getQRUsingGET");
+      }
 
 
       let pathParams = {
       };
       let queryParams = {
+        'user': user
       };
       let headerParams = {
       };
@@ -199,10 +296,11 @@ export default class EmergencydatacontrollerApi {
 
     /**
      * getQR
+     * @param {String} user user
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link File}
      */
-    getQRUsingGET() {
-      return this.getQRUsingGETWithHttpInfo()
+    getQRUsingGET(user) {
+      return this.getQRUsingGETWithHttpInfo(user)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

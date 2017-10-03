@@ -78,6 +78,9 @@ export default class EmergencyDataDTO {
             if (data.hasOwnProperty('surgeries')) {
                 obj['surgeries'] = ApiClient.convertToType(data['surgeries'], [HospitalizationDTO]);
             }
+            if (data.hasOwnProperty('uuid')) {
+                obj['uuid'] = ApiClient.convertToType(data['uuid'], 'String');
+            }
         }
         return obj;
     }
@@ -106,6 +109,10 @@ export default class EmergencyDataDTO {
     * @member {Array.<module:model/HospitalizationDTO>} surgeries
     */
     surgeries = undefined;
+    /**
+    * @member {String} uuid
+    */
+    uuid = undefined;
 
 
 

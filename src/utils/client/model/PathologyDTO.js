@@ -95,34 +95,34 @@ export default class PathologyDTO {
     static TypeEnum = {
     
         /**
-         * value: "ASTHMA"
+         * value: "asma"
          * @const
          */
-        "ASTHMA": "ASTHMA",
+        "asma": "asma",
     
         /**
-         * value: "HYPERTENSION"
+         * value: "hipertension"
          * @const
          */
-        "HYPERTENSION": "HYPERTENSION",
+        "hipertension": "hipertension",
     
         /**
-         * value: "ONCOLOGICAL_BACKGROUND"
+         * value: "antecedentes_oncologicos"
          * @const
          */
-        "ONCOLOGICAL_BACKGROUND": "ONCOLOGICAL_BACKGROUND",
+        "antecedentes_oncologicos": "antecedentes_oncologicos",
     
         /**
-         * value: "RENAL_INSUFFICIENCY"
+         * value: "insuficiencia_suprarrenal"
          * @const
          */
-        "RENAL_INSUFFICIENCY": "RENAL_INSUFFICIENCY",
+        "insuficiencia_suprarrenal": "insuficiencia_suprarrenal",
     
         /**
-         * value: "OTHER"
+         * value: "otro"
          * @const
          */
-        "OTHER": "OTHER"    
+        "otro": "otro"    
     };
 
 
