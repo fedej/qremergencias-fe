@@ -17,14 +17,20 @@ import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 
 
-const pathologyType = [
+/*const pathologyType = [
   <MenuItem key={1} value={'asma'} primaryText="asma" />,
   <MenuItem key={2} value={'hipertension'} primaryText="hipertension" />,
   <MenuItem key={3} value={'antecedentes_oncologicos'} primaryText="antecedentes oncologicos" />,
   <MenuItem key={4} value={'insuficiencia_suprarrenal'} primaryText="insuficiencia suprarrenal" />,
   <MenuItem key={5} value={'otro'} primaryText="otro" />,
+];*/
+const pathologyType = [
+  { key: 'asma', value: 'asma' },
+  { key: 'hipertension', value: 'hipertension' },
+  { key: 'antecedentes_oncologicos', value: 'antecedentes oncologicos' },
+  { key: 'insuficiencia_suprarrenal', value: 'insuficiencia suprarrenal' },
+  { key: 'otro', value: 'otro' },
 ];
-
 
 export default class Patologias extends React.Component {
 
@@ -183,7 +189,13 @@ export default class Patologias extends React.Component {
               floatingLabelFixed
               errorText={this.state.typeError}
             >
-              {pathologyType}
+              {pathologyType.map(pathology => (
+                <MenuItem
+                  key={pathology.key}
+                  value={pathology.key}
+                  primaryText={pathology.value}
+                />
+              ))}
             </SelectField>
             <TextField
               value={this.state.description}
