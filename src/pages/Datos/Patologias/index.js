@@ -192,7 +192,7 @@ export default class Patologias extends React.Component {
               {pathologyType.map(pathology => (
                 <MenuItem
                   key={pathology.key}
-                  value={pathology.value}
+                  value={pathology.key}
                   primaryText={pathology.value}
                 />
               ))}
