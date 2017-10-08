@@ -36,6 +36,10 @@ export default class UserService {
     return UserService.getApi().logoutUsingPOST();
   }
 
+  static changePassword(options) {
+    return UserService.getApi().changePasswordUsingPOST(options);
+  }
+
   static completeRegistration(data) {
     return UserService.getApi().completeRegistrationUsingPOST(data);
   }

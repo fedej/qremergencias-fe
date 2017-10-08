@@ -20,7 +20,7 @@ import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
 
-import { fetchProfile, updateProfile } from '../../store/Perfil';
+import { fetchProfile, updateProfile, changePassword } from '../../store/Perfil';
 
 import { isValidDNI, isValidPhoneNumber } from '../../utils/validations';
 
@@ -72,25 +72,20 @@ class Perfil extends React.Component {
     message: '',
     title: '',
     loaded: false,
+    password: '',
+    newPassword: '',
+    confirmPassword: '',
   }
 
   componentWillMount() {
-    const { dispatch, error } = this.props;
+    const { dispatch } = this.props;
     dispatch(fetchProfile());
-
-    if (error) {
-      this.setState({
-        showMessage: true,
-        message: error,
-        title: 'Error al actualizar perfil',
-      });
-    }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { perfil } = nextProps;
-    if (perfil.error) {
-      this.setState({ showMessage: true, message: perfil.error });
+    const { perfil, error } = nextProps;
+    if (error) {
+      this.setState({ showMessage: true, message: error });
     }
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
@@ -98,8 +93,11 @@ class Perfil extends React.Component {
       if (this.state.loaded) {
         more = {
           showMessage: true,
-          title: 'Perfil actualizado',
-          message: 'Perfil actualizado',
+          title: 'Perfil',
+          message: 'Modificación exitosa',
+          password: '',
+          newPassword: '',
+          confirmPassword: '',
         };
       } else {
         more = { loaded: true };
@@ -112,14 +110,17 @@ class Perfil extends React.Component {
         birthDate: perfil.birthDate,
         sex: perfil.sex,
         contacts: perfil.contacts,
+        password: '',
+        newPassword: '',
+        confirmPassword: '',
         ...more,
       }, Progress.hide);
-    } else if (this.props.isFetching || (nextProps.isFetching && !this.props.isFetching)) {
+    } else if (!this.props.isFetching && nextProps.isFetching) {
       Progress.show();
     } else {
       Progress.hide();
 
-      if (this.props.isFetching) {
+      if (this.props.isFetching && !error) {
         this.setState({
           showMessage: true,
           message: 'Perfil actualizado',
@@ -224,6 +225,25 @@ class Perfil extends React.Component {
 
       // TODO = devolver un mensaje de guardado exitoso
       dispatch(updateProfile(data));
+    }
+  }
+
+  handleChangePassword = () => {
+    const { dispatch } = this.props;
+    const {
+      password,
+      newPassword,
+      confirmPassword,
+    } = this.state;
+
+    if (newPassword === confirmPassword) {
+      dispatch(changePassword({ password, newPassword, confirmPassword }));
+    } else {
+      this.setState({
+        showMessage: true,
+        title: 'Perfil',
+        message: 'Verifique la nueva contraseña introducida',
+      });
     }
   }
 
@@ -399,6 +419,41 @@ class Perfil extends React.Component {
                 </Card>
               ) : null
             }
+            <Card style={{ margin: '20px' }}>
+              <CardTitle
+                title="Cambiar Contraseña"
+              />
+              <CardText>
+                <TextField
+                  onChange={(e, password) => this.setState({ password })}
+                  hintText="Contraseña"
+                  type="password"
+                  floatingLabelText="Contraseña"
+                  fullWidth
+                />
+                <TextField
+                  onChange={(e, newPassword) => this.setState({ newPassword })}
+                  hintText="Contraseña"
+                  type="password"
+                  floatingLabelText="Nueva Contraseña"
+                  fullWidth
+                />
+                <TextField
+                  onChange={(e, confirmPassword) => this.setState({ confirmPassword })}
+                  hintText="Contraseña"
+                  type="password"
+                  floatingLabelText="Confirmar Contraseña"
+                  fullWidth
+                />
+              </CardText>
+              <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
+                <RaisedButton
+                  label="Cambiar"
+                  onTouchTap={this.handleChangePassword}
+                  primary
+                />
+              </CardActions>
+            </Card>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
                 label="Guardar"
