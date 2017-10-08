@@ -28,6 +28,16 @@ export default class UserService {
     return UserService.getApi().registerUsingPOST(credenciales);
   }
 
+  static registerDoctor(creds) {
+    const credenciales = {
+      email: creds.email,
+      password: creds.password,
+      registrationNumber: creds.registrationNumber,
+      role: creds.role,
+    }
+    return UserService.getApi().registerDoctorUsingPOST(creds.file, credenciales);
+  }
+
   static login(credenciales) {
     return UserService.getApi().loginUsingPOST(credenciales.username, credenciales.password);
   }

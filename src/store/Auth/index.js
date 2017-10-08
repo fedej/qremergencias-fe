@@ -97,10 +97,22 @@ function registerError(message) {
 
 export const signUp = creds => (dispatch) => {
   dispatch(requestRegister());
-
-  UserService.register(creds)
-    .then(() => dispatch(registerSuccess()))
-    .catch(err => dispatch(registerError(err.message)));
+  if (creds.role === 'ROLE_MEDICO') {
+    const credenciales = {
+      password: creds.password,
+      email: creds.email,
+      role: creds.role,
+      registrationNumber: creds.registrationNumber,
+      file: creds.file,
+    };
+    UserService.registerDoctor(credenciales)
+      .then(() => dispatch(registerSuccess()))
+      .catch(err => dispatch(registerError(err.message)));
+  } else {
+    UserService.register(creds)
+      .then(() => dispatch(registerSuccess()))
+      .catch(err => dispatch(registerError(err.message)));
+  }
 };
 
 export const completeRegistration = data => (dispatch) => {

@@ -11,7 +11,7 @@ import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
 
 import { signUp } from '../../../../store/Auth';
-import { isValidEmail, isValidPassword } from '../../../../utils/validations';
+import { isValidEmail, isValidPassword, isValidMatricula } from '../../../../utils/validations';
 import './styles.css';
 
 class Register extends React.Component {
@@ -30,6 +30,9 @@ class Register extends React.Component {
     password: '',
     emailError: '',
     passwordError: '',
+    registrationNumber: '',
+    registrationNumberError: '',
+    fileError: '',
   }
 
   componentWillMount() {
@@ -52,18 +55,23 @@ class Register extends React.Component {
   }
 
   handleRegister = () => {
-    const { email, password, esMedico } = this.state;
+    const { email, password, esMedico, registrationNumber, evidence } = this.state;
 
     if (email === '' || !isValidEmail(email)) {
       this.setState({ emailError: 'Ingrese una dirección de mail válida.' });
     } else if (password === '' || !isValidPassword(password)) {
       this.setState({ emailError: '', passwordError: 'Ingrese una contraseña válida.' });
+    } else if (esMedico && (registrationNumber === '' || !isValidMatricula(registrationNumber))) {
+      this.setState({ emailError: '', passwordError: '', registrationNumberError: 'Debe ingresar su matrícula.' })
+    } else if (esMedico && !this.fileInput.files[0]) {
+      this.setState({ emailError: '', passwordError: '', registrationNumberError: '', evidenceError: 'Debe ingresar la evidencia que verifique que usted es médico.'})
     } else {
-      this.setState({ emailError: '', passwordError: '' });
+      this.setState({ emailError: '', passwordError: '', registrationNumberError: '', evidenceError: '' });
 
       const { dispatch } = this.props;
       const role = esMedico ? 'ROLE_MEDICO' : 'ROLE_PACIENTE';
-      dispatch(signUp({ email, password, role }));
+      const file = this.fileInput.files[0];
+      dispatch(signUp({ email, password, role, registrationNumber, file }));
     }
   }
 
@@ -109,6 +117,37 @@ class Register extends React.Component {
               label="Soy médico"
             />
           </CardText>
+          {
+            this.state.esMedico && (
+              <div>
+                <CardText>
+                  <TextField
+                    onChange={(e, registrationNumber) => this.setState({ registrationNumber })}
+                    value={this.state.registrationNumber}
+                    errorText={this.state.registrationNumberError}
+                    hintText="tu matrícula"
+                    floatingLabelText="Matrícula"
+                    fullWidth
+                  />
+                </CardText>
+                <CardText>
+                  <input
+                    ref={(input) => { this.fileInput = input;  }}
+                    style={{ marginTop: '2vh' }}
+                    type="file"
+                    name="archivo"
+                  />
+                  {this.state.evidenceError ? (
+                    <CardText color="gray">
+                    Documento firmado para certificar la validez <br />
+                    en el Registro Único de Profesionales.<br />
+                    Mas información <a href="http://www.msal.gob.ar/images/stories/tramites-servicios/certificaciones/ru2.pdf">aquí</a>
+                    </CardText>) : ''
+                  }
+                </CardText>
+              </div>
+            )
+          }
           <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
             <RaisedButton
               label="Registrarse"

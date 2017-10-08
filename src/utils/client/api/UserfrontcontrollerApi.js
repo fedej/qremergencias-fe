@@ -259,6 +259,70 @@ export default class UserfrontcontrollerApi {
 
 
     /**
+     * registerDoctor
+     * @param {File} file file
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.password 
+     * @param {String} opts.email 
+     * @param {String} opts.role 
+     * @param {String} opts.registrationNumber 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    registerDoctorUsingPOSTWithHttpInfo(file, opts) {
+      opts = opts || {};
+      let postBody = null;
+
+      // verify the required parameter 'file' is set
+      if (file === undefined || file === null) {
+        throw new Error("Missing the required parameter 'file' when calling registerDoctorUsingPOST");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'password': opts['password'],
+        'email': opts['email'],
+        'role': opts['role'],
+        'registrationNumber': opts['registrationNumber']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'file': file
+      };
+
+      let authNames = [];
+      let contentTypes = ['multipart/form-data'];
+      let accepts = ['*/*'];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/api/userFront/register/doctor', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * registerDoctor
+     * @param {File} file file
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.password 
+     * @param {String} opts.email 
+     * @param {String} opts.role 
+     * @param {String} opts.registrationNumber 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    registerDoctorUsingPOST(file, opts) {
+      return this.registerDoctorUsingPOSTWithHttpInfo(file, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * register
      * @param {module:model/CreateUserDTO} model model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
