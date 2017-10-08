@@ -108,9 +108,11 @@ export default class Generales extends React.Component {
         general.allergies = [];
       }
 
-      general.allergies.push(allergy);
-      this.props.onGeneralChange(general);
-      this.setState({ allergy: '' });
+      if (general.allergies.indexOf(allergy) === -1) {
+        general.allergies.push(allergy);
+        this.props.onGeneralChange(general);
+        this.setState({ allergy: '' });
+      }
     }
   }
 
