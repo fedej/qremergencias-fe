@@ -63,6 +63,12 @@ class DrawerComponent extends Component {
           ) : (
             [
               <MenuItem
+                key="datos"
+                onTouchTap={() => this.handleChangeRoute('/datosEmergencia')}
+              >
+                Datos de Emergencia
+              </MenuItem>,
+              <MenuItem
                 key="cambios"
                 onTouchTap={() => this.handleChangeRoute('/cambios')}
               >
