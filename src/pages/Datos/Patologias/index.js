@@ -55,6 +55,10 @@ export default class Patologias extends React.Component {
     return result;
   };
 
+  checkDuplicate = (type, description, selectedIndex, list) =>
+    list.some((value, index) => selectedIndex !== index && value.type === type
+      && (value.type !== 'otro' || value.description.toUpperCase() === description.toUpperCase()));
+
   handleDialogData = () => {
     const { type, description, date, selectedIndex } = this.state;
 
@@ -64,6 +68,9 @@ export default class Patologias extends React.Component {
       this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
     } else if (!date) {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
+    } else if (this.checkDuplicate(type, description, selectedIndex, this.props.pathologies)) {
+      this.setState({ typeError: (type !== 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '',
+        descriptionError: (type === 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '' });
     } else {
       this.setState({ typeError: '', descriptionError: '', dateError: '' });
 

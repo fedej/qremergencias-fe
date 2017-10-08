@@ -58,6 +58,10 @@ export default class Medicaciones extends React.Component {
     return result;
   };
 
+  checkDuplicate = (name, selectedIndex, list) =>
+    list.some((value, index) => selectedIndex !== index &&
+     value.name.toUpperCase() === name.toUpperCase());
+
   handleDialogData = () => {
     const { name, description, amount, period, selectedIndex } = this.state;
 
@@ -69,6 +73,8 @@ export default class Medicaciones extends React.Component {
       this.setState({ nameError: '', descriptionError: '', amountError: 'Ingrese una cantidad.' });
     } else if (period === '') {
       this.setState({ nameError: '', descriptionError: '', amountError: '', periodError: 'Ingrese una fecha.' });
+    } else if (this.checkDuplicate(name, selectedIndex, this.props.medications)) {
+      this.setState({ nameError: 'El medicamento ya fue agregado, por favor ingrese otro' });
     } else {
       this.setState({ nameError: '', descriptionError: '', amountError: '', periodError: '' });
 
