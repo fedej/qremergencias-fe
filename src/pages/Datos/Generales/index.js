@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
+import moment from 'moment';
 import Chip from 'material-ui/Chip';
 
 const items = [
@@ -58,6 +59,7 @@ export default class Generales extends React.Component {
 
   static defaultProps = {
     general: {},
+    lastMedicalCheck: '',
   }
 
   static propTypes = {
@@ -67,6 +69,7 @@ export default class Generales extends React.Component {
       allergic: PropTypes.bool,
       allergies: PropTypes.array,
     }),
+    lastMedicalCheck: PropTypes.string,
     onGeneralChange: PropTypes.func.isRequired,
   }
 
@@ -132,6 +135,15 @@ export default class Generales extends React.Component {
             >
               {items}
             </SelectField>
+            <tr>
+              <TextField
+                type="text"
+                disabled
+                value={moment(this.props.lastMedicalCheck).format('DD / MM / YYYY')}
+                floatingLabelText="Último chequeo médico"
+                floatingLabelFixed
+              />
+            </tr>
             <Toggle
               toggled={general.organDonor}
               label="¿Es donante de órganos?"
