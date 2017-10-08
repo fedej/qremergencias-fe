@@ -40,6 +40,7 @@ class DatosDeEmergencia extends React.Component {
       hospitalizations: PropTypes.array,
       medications: PropTypes.array,
       surgeries: PropTypes.array,
+      lastMedicalCheck: PropTypes.string,
       error: PropTypes.string,
     }),
     isFetching: PropTypes.bool.isRequired,
@@ -53,6 +54,7 @@ class DatosDeEmergencia extends React.Component {
     pathologies: [],
     hospitalizations: [],
     medications: [],
+    lastMedicalCheck: '',
   }
 
   componentWillMount() {
@@ -106,8 +108,12 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ surgeries });
   }
 
+  handlelastMedicalCheckChange = (lastMedicalCheck) => {
+    this.setState({ lastMedicalCheck });
+  }
+
   handleSaveData = () => {
-    const { general, pathologies, hospitalizations, medications, surgeries } = this.state;
+    const { general, pathologies, hospitalizations, medications, surgeries, lastMedicalCheck } = this.state;
 
     const data = {
       general,
@@ -115,6 +121,7 @@ class DatosDeEmergencia extends React.Component {
       hospitalizations,
       medications,
       surgeries,
+      lastMedicalCheck,
     };
 
     const { dispatch, paciente } = this.props;
@@ -132,6 +139,7 @@ class DatosDeEmergencia extends React.Component {
       hospitalizations,
       medications,
       surgeries,
+      lastMedicalCheck,
     } = this.state;
 
     return (
@@ -149,6 +157,7 @@ class DatosDeEmergencia extends React.Component {
                     <Generales
                       onGeneralChange={this.handleGeneralChange}
                       general={general}
+                      lastMedicalCheck={lastMedicalCheck}
                     />
                   </Tab>
                   <Tab label="Patologias">

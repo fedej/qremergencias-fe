@@ -71,6 +71,7 @@ const INITIAL_STATE = {
   hospitalizations: [],
   medications: [],
   surgeries: [],
+  lastMedicalCheck: '',
   error: '',
   isFetching: false,
 };
@@ -88,6 +89,7 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
         hospitalizations: action.data.hospitalizations,
         medications: action.data.medications,
         surgeries: action.data.surgeries,
+        lastMedicalCheck: action.data.lastMedicalCheck,
         error: '',
       };
     case DATA_ERROR:
