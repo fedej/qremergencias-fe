@@ -55,7 +55,7 @@ class Register extends React.Component {
   }
 
   handleRegister = () => {
-    const { email, password, esMedico, registrationNumber, evidence } = this.state;
+    const { email, password, esMedico, registrationNumber } = this.state;
 
     if (email === '' || !isValidEmail(email)) {
       this.setState({ emailError: 'Ingrese una dirección de mail válida.' });
@@ -70,7 +70,10 @@ class Register extends React.Component {
 
       const { dispatch } = this.props;
       const role = esMedico ? 'ROLE_MEDICO' : 'ROLE_PACIENTE';
-      const file = this.fileInput.files[0];
+      let file = null;
+      if (role === 'ROLE_MEDICO') {
+        file = this.fileInput.files[0];
+      }
       dispatch(signUp({ email, password, role, registrationNumber, file }));
     }
   }
@@ -132,7 +135,7 @@ class Register extends React.Component {
                 </CardText>
                 <CardText>
                   <input
-                    ref={(input) => { this.fileInput = input;  }}
+                    ref={(input) => { this.fileInput = input; }}
                     style={{ marginTop: '2vh' }}
                     type="file"
                     name="archivo"
