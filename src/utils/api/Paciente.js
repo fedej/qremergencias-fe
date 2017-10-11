@@ -1,16 +1,11 @@
-import MedicalrecordcontrollerApi from '../client/api/MedicalrecordcontrollerApi';
-import EmergencydatacontrollerApi from '../client/api/EmergencydatacontrollerApi';
+import EmergencyDataControllerApi from '../client/api/EmergencyDataControllerApi';
+import TempCodeControllerApi from '../client/api/TempCodeControllerApi';
 import UserService from './User';
 
 export default class PacienteService {
   static vincular(token) {
-    const API = new MedicalrecordcontrollerApi(UserService.getApiClient());
-    // TODO: utilizar endpoint
-
-    return new Promise((resolve, reject) => {
-      console.log(token);
-      resolve(token);
-    });
+    const API = new TempCodeControllerApi(UserService.getApiClient());
+    return API.verifyTempCodeUsingGET(token);
   }
 
   static getDatosEmergencia(pacienteId) {
@@ -23,22 +18,22 @@ export default class PacienteService {
   }
 
   static getCambiosDatosEmergencia() {
-    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    const API = new EmergencyDataControllerApi(UserService.getApiClient());
     return API.getChangesUsingGET();
   }
 
   static getCodigoQR() {
-    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    const API = new EmergencyDataControllerApi(UserService.getApiClient());
     return API.getQRUsingGET();
   }
 
   static generarCodigoQR() {
-    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    const API = new EmergencyDataControllerApi(UserService.getApiClient());
     return API.createQRUsingPOST();
   }
 
   static deprecarCodigoQR() {
-    const API = new EmergencydatacontrollerApi(UserService.getApiClient());
+    const API = new EmergencyDataControllerApi(UserService.getApiClient());
     return API.deleteQRUsingDELETE();
   }
 }

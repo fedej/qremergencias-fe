@@ -18,17 +18,17 @@ import CreateUserDTO from '../model/CreateUserDTO';
 import LoginUserDTO from '../model/LoginUserDTO';
 
 /**
-* Userfrontcontroller service.
-* @module api/UserfrontcontrollerApi
+* UserFrontController service.
+* @module api/UserFrontControllerApi
 * @version 1.0.0
 */
-export default class UserfrontcontrollerApi {
+export default class UserFrontControllerApi {
 
     /**
-    * Constructs a new UserfrontcontrollerApi. 
-    * @alias module:api/UserfrontcontrollerApi
+    * Constructs a new UserFrontControllerApi. 
+    * @alias module:api/UserFrontControllerApi
     * @class
-    * @param {module:ApiClient} apiClient Optional API client implementation to use,
+    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
     * default to {@link module:ApiClient#instance} if unspecified.
     */
     constructor(apiClient) {

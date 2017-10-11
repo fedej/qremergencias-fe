@@ -1,5 +1,5 @@
 import ApiClient from '../client/ApiClient';
-import UserfrontcontrollerApi from '../client/api/UserfrontcontrollerApi';
+import UserFrontControllerApi from '../client/api/UserFrontControllerApi';
 import config from '../../constants/app';
 
 export default class UserService {
@@ -19,7 +19,7 @@ export default class UserService {
 
   static getApi() {
     if (!this.api) {
-      this.api = new UserfrontcontrollerApi(this.getApiClient());
+      this.api = new UserFrontControllerApi(this.getApiClient());
     }
     return this.api;
   }
