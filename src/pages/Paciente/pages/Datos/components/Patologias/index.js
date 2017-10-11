@@ -12,6 +12,13 @@ import { Card, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import moment from 'moment';
 
+const pathologyType = [
+  { key: 'asma', value: 'asma' },
+  { key: 'hipertension', value: 'hipertension' },
+  { key: 'antecedentes_oncologicos', value: 'antecedentes oncologicos' },
+  { key: 'insuficiencia_suprarrenal', value: 'insuficiencia suprarrenal' },
+  { key: 'otro', value: 'otro' },
+];
 
 export default class Patologias extends React.Component {
 
@@ -43,7 +50,9 @@ export default class Patologias extends React.Component {
                 {
                   pathologies && pathologies.length && pathologies.map((p, i) =>
                     (<TableRow key={i}>
-                      <TableRowColumn>{p.type}</TableRowColumn>
+                      <TableRowColumn>
+                        {pathologyType.find(pathology => pathology.key === p.type).value}
+                      </TableRowColumn>
                       <TableRowColumn>{p.description}</TableRowColumn>
                       <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                     </TableRow>),
