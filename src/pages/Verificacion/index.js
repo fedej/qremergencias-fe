@@ -17,6 +17,7 @@ class Verificacion extends React.Component {
     error: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    editando: PropTypes.string.isRequired,
   }
 
   state = {
@@ -26,8 +27,9 @@ class Verificacion extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.error) {
+    if (nextProps.error || (this.props.isFetching && nextProps.editando === '')) {
       this.setState({ error: nextProps.error, showError: true });
+      return;
     }
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
@@ -93,6 +95,7 @@ function mapStateToProps(state) {
   return {
     error: state.paciente.error,
     isFetching: state.paciente.isFetching,
+    editando: state.paciente.editando,
   };
 }
 

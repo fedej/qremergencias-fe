@@ -18,17 +18,17 @@ import EmergencyDataDTO from '../model/EmergencyDataDTO';
 import PageOfChangesDTO from '../model/PageOfChangesDTO';
 
 /**
-* Emergencydatacontroller service.
-* @module api/EmergencydatacontrollerApi
+* EmergencyDataController service.
+* @module api/EmergencyDataControllerApi
 * @version 1.0.0
 */
-export default class EmergencydatacontrollerApi {
+export default class EmergencyDataControllerApi {
 
     /**
-    * Constructs a new EmergencydatacontrollerApi. 
-    * @alias module:api/EmergencydatacontrollerApi
+    * Constructs a new EmergencyDataControllerApi. 
+    * @alias module:api/EmergencyDataControllerApi
     * @class
-    * @param {module:ApiClient} apiClient Optional API client implementation to use,
+    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
     * default to {@link module:ApiClient#instance} if unspecified.
     */
     constructor(apiClient) {
@@ -163,7 +163,7 @@ export default class EmergencydatacontrollerApi {
     /**
      * getEmergencyDataByUuid
      * @param {String} uuid uuid
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/EmergencyDataDTO} and HTTP response
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link 'String'} and HTTP response
      */
     getEmergencyDataByUuidUsingGETWithHttpInfo(uuid) {
       let postBody = null;
@@ -187,7 +187,7 @@ export default class EmergencydatacontrollerApi {
       let authNames = [];
       let contentTypes = ['application/json'];
       let accepts = ['*/*'];
-      let returnType = EmergencyDataDTO;
+      let returnType = 'String';
 
       return this.apiClient.callApi(
         '/api/emergencyData/{uuid}', 'GET',
@@ -199,7 +199,7 @@ export default class EmergencydatacontrollerApi {
     /**
      * getEmergencyDataByUuid
      * @param {String} uuid uuid
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/EmergencyDataDTO}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link 'String'}
      */
     getEmergencyDataByUuidUsingGET(uuid) {
       return this.getEmergencyDataByUuidUsingGETWithHttpInfo(uuid)
@@ -284,7 +284,7 @@ export default class EmergencydatacontrollerApi {
 
       let authNames = [];
       let contentTypes = ['application/json'];
-      let accepts = ['*/*'];
+      let accepts = ['image/png'];
       let returnType = File;
 
       return this.apiClient.callApi(

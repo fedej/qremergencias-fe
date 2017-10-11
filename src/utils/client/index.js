@@ -29,13 +29,16 @@ import MedicationDTO from './model/MedicationDTO';
 import PageOfChangesDTO from './model/PageOfChangesDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import PathologyDTO from './model/PathologyDTO';
+import PublicKeyDTO from './model/PublicKeyDTO';
 import Sort from './model/Sort';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
-import EmergencydatacontrollerApi from './api/EmergencydatacontrollerApi';
-import MedicalrecordcontrollerApi from './api/MedicalrecordcontrollerApi';
-import ProfilecontrollerApi from './api/ProfilecontrollerApi';
-import UserfrontcontrollerApi from './api/UserfrontcontrollerApi';
+import VerificationDTO from './model/VerificationDTO';
+import EmergencyDataControllerApi from './api/EmergencyDataControllerApi';
+import MedicalRecordControllerApi from './api/MedicalRecordControllerApi';
+import ProfileControllerApi from './api/ProfileControllerApi';
+import TempCodeControllerApi from './api/TempCodeControllerApi';
+import UserFrontControllerApi from './api/UserFrontControllerApi';
 
 
 /**
@@ -173,6 +176,12 @@ export {
     PathologyDTO,
 
     /**
+     * The PublicKeyDTO model constructor.
+     * @property {module:model/PublicKeyDTO}
+     */
+    PublicKeyDTO,
+
+    /**
      * The Sort model constructor.
      * @property {module:model/Sort}
      */
@@ -191,26 +200,38 @@ export {
     UserProfileDTO,
 
     /**
-    * The EmergencydatacontrollerApi service constructor.
-    * @property {module:api/EmergencydatacontrollerApi}
-    */
-    EmergencydatacontrollerApi,
+     * The VerificationDTO model constructor.
+     * @property {module:model/VerificationDTO}
+     */
+    VerificationDTO,
 
     /**
-    * The MedicalrecordcontrollerApi service constructor.
-    * @property {module:api/MedicalrecordcontrollerApi}
+    * The EmergencyDataControllerApi service constructor.
+    * @property {module:api/EmergencyDataControllerApi}
     */
-    MedicalrecordcontrollerApi,
+    EmergencyDataControllerApi,
 
     /**
-    * The ProfilecontrollerApi service constructor.
-    * @property {module:api/ProfilecontrollerApi}
+    * The MedicalRecordControllerApi service constructor.
+    * @property {module:api/MedicalRecordControllerApi}
     */
-    ProfilecontrollerApi,
+    MedicalRecordControllerApi,
 
     /**
-    * The UserfrontcontrollerApi service constructor.
-    * @property {module:api/UserfrontcontrollerApi}
+    * The ProfileControllerApi service constructor.
+    * @property {module:api/ProfileControllerApi}
     */
-    UserfrontcontrollerApi
+    ProfileControllerApi,
+
+    /**
+    * The TempCodeControllerApi service constructor.
+    * @property {module:api/TempCodeControllerApi}
+    */
+    TempCodeControllerApi,
+
+    /**
+    * The UserFrontControllerApi service constructor.
+    * @property {module:api/UserFrontControllerApi}
+    */
+    UserFrontControllerApi
 };

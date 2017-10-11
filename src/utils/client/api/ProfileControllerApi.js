@@ -17,17 +17,17 @@ import ApiError from '../model/ApiError';
 import UserProfileDTO from '../model/UserProfileDTO';
 
 /**
-* Profilecontroller service.
-* @module api/ProfilecontrollerApi
+* ProfileController service.
+* @module api/ProfileControllerApi
 * @version 1.0.0
 */
-export default class ProfilecontrollerApi {
+export default class ProfileControllerApi {
 
     /**
-    * Constructs a new ProfilecontrollerApi. 
-    * @alias module:api/ProfilecontrollerApi
+    * Constructs a new ProfileControllerApi. 
+    * @alias module:api/ProfileControllerApi
     * @class
-    * @param {module:ApiClient} apiClient Optional API client implementation to use,
+    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
     * default to {@link module:ApiClient#instance} if unspecified.
     */
     constructor(apiClient) {

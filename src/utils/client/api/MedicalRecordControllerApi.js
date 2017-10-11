@@ -18,17 +18,17 @@ import MedicalRecordDTO from '../model/MedicalRecordDTO';
 import PageOfMedicalRecordDTO from '../model/PageOfMedicalRecordDTO';
 
 /**
-* Medicalrecordcontroller service.
-* @module api/MedicalrecordcontrollerApi
+* MedicalRecordController service.
+* @module api/MedicalRecordControllerApi
 * @version 1.0.0
 */
-export default class MedicalrecordcontrollerApi {
+export default class MedicalRecordControllerApi {
 
     /**
-    * Constructs a new MedicalrecordcontrollerApi. 
-    * @alias module:api/MedicalrecordcontrollerApi
+    * Constructs a new MedicalRecordControllerApi. 
+    * @alias module:api/MedicalRecordControllerApi
     * @class
-    * @param {module:ApiClient} apiClient Optional API client implementation to use,
+    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
     * default to {@link module:ApiClient#instance} if unspecified.
     */
     constructor(apiClient) {
