@@ -9,6 +9,11 @@ export function isValidDNI(dni) {
   return re.test(dni);
 }
 
+export function isValidMatricula(matricula) {
+  const re = /^[0-9]+$/;
+  return re.test(matricula);
+}
+
 export function isValidPhoneNumber(phone) {
   const re = /^(\+)?\d{1,4}(( |\(| \(|-)?\d{1,4}( |\)|\) |-)?)?(\d{2} )?\d{2,4}[- ]?\d{2,3}[- ]?\d{0,2}$/;
   return re.test(phone);
