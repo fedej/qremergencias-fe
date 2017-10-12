@@ -120,7 +120,7 @@ export const completeRegistration = data => (dispatch) => {
 
   UserService.completeRegistration(data)
     .then(profile => dispatch(registerComplete(profile)))
-    .catch(err => dispatch(registerError(err.message)));
+    .catch(err => dispatch(registerError(err.response.body.message)));
 };
 
 const INITIAL_STATE = {
