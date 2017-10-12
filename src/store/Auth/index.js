@@ -40,7 +40,7 @@ export const logIn = creds => (dispatch) => {
 
   UserService.login(creds)
     .then(profile => dispatch(loginSuccess(profile)))
-    .catch(err => dispatch(loginError(err.message)));
+    .catch(err => dispatch(loginError(err.response.body.message)));
 };
 
 function requestLogout() {
@@ -107,11 +107,11 @@ export const signUp = creds => (dispatch) => {
     };
     UserService.registerDoctor(credenciales)
       .then(() => dispatch(registerSuccess()))
-      .catch(err => dispatch(registerError(err.message)));
+      .catch(err => dispatch(registerError(err.response.body.message)));
   } else {
     UserService.register(creds)
       .then(() => dispatch(registerSuccess()))
-      .catch(err => dispatch(registerError(err.message)));
+      .catch(err => dispatch(registerError(err.response.body.message)));
   }
 };
 
