@@ -307,6 +307,8 @@ class Perfil extends React.Component {
                   floatingLabelText="Fecha de Nacimiento"
                   onChange={(e, birthDate) => this.setState({ birthDate })}
                   errorText={this.state.birthDateError}
+                  locale="es-ES"
+                  DateTimeFormat={Intl.DateTimeFormat}
                 />
                 <div style={{ fontWeight: 'bold', marginTop: 16 }}>
                   Sexo:

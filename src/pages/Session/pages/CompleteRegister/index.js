@@ -130,6 +130,8 @@ class CompleteRegister extends React.Component {
                 shouldDisableDate={disableLastTenYears}
                 onChange={(e, birthDate) => this.setState({ birthDate })}
                 value={this.state.birthDate}
+                locale="es-ES"
+                DateTimeFormat={Intl.DateTimeFormat}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>
                 {this.state.birthDateError}
