@@ -102,7 +102,7 @@ class DrawerComponent extends Component {
                 key="cambios"
                 onTouchTap={() => this.handleChangeRoute('/cambios')}
               >
-                Cambios Datos de Emergencia
+                Historial de cambios
               </MenuItem>,
             ].map(m => m)
           )
