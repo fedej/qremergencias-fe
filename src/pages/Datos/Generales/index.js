@@ -41,7 +41,7 @@ const basicAllergies = [
     key: 'otro',
     value: 'otro',
   },
-]
+];
 
 const styles = {
   block: {
@@ -93,11 +93,10 @@ export default class Generales extends React.Component {
   handleAddAllergy = () => {
     const general = this.props.general;
     const { allergyBasic, allergyDescription } = this.state;
-    console.log(allergyBasic);
     let allergy = '';
+
     if (this.state.allergyBasic !== 'otro') {
       const alergia = basicAllergies.find(a => a.value === allergyBasic);
-      console.log(alergia);
       allergy = this.state.allergyBasic;
     } else {
       allergy = this.state.allergyDescription;
@@ -179,8 +178,7 @@ export default class Generales extends React.Component {
                       ))
                     }
                   </SelectField>
-                </td>
-                <td>
+                  <br />
                   <TextField
                     type="text"
                     disabled={this.state.allergyBasic !== 'otro'}
@@ -189,8 +187,7 @@ export default class Generales extends React.Component {
                     floatingLabelText="Descripción"
                     floatingLabelFixed
                   />
-                </td>
-                <td>
+                  <br />
                   <RaisedButton
                     label="Agregar"
                     onTouchTap={this.handleAddAllergy}
@@ -199,6 +196,8 @@ export default class Generales extends React.Component {
                 </td>
               </tr>
             </table>
+            <br />
+            <br />
             {
               general.allergies ? general.allergies.map((texto, i) => (
                 <Chip

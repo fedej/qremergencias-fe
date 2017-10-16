@@ -113,7 +113,14 @@ class DatosDeEmergencia extends React.Component {
   }
 
   handleSaveData = () => {
-    const { general, pathologies, hospitalizations, medications, surgeries, lastMedicalCheck } = this.state;
+    const {
+      general,
+      pathologies,
+      hospitalizations,
+      medications,
+      surgeries,
+      lastMedicalCheck,
+    } = this.state;
 
     const data = {
       general,

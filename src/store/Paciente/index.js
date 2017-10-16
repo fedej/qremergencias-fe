@@ -8,6 +8,7 @@ export const PACIENTE_CAMBIOS_DATOS_ERROR = 'PACIENTE/PACIENTE_CAMBIOS_DATOS_ERR
 export const PACIENTE_CAMBIOS_DATOS_SUCCESS = 'PACIENTE/PACIENTE_CAMBIOS_DATOS_SUCCESS';
 
 export const VINCULAR_PACIENTE_SUCCESS = 'PACIENTE/VINCULAR_PACIENTE_SUCCESS';
+export const VINCULAR_PACIENTE_ERROR = 'PACIENTE/VINCULAR_PACIENTE_ERROR';
 
 export const GENERAR_QR_REQUEST = 'PACIENTE/GENERAR_QR_REQUEST';
 export const GENERAR_QR_SUCCESS = 'PACIENTE/GENERAR_QR_SUCCESS';
@@ -37,7 +38,7 @@ function vincularSuccess(perfil) {
 
 function pacienteError(error) {
   return {
-    type: VINCULAR_PACIENTE_SUCCESS,
+    type: VINCULAR_PACIENTE_ERROR,
     error,
   };
 }
@@ -102,7 +103,9 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case PACIENTE_REQUEST:
       return { ...state, isFetching: true };
     case VINCULAR_PACIENTE_SUCCESS:
-      return { ...state, isFetching: false, editando: action.perfil };
+      return { ...state, isFetching: false, editando: action.perfil, error: '' };
+    case VINCULAR_PACIENTE_ERROR:
+      return { ...state, isFetching: false, error: action.error };
     case PACIENTE_ERROR:
       return { ...state, isFetching: false, error: action.message };
     case PACIENTE_CAMBIOS_DATOS_REQUEST:
