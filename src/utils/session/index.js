@@ -13,7 +13,7 @@ export const UserIsAuthenticated = connectedRouterRedirect({
 
 export const VisibleOnlyLoggedOut = connectedRouterRedirect({
   authenticatedSelector: state => !state.auth.isLoggedIn && !state.auth.isFetching,
-  redirectPath: state => (!state.auth.isMedico ? '/home' : '/historias'),
+  redirectPath: '/homePage',
   redirectAction: routerActions.replace,
   wrapperDisplayName: 'VisibleOnlyAdmin',
   allowRedirectBack: false,
@@ -31,7 +31,7 @@ export const VisibleOnlyLoggedOut = connectedRouterRedirect({
 export const UserIsPaciente = connectedRouterRedirect({
   authenticatedSelector: state => !state.auth.isMedico,
   redirectAction: routerActions.replace,
-  redirectPath: '/home',
+  redirectPath: '/homePage',
   wrapperDisplayName: 'UserIsPaciente',
   allowRedirectBack: false,
 });
@@ -39,7 +39,7 @@ export const UserIsPaciente = connectedRouterRedirect({
 export const UserIsMedico = connectedRouterRedirect({
   authenticatedSelector: state => state.auth.isMedico,
   redirectAction: routerActions.replace,
-  redirectPath: '/home',
+  redirectPath: '/homePage',
   wrapperDisplayName: 'UserIsMedico',
   allowRedirectBack: false,
 });
