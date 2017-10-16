@@ -61,7 +61,7 @@ export const updateData = (data, user) => (dispatch) => {
   dispatch(requestUpdate());
 
   DataService.updateData(data, user)
-    .then(() => dispatch(updateSuccess(user)))
+    .then(() => dispatch(updateSuccess(data)))
     .catch(err => dispatch(updateError(err.message)));
 };
 
@@ -79,7 +79,7 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case DATA_REQUEST:
-      return { ...state, isFetching: true, error: '' };
+      return { ...state, isFetching: true, error: '', uploaded: false };
     case DATA_SUCCESS:
       return {
         ...state,
@@ -97,7 +97,18 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case UPDATE_REQUEST:
       return { ...state, isFetching: true, error: '' };
     case UPDATE_SUCCESS:
-      return { ...state, isFetching: false, uploaded: true, error: '' };
+      return {
+        ...state,
+        isFetching: false,
+        uploaded: true,
+        general: action.data.general,
+        pathologies: action.data.pathologies,
+        hospitalizations: action.data.hospitalizations,
+        medications: action.data.medications,
+        surgeries: action.data.surgeries,
+        lastMedicalCheck: action.data.lastMedicalCheck,
+        error: '',
+      };
     case UPDATE_ERROR:
       return { ...state, isFetching: false, error: action.message };
     default:
