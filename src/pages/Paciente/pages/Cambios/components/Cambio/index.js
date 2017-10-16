@@ -26,6 +26,11 @@ const translate = {
   description: 'Descripcion',
   amount: 'Cantidad',
   period: 'Periodo',
+  organDonor: 'Donante de Organos',
+  true: 'Si',
+  false: 'No',
+  antecedentes_oncologicos: 'Antecedentes oncologicos',
+  insuficiencia_suprarrenal: 'Insuficiencia suprarrenal',
 };
 
 function FilaCambio({ tipo, length, change, indice }) {
@@ -33,22 +38,38 @@ function FilaCambio({ tipo, length, change, indice }) {
   let section = tipo;
   if (tipo.includes('.new')) {
     modifier = ' [Nuevo!]';
+  } else if (tipo.includes('.deleted')) {
+    modifier = ' [Borrado!]';
   }
-
+  let indiceCambio = '';
   if (section.includes('[')) {
-    section = section.substring(0, section.lastIndexOf('['));
+    const lastIndexOfAngularCorchetStart = section.lastIndexOf('[');
+    const lastIndexOfAngularCorchetEnd = section.lastIndexOf(']');
+    indiceCambio = '[' + section.substring(lastIndexOfAngularCorchetStart + 1,
+      lastIndexOfAngularCorchetEnd) + ']';
+    section = section.substring(0, lastIndexOfAngularCorchetStart);
   } else if (section.includes('.new')) {
     section = section.substring(0, section.lastIndexOf('.new'));
   }
 
-  section = translate[section] + modifier;
+  section = translate[section] + indiceCambio + modifier;
+
+  let oldValue = change.oldValue ? change.oldValue : (change.removed && change.removed.constructor.name === 'Array' && change.removed.length > 0) ? `Removidos: ${change.removed}` : '-';
+  if (translate[oldValue]) {
+    oldValue = translate[oldValue];
+  }
+
+  let newValue = change.newValue ? change.newValue : (change.added && change.added.constructor.name === 'Array' && change.added.length > 0) ? `Agregados: ${change.added}` : '-';
+  if (translate[newValue]) {
+    newValue = translate[newValue];
+  }
 
   return (
     <TableRow key={indice}>
       {indice === 0 ? <TableRowColumn rowSpan={length} >{section}</TableRowColumn> : ''}
       <TableRowColumn>{translate[change.property]}</TableRowColumn>
-      <TableRowColumn>{change.oldValue ? change.oldValue : (change.removed && change.removed.type !== undefined) ? `Removidos: ${change.removed}` : '-'}</TableRowColumn>
-      <TableRowColumn>{change.newValue ? change.newValue : (change.added && change.added.type !== undefined) ? `Agregados: ${change.added}` : '-'}</TableRowColumn>
+      <TableRowColumn>{oldValue}</TableRowColumn>
+      <TableRowColumn>{newValue}</TableRowColumn>
     </TableRow>
   );
 }
@@ -98,7 +119,7 @@ function Cambio({ cambio }) {
     <div>
       <div>
         <h3>Autor: {cambio.author}</h3>
-        <h5>Fecha: {moment(cambio.date).format('DD/MM/YYYY')}</h5>
+        <h5>Fecha: {moment(cambio.date).format('DD/MM/YYYY HH:mm:ss')}</h5>
       </div>
       <br />
       <div>
