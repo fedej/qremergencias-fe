@@ -14,8 +14,12 @@ import classnames from 'classnames';
 import moment from 'moment';
 import Dialog from 'material-ui/Dialog';
 
-export default class Internaciones extends React.Component {
+function validarFecha(date) {
+  const fecha = moment().toDate();
+  return date > fecha;
+}
 
+export default class Internaciones extends React.Component {
   static defaultProps = {
     hospitalizations: [],
   }
@@ -169,6 +173,7 @@ export default class Internaciones extends React.Component {
               value={this.state.date}
               textFieldStyle={{ width: '100%' }}
               hintText="Fecha"
+              shouldDisableDate={validarFecha}
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
               locale="es-ES"

@@ -16,16 +16,19 @@ import {
 import classnames from 'classnames';
 import SweetAlert from 'sweetalert-react';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import moment from 'moment';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
 
 import { fetchProfile, updateProfile, changePassword } from '../../store/Perfil';
-
 import { isValidDNI, isValidPhoneNumber, isValidPassword } from '../../utils/validations';
-
 import Home from '../Home';
 
+function validarMayorDeEdad(date) {
+  const fecha = moment().subtract(18, 'y');
+  return date > fecha;
+}
 
 class Perfil extends React.Component {
 
@@ -307,6 +310,7 @@ class Perfil extends React.Component {
                 <DatePicker
                   value={this.state.birthDate}
                   textFieldStyle={{ width: '100%' }}
+                  shouldDisableDate={validarMayorDeEdad}
                   hintText="Fecha de Nacimiento"
                   floatingLabelText="Fecha de Nacimiento"
                   onChange={(e, birthDate) => this.setState({ birthDate })}

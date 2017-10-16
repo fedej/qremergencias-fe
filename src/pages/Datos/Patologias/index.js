@@ -16,6 +16,11 @@ import Dialog from 'material-ui/Dialog';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 
+import {
+  isEmptyString,
+  stringHasNumbers,
+} from '../../../utils/validations';
+
 const pathologyType = [
   { key: 'asma', value: 'asma' },
   { key: 'hipertension', value: 'hipertension' },
@@ -24,14 +29,19 @@ const pathologyType = [
   { key: 'otro', value: 'otro' },
 ];
 
-export default class Patologias extends React.Component {
 
+function validarFecha(date) {
+  const fecha = moment().toDate();
+  return date > fecha;
+}
+
+export default class Patologias extends React.Component {
   static defaultProps = {
     pathologies: [],
   }
 
   static propTypes = {
-    pathologies: PropTypes.array,
+    pathologies: PropTypes.arrayOf(PropTypes.shape({})),
     onPathologiesChange: PropTypes.func.isRequired,
   }
 
@@ -60,9 +70,9 @@ export default class Patologias extends React.Component {
   handleDialogData = () => {
     const { type, description, date, selectedIndex } = this.state;
 
-    if (type === '') {
+    if (isEmptyString(type)) {
       this.setState({ typeError: 'Ingrese tipo.' });
-    } else if (description === '' && type === 'otro') {
+    } else if (type === 'otro' && (isEmptyString(description) || stringHasNumbers(description))) {
       this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
     } else if (!date) {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
@@ -204,6 +214,7 @@ export default class Patologias extends React.Component {
             <DatePicker
               value={this.state.date}
               textFieldStyle={{ width: '100%' }}
+              shouldDisableDate={validarFecha}
               hintText="Fecha"
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
