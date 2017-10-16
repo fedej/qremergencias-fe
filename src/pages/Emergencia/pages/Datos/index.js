@@ -28,12 +28,9 @@ class DatosEmergencia extends React.Component {
 
   componentWillMount() {
     const { pacienteId } = this.props.params;
-    console.log(pacienteId);
     PacienteService
       .getDatosEmergencia(pacienteId)
-      .then((datos) => {
-        console.log(datos);
-      })
+      .then(() => {})
       .catch(error => this.setState({ error, showError: true }));
   }
 
@@ -42,7 +39,7 @@ class DatosEmergencia extends React.Component {
 
     PacienteService
       .modificarDatosEmergencia()
-      .then(() => console.log('success'))
+      .then(() => {})
       .catch(error => this.setState({ error, showError: true }));
   }
 
