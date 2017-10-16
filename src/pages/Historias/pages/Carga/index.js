@@ -123,6 +123,8 @@ class CargaHistoriaClinica extends React.Component {
                 hintText="Fecha del informe"
                 shouldDisableDate={disableFutureDays}
                 onChange={(e, fechaRealizacion) => this.setState({ fechaRealizacion })}
+                locale="es-ES"
+                DateTimeFormat={Intl.DateTimeFormat}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>
                 {this.state.fechaRealizacionError}

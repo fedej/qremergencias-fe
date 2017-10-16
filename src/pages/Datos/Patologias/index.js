@@ -207,6 +207,8 @@ export default class Patologias extends React.Component {
               hintText="Fecha"
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
+              locale="es-ES"
+              DateTimeFormat={Intl.DateTimeFormat}
             />
           </Dialog>
           <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>

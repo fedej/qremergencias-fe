@@ -171,6 +171,8 @@ export default class Internaciones extends React.Component {
               hintText="Fecha"
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
+              locale="es-ES"
+              DateTimeFormat={Intl.DateTimeFormat}
             />
             <TextField
               value={this.state.reason}
