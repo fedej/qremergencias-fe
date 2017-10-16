@@ -18,10 +18,11 @@ function requestHistorias() {
   };
 }
 
-function historiasSuccess(historias) {
+function historiasSuccess(historias, totalPages) {
   return {
     type: HISTORIAS_SUCCESS,
     historias,
+    totalPages,
   };
 }
 
@@ -64,34 +65,36 @@ function deleteHistoria() {
   };
 }
 
-export const fetchHistoriasClinicasDePaciente = (id, token) => (dispatch) => {
+export const fetchHistoriasClinicasDePaciente = (id, token, page, size) => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.listByUser(id, token)
+  HistoriasService.listByUser(id, token, page, size)
     .then((records) => {
-      const historias = records.content.map((h) => {
+      const { totalPages, content } = records;
+      const historias = content.map((h) => {
         const historia = h;
         historia.performed = h.performed.toISOString();
         return historia;
       });
 
-      dispatch(historiasSuccess(historias));
+      dispatch(historiasSuccess(historias, totalPages));
     })
     .catch(err => dispatch(historiasError(err.message)));
 };
 
-export const fetchHistoriasClinicas = () => (dispatch) => {
+export const fetchHistoriasClinicas = (page, itemsPerPage) => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.list()
+  HistoriasService.list(page, itemsPerPage)
     .then((records) => {
-      const historias = records.content.map((h) => {
+      const { totalPages, content } = records;
+      const historias = content.map((h) => {
         const historia = h;
         historia.performed = h.performed.toISOString();
         return historia;
       });
 
-      dispatch(historiasSuccess(historias));
+      dispatch(historiasSuccess(historias, totalPages));
     })
     .catch(err => dispatch(historiasError(err.message)));
 };
@@ -117,22 +120,29 @@ const INITIAL_STATE = {
   error: '',
   uploaded: false,
   isFetching: false,
+  totalPages: 0,
 };
 
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case HISTORIAS_REQUEST:
-      return { ...state, isFetching: true };
+      return { ...state, isFetching: true, error: '' };
     case HISTORIA_DELETE:
     case UPLOAD_REQUEST:
-      return { ...state, isFetching: true, uploaded: false };
+      return { ...state, isFetching: true, uploaded: false, error: '' };
     case HISTORIAS_SUCCESS:
-      return { ...state, isFetching: false, todas: action.historias };
+      return {
+        ...state,
+        isFetching: false,
+        todas: action.historias,
+        totalPages: action.totalPages,
+        error: '',
+      };
     case HISTORIAS_ERROR:
     case UPLOAD_ERROR:
       return { ...state, isFetching: false, error: action.message };
     case UPLOAD_SUCCESS:
-      return { ...state, isFetching: false, uploaded: true };
+      return { ...state, isFetching: false, uploaded: true, error: '' };
     case HISTORIA_DELETE_SUCCESS:
       return { ...state, isFetching: false };
     default:

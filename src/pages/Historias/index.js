@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 
@@ -24,15 +25,18 @@ class Historias extends React.Component {
     })),
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    doFetchHistoriasClinicas: PropTypes.func.isRequired,
+    totalPages: PropTypes.number.isRequired,
   }
 
   state = {
     historias: [],
+    page: 0,
+    itemsPerPage: 2,
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchHistoriasClinicas());
+    this.props.doFetchHistoriasClinicas(this.state.page, this.state.itemsPerPage);
   }
 
   componentDidMount() {
@@ -56,6 +60,12 @@ class Historias extends React.Component {
     }
   }
 
+  handlePageClick = (data) => {
+    const page = data.selected;
+    this.setState({ page }, () =>
+      this.props.doFetchHistoriasClinicas(this.state.page, this.state.itemsPerPage));
+  };
+
   render() {
     return (
       <Home>
@@ -75,13 +85,36 @@ class Historias extends React.Component {
               ))
             }
           </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ReactPaginate
+              previousLabel="previous"
+              nextLabel="next"
+              breakLabel={<a href="">...</a>}
+              breakClassName="break-me"
+              pageCount={this.props.totalPages}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName="pagination"
+              subContainerClassName="pages pagination"
+              activeClassName="active"
+            />
+          </div>
         </div>
       </Home>
     );
   }
 }
 
-export default connect(state => ({
+const mapStateToProps = state => ({
+  totalPages: state.historias.totalPages,
   historias: state.historias.todas,
   isFetching: state.historias.isFetching,
-}))(Historias);
+});
+
+const mapDispatchToProps = dispatch => ({
+  doFetchHistoriasClinicas: (page, itemsPerPage) =>
+    dispatch(fetchHistoriasClinicas(page, itemsPerPage)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Historias);
