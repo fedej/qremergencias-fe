@@ -27,8 +27,8 @@ import NotFound from './pages/NotFound';
 import {
   UserIsAuthenticated,
   VisibleOnlyLoggedOut,
-  UserIsMedico,
   UserIsPaciente,
+  UserIsMedico,
 } from './utils/session';
 
 
@@ -51,22 +51,18 @@ export default function Routes({ history }) {
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
         <Route path="perfil" component={Perfil} />
-        {/* TODO: hacer funcionar UserIsPaciente */}
-        {/* <Route component={UserIsPaciente}> */}
-        <Route path="cambios" component={Cambios} />
-        <Route path="historias" component={Historias} />
-        <Route path="codigo" component={CodigoQR} />
-        <Route path="datosEmergencia" component={DatosEmergenciaPaciente} />
-        {/* </Route> */}
-        {/* TODO: hacer funcionar UserIsMedico */}
-        {/* <Route component={UserIsMedico}> */}
-        {/* TODO: el medico solo puede editar si esta verificado y por cierto tiempo */}
-        <Route path="verificacion" component={Verificacion} />
-        <Route path="datos" component={Datos} />
-        <Route path="editar" component={EditarPaciente} />
-        <Route path="carga" component={Carga} />
-        <Route path="historiasPaciente" component={HistoriasPaciente} />
-        {/* </Route> */}
+
+        <Route path="cambios" component={UserIsPaciente(Cambios)} />
+        <Route path="historias" component={UserIsPaciente(Historias)} />
+        <Route path="codigo" component={UserIsPaciente(CodigoQR)} />
+        <Route path="datosEmergencia" component={UserIsPaciente(DatosEmergenciaPaciente)} />
+
+        <Route path="verificacion" component={UserIsMedico(Verificacion)} />
+        <Route path="datos" component={UserIsMedico(Datos)} />
+        <Route path="editar" component={UserIsMedico(EditarPaciente)} />
+        <Route path="carga" component={UserIsMedico(Carga)} />
+        <Route path="historiasPaciente" component={UserIsMedico(HistoriasPaciente)} />
+
       </Route>
       <Route path="*" component={NotFound} />
     </Router>

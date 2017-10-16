@@ -88,8 +88,6 @@ class CompleteRegister extends React.Component {
   }
 
   render() {
-    // TODO: mostrar error de Store.auth.error
-
     return (
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>

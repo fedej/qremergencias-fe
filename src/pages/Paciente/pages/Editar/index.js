@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,14 +15,6 @@ class EditarPaciente extends React.Component {
     params: PropTypes.shape({
       pacienteId: PropTypes.string,
     }).isRequired,
-  }
-
-  state = {
-
-  }
-
-  componentWillMount() {
-    // TODO: traer state paciente que se esta editando
   }
 
   render() {

@@ -60,7 +60,6 @@ class CargaHistoriaClinica extends React.Component {
   }
 
   handleSubmitHistoriaClinica = () => {
-    // TODO: modificar props.paciente
     const { dispatch, paciente } = this.props;
     const errores = {};
 
