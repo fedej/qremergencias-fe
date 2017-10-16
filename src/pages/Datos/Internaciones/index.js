@@ -14,8 +14,17 @@ import classnames from 'classnames';
 import moment from 'moment';
 import Dialog from 'material-ui/Dialog';
 
-export default class Internaciones extends React.Component {
+import {
+  isEmptyString,
+  stringHasNumbers,
+} from '../../../utils/validations';
 
+function validarFecha(date) {
+  const fecha = moment().toDate();
+  return date > fecha;
+}
+
+export default class Internaciones extends React.Component {
   static defaultProps = {
     hospitalizations: [],
   }
@@ -48,9 +57,9 @@ export default class Internaciones extends React.Component {
   handleDialogData = () => {
     const { date, reason, institution, selectedIndex } = this.state;
 
-    if (reason === '') {
+    if (isEmptyString(reason)) {
       this.setState({ reasonError: 'Ingrese tipo.' });
-    } else if (institution === '') {
+    } else if (isEmptyString(institution) || stringHasNumbers(institution)) {
       this.setState({ reasonError: '', institutionError: 'Ingrese una descripción.' });
     } else if (!date) {
       this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });
@@ -169,6 +178,7 @@ export default class Internaciones extends React.Component {
               value={this.state.date}
               textFieldStyle={{ width: '100%' }}
               hintText="Fecha"
+              shouldDisableDate={validarFecha}
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
               locale="es-ES"

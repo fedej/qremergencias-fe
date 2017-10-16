@@ -9,6 +9,11 @@ import Toggle from 'material-ui/Toggle';
 import moment from 'moment';
 import Chip from 'material-ui/Chip';
 
+import {
+  isEmptyString,
+  stringHasNumbers,
+} from '../../../utils/validations';
+
 const items = [
   <MenuItem key={1} value={'A+'} primaryText="A+" />,
   <MenuItem key={2} value={'A-'} primaryText="A-" />,
@@ -75,6 +80,7 @@ export default class Generales extends React.Component {
   state = {
     allergyBasic: '',
     allergyDescription: '',
+    descriptionError: '',
   }
 
   handleBloodTypeChange = (event, index, value) => {
@@ -97,8 +103,11 @@ export default class Generales extends React.Component {
     if (this.state.allergyBasic !== 'otro') {
       const alergia = basicAllergies.find(a => a.value === allergyBasic);
       allergy = this.state.allergyBasic;
+    } else if (!isEmptyString(this.state.allergyDescription)) {
+      allergy = this.state.allergyDescription.trim();
     } else {
-      allergy = this.state.allergyDescription;
+      this.setState({ descriptionError: 'Ingrese una descripcion válida.' });
+      return;
     }
 
     if (allergy) {
@@ -109,7 +118,7 @@ export default class Generales extends React.Component {
       if (general.allergies.indexOf(allergy) === -1) {
         general.allergies.push(allergy);
         this.props.onGeneralChange(general);
-        this.setState({ allergy: '' });
+        this.setState({ allergy: '', descriptionError: '', allergyDescription: '' });
       }
     }
   }
@@ -183,6 +192,7 @@ export default class Generales extends React.Component {
                     value={this.state.allergyDescription}
                     onChange={(e, allergyDescription) => this.setState({ allergyDescription })}
                     floatingLabelText="Descripción"
+                    errorText={this.state.descriptionError}
                     floatingLabelFixed
                   />
                   <br />

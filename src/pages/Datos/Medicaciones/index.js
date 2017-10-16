@@ -8,12 +8,17 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { TextField, RaisedButton, DatePicker } from 'material-ui';
+import { TextField, RaisedButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import Dialog from 'material-ui/Dialog';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
+
+import {
+  isEmptyString,
+  stringHasNumbers,
+} from '../../../utils/validations';
 
 const periodsMapping = {
   diariamente: 'DIARIAMENTE',
@@ -22,9 +27,21 @@ const periodsMapping = {
 };
 
 const periods = [
-  <MenuItem key={1} value={periodsMapping.diariamente.toLowerCase()} primaryText={periodsMapping.diariamente} />,
-  <MenuItem key={2} value={periodsMapping.semanalmente.toLowerCase()} primaryText={periodsMapping.semanalmente} />,
-  <MenuItem key={3} value={periodsMapping.mensualmente.toLowerCase()} primaryText={periodsMapping.mensualmente} />,
+  <MenuItem
+    key={1}
+    value={periodsMapping.diariamente.toLowerCase()}
+    primaryText={periodsMapping.diariamente}
+  />,
+  <MenuItem
+    key={2}
+    value={periodsMapping.semanalmente.toLowerCase()}
+    primaryText={periodsMapping.semanalmente}
+  />,
+  <MenuItem
+    key={3}
+    value={periodsMapping.mensualmente.toLowerCase()}
+    primaryText={periodsMapping.mensualmente}
+  />,
 ];
 
 export default class Medicaciones extends React.Component {
@@ -34,7 +51,7 @@ export default class Medicaciones extends React.Component {
   }
 
   static propTypes = {
-    medications: PropTypes.array,
+    medications: PropTypes.arrayOf(PropTypes.shape({})),
     onMedicationChange: PropTypes.func.isRequired,
   }
 
@@ -65,13 +82,13 @@ export default class Medicaciones extends React.Component {
   handleDialogData = () => {
     const { name, description, amount, period, selectedIndex } = this.state;
 
-    if (name === '') {
+    if (isEmptyString(name) || stringHasNumbers(name)) {
       this.setState({ nameError: 'Ingrese nombre.' });
-    } else if (description === '') {
+    } else if (isEmptyString(description) || stringHasNumbers(description)) {
       this.setState({ nameError: '', descriptionError: 'Ingrese una descripción.' });
-    } else if (amount === '') {
+    } else if (isEmptyString(amount)) {
       this.setState({ nameError: '', descriptionError: '', amountError: 'Ingrese una cantidad.' });
-    } else if (period === '') {
+    } else if (isEmptyString(period)) {
       this.setState({ nameError: '', descriptionError: '', amountError: '', periodError: 'Ingrese una fecha.' });
     } else if (this.checkDuplicate(name, selectedIndex, this.props.medications)) {
       this.setState({ nameError: 'El medicamento ya fue agregado, por favor ingrese otro' });

@@ -16,16 +16,25 @@ import {
 import classnames from 'classnames';
 import SweetAlert from 'sweetalert-react';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import moment from 'moment';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
 
 import { fetchProfile, updateProfile, changePassword } from '../../store/Perfil';
-
-import { isValidDNI, isValidPhoneNumber } from '../../utils/validations';
-
+import {
+  isValidDNI,
+  isValidPhoneNumber,
+  isValidPassword,
+  isEmptyString,
+  stringHasNumbers,
+} from '../../utils/validations';
 import Home from '../Home';
 
+function validarMayorDeEdad(date) {
+  const fecha = moment().subtract(18, 'y');
+  return date > fecha;
+}
 
 class Perfil extends React.Component {
 
@@ -73,8 +82,11 @@ class Perfil extends React.Component {
     title: '',
     loaded: false,
     password: '',
+    passwordError: '',
     newPassword: '',
+    newPasswordError: '',
     confirmPassword: '',
+    confirmPasswordError: '',
   }
 
   componentWillMount() {
@@ -168,11 +180,11 @@ class Perfil extends React.Component {
   handleContactData = () => {
     const { contactFirstName, contactLastName, contactPhoneNumber, selectedIndex } = this.state;
 
-    if (contactFirstName === '') {
-      this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
-    } else if (contactLastName === '') {
+    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
+      this.setState({ firstNameError: 'Ingrese un nombre.' });
+    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido.' });
-    } else if (contactPhoneNumber === '' || !isValidPhoneNumber(contactPhoneNumber)) {
+    } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
     } else {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
@@ -202,11 +214,11 @@ class Perfil extends React.Component {
   handleActualizarPerfil = () => {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
-    if (firstName === '') {
+    if (isEmptyString(firstName) || stringHasNumbers(firstName)) {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
-    } else if (lastName === '') {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (idNumber === '' || !isValidDNI(idNumber)) {
+    } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
@@ -236,14 +248,15 @@ class Perfil extends React.Component {
       confirmPassword,
     } = this.state;
 
-    if (newPassword === confirmPassword) {
-      dispatch(changePassword({ password, newPassword, confirmPassword }));
+    if (password === '') {
+      this.setState({ passwordError: 'Ingrese su contraseña actual' });
+    } else if (newPassword === '' || password === newPassword || !isValidPassword(newPassword)) {
+      this.setState({ passwordError: '', newPasswordError: 'Ingrese una contraseña válida.' });
+    } else if (newPassword !== confirmPassword) {
+      this.setState({ passwordError: '', newPasswordError: '', confirmPasswordError: 'Las contraseñas no coinciden' });
     } else {
-      this.setState({
-        showMessage: true,
-        title: 'Perfil',
-        message: 'Verifique la nueva contraseña introducida',
-      });
+      this.setState({ passwordError: '', newPasswordError: '', confirmPasswordError: '' });
+      dispatch(changePassword({ password, newPassword, confirmPassword }));
     }
   }
 
@@ -303,6 +316,7 @@ class Perfil extends React.Component {
                 <DatePicker
                   value={this.state.birthDate}
                   textFieldStyle={{ width: '100%' }}
+                  shouldDisableDate={validarMayorDeEdad}
                   hintText="Fecha de Nacimiento"
                   floatingLabelText="Fecha de Nacimiento"
                   onChange={(e, birthDate) => this.setState({ birthDate })}
@@ -430,6 +444,7 @@ class Perfil extends React.Component {
                   onChange={(e, password) => this.setState({ password })}
                   hintText="Contraseña"
                   type="password"
+                  errorText={this.state.passwordError}
                   floatingLabelText="Contraseña"
                   fullWidth
                 />
@@ -437,13 +452,23 @@ class Perfil extends React.Component {
                   onChange={(e, newPassword) => this.setState({ newPassword })}
                   hintText="Contraseña"
                   type="password"
+                  errorText={this.state.newPasswordError}
                   floatingLabelText="Nueva Contraseña"
                   fullWidth
                 />
+                {this.state.newPasswordError ? (<CardText color="gray">
+                  La contraseña debe ser distinta a la contraseña actual y debe contener:<br />
+                  • Una letra mayúscula<br />
+                  • Una letra minúscula<br />
+                  • Un número<br />
+                  • Un caracter especial !@#&/()?¿¡$%<br />
+                  • Al menos 8 caracteres </CardText>) : ''
+                }
                 <TextField
                   onChange={(e, confirmPassword) => this.setState({ confirmPassword })}
                   hintText="Contraseña"
                   type="password"
+                  errorText={this.state.confirmPasswordError}
                   floatingLabelText="Confirmar Contraseña"
                   fullWidth
                 />

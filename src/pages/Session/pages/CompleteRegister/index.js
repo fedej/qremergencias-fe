@@ -10,12 +10,16 @@ import moment from 'moment';
 import SweetAlert from 'sweetalert-react';
 
 import 'sweetalert/dist/sweetalert.css';
-import { isValidDNI } from '../../../../utils/validations';
+import {
+  isValidDNI,
+  isEmptyString,
+  stringHasNumbers,
+} from '../../../../utils/validations';
 
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
 
-function disableLastTenYears(date) {
+function validarMayorDeEdad(date) {
   const fecha = moment().subtract(18, 'y');
   return date > fecha;
 }
@@ -56,11 +60,11 @@ class CompleteRegister extends React.Component {
   handleCompleteRegister = () => {
     const { name, lastName, idNumber, birthDate, sex } = this.state;
 
-    if (name === '') {
+    if (isEmptyString(name) || stringHasNumbers(name)) {
       this.setState({ nameError: 'Ingrese un nombre.' });
-    } else if (lastName === '') {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
       this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (idNumber === '' || !isValidDNI(idNumber)) {
+    } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ nameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
@@ -127,7 +131,7 @@ class CompleteRegister extends React.Component {
               <DatePicker
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha de Nacimiento"
-                shouldDisableDate={disableLastTenYears}
+                shouldDisableDate={validarMayorDeEdad}
                 onChange={(e, birthDate) => this.setState({ birthDate })}
                 value={this.state.birthDate}
                 locale="es-ES"
