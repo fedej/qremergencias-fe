@@ -6,28 +6,37 @@ import { FlatButton, RaisedButton } from 'material-ui';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 import config from '../../../../constants/app';
-
+import SweetAlert from 'sweetalert-react';
+import 'sweetalert/dist/sweetalert.css';
 import Home from '../../../Home';
 
-import { fetchCodigo, generarCodigo, deprecarCodigo } from '../../../../store/Paciente';
+import { fetchCodigo, generarCodigo, deprecarCodigo, fetchData } from '../../../../store/Paciente';
+import DataService from '../../../../utils/api/Data';
 
 class CodigoQR extends React.Component {
   static propTypes = {
     doGenerarCodigo: PropTypes.func.isRequired,
     doDeprecarCodigo: PropTypes.func.isRequired,
+    doFetchData: PropTypes.func.isRequired,
     // doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasCodigo: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
+    isValido: PropTypes.bool.isRequired,
+    showError: PropTypes.bool.isRequired,
   }
 
   state = {
     expanded: false,
     hasCodigo: false,
+    isValido: false,
+    showError: false,
   }
 
   componentWillMount() {
-    this.props.doGenerarCodigo();
+    DataService.getData(this.props.username)
+      .then(data => this.checkIsValido(data))
+      .catch(err => this.setState({ error: err }));
   }
 
   componentDidMount() {
@@ -44,11 +53,24 @@ class CodigoQR extends React.Component {
       Progress.show();
     } else {
       Progress.hide();
-      if (nextProps.hasCodigo) {
-        this.setState({ hasCodigo: true });
+      if (this.state.isValido) {
+        if (nextProps.hasCodigo) {
+          this.setState({ hasCodigo: true, error: '' });
+        } else {
+          this.setState({ hasCodigo: false, error: '' });
+        }
       } else {
-        this.setState({ hasCodigo: false });
+        this.setState({ showError: true, error: 'Es necesario que visites un médico y que cargue los datos de emergencia para poder generar el QR.' });
       }
+    }
+  }
+
+  checkIsValido(data) {
+    if (data.lastMedicalCheck !== null) {
+      this.setState({ isValido: true })
+      this.props.doGenerarCodigo();
+    } else {
+      this.setState({ isValido: false })
     }
   }
 
@@ -124,6 +146,12 @@ class CodigoQR extends React.Component {
               />
             </CardActions>
           </Card>
+          <SweetAlert
+            show={this.state.showError}
+            title="Error al generar el QR"
+            text={this.state.error}
+            onConfirm={() => this.setState({ showError: false })}
+          />
         </div>
       </Home>
     );
@@ -135,6 +163,8 @@ const mapStateToProps = state => ({
   isFetching: state.paciente.isFetching,
   username: state.auth.profile.email,
   codigo: state.paciente.codigo,
+  isValido: state.paciente.isValido,
+  error: state.paciente.error,
 });
 
 const mapDispatchToProps = dispatch => ({
