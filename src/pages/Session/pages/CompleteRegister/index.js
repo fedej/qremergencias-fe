@@ -40,11 +40,12 @@ class CompleteRegister extends React.Component {
     birthDateError: '',
     sex: null,
     showError: false,
+    showSuccess: false,
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.auth.isFetching && !nextProps.auth.isFetching && nextProps.auth.error === '') {
-      browserHistory.push('/login');
+      this.setState({ showSuccess: true });
     }
 
     if (nextProps.auth.error) {
@@ -79,6 +80,11 @@ class CompleteRegister extends React.Component {
 
       dispatch(completeRegistration(data));
     }
+  }
+
+  handleSuccessCallback = () => {
+    this.setState({ showSuccess: false });
+    browserHistory.push('/login');
   }
 
   render() {
@@ -164,6 +170,12 @@ class CompleteRegister extends React.Component {
           title="Error al completar registro"
           text={this.props.auth.error}
           onConfirm={() => this.setState({ showError: false })}
+        />
+        <SweetAlert
+          show={this.state.showSuccess}
+          title="Exito"
+          text="El registro se completo correctamente. Por favor ingrese su email y contraseña para usar el sistema."
+          onConfirm={this.handleSuccessCallback}
         />
 
       </div>
