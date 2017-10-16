@@ -12,6 +12,7 @@ import ForgotPasswordSuccess from './pages/Session/pages/ForgotPasswordSuccess';
 
 import Landing from './pages/Landing';
 import Home from './pages/Home';
+import HomePage from './pages/HomePage';
 import Perfil from './pages/Perfil';
 import EditarPaciente from './pages/Paciente/pages/Editar';
 import HistoriasPaciente from './pages/Paciente/pages/Historias';
@@ -51,7 +52,7 @@ export default function Routes({ history }) {
       <Route component={Authenticated}>
         <Route path="home" component={Home} />
         <Route path="perfil" component={Perfil} />
-
+        <Route path="homePage" component={HomePage} />
         <Route path="cambios" component={UserIsPaciente(Cambios)} />
         <Route path="historias" component={UserIsPaciente(Historias)} />
         <Route path="codigo" component={UserIsPaciente(CodigoQR)} />
