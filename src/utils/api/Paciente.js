@@ -8,15 +8,6 @@ export default class PacienteService {
     return API.verifyTempCodeUsingGET(token);
   }
 
-  static getDatosEmergencia(pacienteId) {
-    return new Promise((resolve, reject) => {
-      resolve({
-        campoA: '123',
-        campoB: 123,
-      });
-    });
-  }
-
   static getCambiosDatosEmergencia() {
     const API = new EmergencyDataControllerApi(UserService.getApiClient());
     return API.getChangesUsingGET();

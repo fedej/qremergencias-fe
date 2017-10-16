@@ -95,6 +95,7 @@ const INITIAL_STATE = {
   cambios: {},
   hasCodigo: false,
   codigo: {},
+  isValido: false,
 };
 
 export default function Reducer(state = INITIAL_STATE, action = {}) {
