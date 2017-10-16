@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox } from 'material-ui';
+import { Checkbox, TextField } from 'material-ui';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import Chip from 'material-ui/Chip';
-
+import moment from 'moment';
 
 export default class Generales extends React.Component {
 
@@ -19,6 +19,7 @@ export default class Generales extends React.Component {
       organDonor: PropTypes.bool,
       allergic: PropTypes.bool,
       allergies: PropTypes.array,
+      lastMedicalCheck: PropTypes.date,
     }),
   }
 
@@ -30,6 +31,13 @@ export default class Generales extends React.Component {
           <CardTitle title="Datos generales de emergencia" />
           <CardText>
             <p>Grupo Sanguineo: {general.bloodType}</p>
+            <TextField
+              type="text"
+              disabled
+              value={moment(general.lastMedicalCheck).format('DD / MM / YYYY')}
+              floatingLabelText="Último chequeo médico"
+              floatingLabelFixed
+            />
             <Checkbox
               checked={general.organDonor}
               label="¿Es donante de órganos?"

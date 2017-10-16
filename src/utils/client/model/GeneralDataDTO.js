@@ -65,6 +65,9 @@ export default class GeneralDataDTO {
             if (data.hasOwnProperty('bloodType')) {
                 obj['bloodType'] = ApiClient.convertToType(data['bloodType'], 'String');
             }
+            if (data.hasOwnProperty('lastMedicalCheck')) {
+                obj['lastMedicalCheck'] = ApiClient.convertToType(data['lastMedicalCheck'], 'Date');
+            }
             if (data.hasOwnProperty('organDonor')) {
                 obj['organDonor'] = ApiClient.convertToType(data['organDonor'], 'Boolean');
             }
@@ -84,6 +87,10 @@ export default class GeneralDataDTO {
     * @member {String} bloodType
     */
     bloodType = undefined;
+    /**
+    * @member {Date} lastMedicalCheck
+    */
+    lastMedicalCheck = undefined;
     /**
     * @member {Boolean} organDonor
     */
