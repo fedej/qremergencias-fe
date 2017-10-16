@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 
@@ -24,17 +25,22 @@ class HistoriasPaciente extends React.Component {
     })),
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    doFetchHistoriasClinicasDePaciente: PropTypes.func.isRequired,
   }
 
   state = {
     historias: [],
+    page: 0,
+    itemsPerPage: 2,
   }
 
   componentWillMount() {
     const { dispatch, paciente } = this.props;
+    const { page, itemsPerPage } = this.state;
     // TODO: traer del store
     const token = '1234';
-    dispatch(fetchHistoriasClinicasDePaciente(paciente, token));
+    this.props.doFetchHistoriasClinicasDePaciente(paciente, token, page, itemsPerPage);
   }
 
   componentDidMount() {
@@ -60,6 +66,17 @@ class HistoriasPaciente extends React.Component {
     }
   }
 
+  handlePageClick = (data) => {
+    const { paciente } = this.props;
+    const { itemsPerPage } = this.state;
+    const page = data.selected;
+    // TODO: traer del store
+    const token = '1234';
+    this.setState({ page }, () =>
+      this.props
+        .doFetchHistoriasClinicasDePaciente(paciente, token, page, itemsPerPage));
+  };
+
   render() {
     return (
       <Home>
@@ -73,14 +90,37 @@ class HistoriasPaciente extends React.Component {
               this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
             }
           </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ReactPaginate
+              previousLabel="previous"
+              nextLabel="next"
+              breakLabel={<a href="">...</a>}
+              breakClassName="break-me"
+              pageCount={this.props.totalPages}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName="pagination"
+              subContainerClassName="pages pagination"
+              activeClassName="active"
+            />
+          </div>
         </div>
       </Home>
     );
   }
 }
 
-export default connect(state => ({
+const mapStateToProps = state => ({
   historias: state.historias.todas,
   paciente: state.paciente.editando,
   isFetching: state.historias.isFetching,
-}))(HistoriasPaciente);
+  totalPages: state.historias.totalPages,
+});
+
+const mapDispatchToProps = dispatch => ({
+  doFetchHistoriasClinicasDePaciente: (paciente, token, page, size) =>
+    dispatch(fetchHistoriasClinicasDePaciente(paciente, token, page, size)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HistoriasPaciente);
