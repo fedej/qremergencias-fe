@@ -12,6 +12,7 @@ import config from '../../../../constants/app';
 import Home from '../../../Home';
 import { fetchCodigo, generarCodigo, deprecarCodigo } from '../../../../store/Paciente';
 import DataService from '../../../../utils/api/Data';
+import ProfileService from '../../../../utils/api/Profile';
 
 class CodigoQR extends React.Component {
   static propTypes = {
@@ -31,7 +32,7 @@ class CodigoQR extends React.Component {
   }
 
   componentWillMount() {
-    DataService.getData(this.props.username)
+    ProfileService.getProfile()
       .then(data => this.checkIsValido(data))
       .catch(err => this.setState({ error: err }));
   }
@@ -59,14 +60,14 @@ class CodigoQR extends React.Component {
       } else {
         this.setState({
           showError: true,
-          error: 'Es necesario que visites un médico y que cargue los datos de emergencia para poder generar el QR.',
+          error: 'Es necesario que mínimamente cargues contactos de emergencia para poder generar el QR.',
         });
       }
     }
   }
 
   checkIsValido(data) {
-    if (data.lastMedicalCheck !== null) {
+    if (data.contacts.length) {
       this.setState({ isValido: true });
     } else {
       this.setState({ isValido: false });
