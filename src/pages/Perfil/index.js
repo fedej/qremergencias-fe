@@ -22,7 +22,7 @@ import 'sweetalert/dist/sweetalert.css';
 
 import { fetchProfile, updateProfile, changePassword } from '../../store/Perfil';
 
-import { isValidDNI, isValidPhoneNumber } from '../../utils/validations';
+import { isValidDNI, isValidPhoneNumber, isValidPassword } from '../../utils/validations';
 
 import Home from '../Home';
 
@@ -73,8 +73,11 @@ class Perfil extends React.Component {
     title: '',
     loaded: false,
     password: '',
+    passwordError: '',
     newPassword: '',
+    newPasswordError: '',
     confirmPassword: '',
+    confirmPasswordError: '',
   }
 
   componentWillMount() {
@@ -236,14 +239,15 @@ class Perfil extends React.Component {
       confirmPassword,
     } = this.state;
 
-    if (newPassword === confirmPassword) {
-      dispatch(changePassword({ password, newPassword, confirmPassword }));
+    if (password === '') {
+      this.setState({ passwordError: 'Ingrese su contraseña actual' });
+    } else if (newPassword === '' || password === newPassword || !isValidPassword(newPassword)) {
+      this.setState({ passwordError: '', newPasswordError: 'Ingrese una contraseña válida.' });
+    } else if (newPassword !== confirmPassword) {
+      this.setState({ passwordError: '', newPasswordError: '', confirmPasswordError: 'Las contraseñas no coinciden' });
     } else {
-      this.setState({
-        showMessage: true,
-        title: 'Perfil',
-        message: 'Verifique la nueva contraseña introducida',
-      });
+      this.setState({ passwordError: '', newPasswordError: '', confirmPasswordError: '' });
+      dispatch(changePassword({ password, newPassword, confirmPassword }));
     }
   }
 
@@ -430,6 +434,7 @@ class Perfil extends React.Component {
                   onChange={(e, password) => this.setState({ password })}
                   hintText="Contraseña"
                   type="password"
+                  errorText={this.state.passwordError}
                   floatingLabelText="Contraseña"
                   fullWidth
                 />
@@ -437,13 +442,23 @@ class Perfil extends React.Component {
                   onChange={(e, newPassword) => this.setState({ newPassword })}
                   hintText="Contraseña"
                   type="password"
+                  errorText={this.state.newPasswordError}
                   floatingLabelText="Nueva Contraseña"
                   fullWidth
                 />
+                {this.state.newPasswordError ? (<CardText color="gray">
+                  La contraseña debe ser distinta a la contraseña actual y debe contener:<br />
+                  • Una letra mayúscula<br />
+                  • Una letra minúscula<br />
+                  • Un número<br />
+                  • Un caracter especial !@#&/()?¿¡$%<br />
+                  • Al menos 8 caracteres </CardText>) : ''
+                }
                 <TextField
                   onChange={(e, confirmPassword) => this.setState({ confirmPassword })}
                   hintText="Contraseña"
                   type="password"
+                  errorText={this.state.confirmPasswordError}
                   floatingLabelText="Confirmar Contraseña"
                   fullWidth
                 />
