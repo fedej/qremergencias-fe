@@ -59,7 +59,6 @@ export default class Generales extends React.Component {
 
   static defaultProps = {
     general: {},
-    lastMedicalCheck: '',
   }
 
   static propTypes = {
@@ -68,8 +67,8 @@ export default class Generales extends React.Component {
       organDonor: PropTypes.bool,
       allergic: PropTypes.bool,
       allergies: PropTypes.array,
+      lastMedicalCheck: PropTypes.date,
     }),
-    lastMedicalCheck: PropTypes.string,
     onGeneralChange: PropTypes.func.isRequired,
   }
 
@@ -140,7 +139,7 @@ export default class Generales extends React.Component {
               <TextField
                 type="text"
                 disabled
-                value={moment(this.props.lastMedicalCheck).format('DD / MM / YYYY')}
+                value={moment(general.lastMedicalCheck).format('DD / MM / YYYY')}
                 floatingLabelText="Último chequeo médico"
                 floatingLabelFixed
               />
@@ -163,7 +162,6 @@ export default class Generales extends React.Component {
                     value={this.state.allergyBasic}
                     floatingLabelText="¿A que es alérgico?"
                     onChange={(e, key, allergyBasic) => {
-                      console.log(key, allergyBasic);
                       this.setState({ allergyBasic, allergyDescription: '' });
                     }}
                     floatingLabelFixed

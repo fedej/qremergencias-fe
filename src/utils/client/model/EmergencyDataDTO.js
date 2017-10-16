@@ -66,9 +66,6 @@ export default class EmergencyDataDTO {
             if (data.hasOwnProperty('hospitalizations')) {
                 obj['hospitalizations'] = ApiClient.convertToType(data['hospitalizations'], [HospitalizationDTO]);
             }
-            if (data.hasOwnProperty('lastMedicalCheck')) {
-                obj['lastMedicalCheck'] = ApiClient.convertToType(data['lastMedicalCheck'], 'Date');
-            }
             if (data.hasOwnProperty('medications')) {
                 obj['medications'] = ApiClient.convertToType(data['medications'], [MedicationDTO]);
             }
@@ -93,10 +90,6 @@ export default class EmergencyDataDTO {
     * @member {Array.<module:model/HospitalizationDTO>} hospitalizations
     */
     hospitalizations = undefined;
-    /**
-    * @member {Date} lastMedicalCheck
-    */
-    lastMedicalCheck = undefined;
     /**
     * @member {Array.<module:model/MedicationDTO>} medications
     */

@@ -22,6 +22,7 @@ import EmergencyDataDTO from './model/EmergencyDataDTO';
 import FileDTO from './model/FileDTO';
 import GeneralDataDTO from './model/GeneralDataDTO';
 import HospitalizationDTO from './model/HospitalizationDTO';
+import InputStream from './model/InputStream';
 import LoginUserDTO from './model/LoginUserDTO';
 import MedicalRecordChangeDTO from './model/MedicalRecordChangeDTO';
 import MedicalRecordDTO from './model/MedicalRecordDTO';
@@ -132,6 +133,12 @@ export {
      * @property {module:model/HospitalizationDTO}
      */
     HospitalizationDTO,
+
+    /**
+     * The InputStream model constructor.
+     * @property {module:model/InputStream}
+     */
+    InputStream,
 
     /**
      * The LoginUserDTO model constructor.
