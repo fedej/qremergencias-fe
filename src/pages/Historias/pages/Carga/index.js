@@ -12,7 +12,11 @@ import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../../../Home';
 import { uploadHistoriClinica } from '../../../../store/Historias';
-import { hasEmptyStringProperties } from '../../../../utils/validations';
+import {
+  hasEmptyStringProperties,
+  isEmptyString,
+  stringHasNumbers,
+} from '../../../../utils/validations';
 
 const INITIAL_STATE = {
   showError: false,
@@ -63,13 +67,13 @@ class CargaHistoriaClinica extends React.Component {
     const { dispatch, paciente } = this.props;
     const errores = {};
 
-    errores.nombreError = this.state.nombre === '' ?
+    errores.nombreError = isEmptyString(this.state.nombre) ?
       'Ingrese el nombre del estudio.' : '';
 
     errores.fechaRealizacionError = !this.state.fechaRealizacion ?
       'Ingrese la fecha de realización del estudio.' : '';
 
-    errores.informeError = this.state.informe === '' ?
+    errores.informeError = isEmptyString(this.state.informe) ?
       'Ingrese el detalle del estudio.' : '';
 
     errores.fileError = !this.fileInput.files[0] ?

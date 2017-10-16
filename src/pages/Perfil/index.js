@@ -22,7 +22,13 @@ import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
 
 import { fetchProfile, updateProfile, changePassword } from '../../store/Perfil';
-import { isValidDNI, isValidPhoneNumber, isValidPassword } from '../../utils/validations';
+import {
+  isValidDNI,
+  isValidPhoneNumber,
+  isValidPassword,
+  isEmptyString,
+  stringHasNumbers,
+} from '../../utils/validations';
 import Home from '../Home';
 
 function validarMayorDeEdad(date) {
@@ -174,11 +180,11 @@ class Perfil extends React.Component {
   handleContactData = () => {
     const { contactFirstName, contactLastName, contactPhoneNumber, selectedIndex } = this.state;
 
-    if (contactFirstName === '') {
-      this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
-    } else if (contactLastName === '') {
+    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
+      this.setState({ firstNameError: 'Ingrese un nombre.' });
+    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido.' });
-    } else if (contactPhoneNumber === '' || !isValidPhoneNumber(contactPhoneNumber)) {
+    } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
     } else {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
@@ -208,11 +214,11 @@ class Perfil extends React.Component {
   handleActualizarPerfil = () => {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
-    if (firstName === '') {
+    if (isEmptyString(firstName) || stringHasNumbers(firstName)) {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
-    } else if (lastName === '') {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
-    } else if (idNumber === '' || !isValidDNI(idNumber)) {
+    } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
