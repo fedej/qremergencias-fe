@@ -5,25 +5,22 @@ import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { FlatButton, RaisedButton } from 'material-ui';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
-import config from '../../../../constants/app';
 import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
-import Home from '../../../Home';
 
-import { fetchCodigo, generarCodigo, deprecarCodigo, fetchData } from '../../../../store/Paciente';
+import config from '../../../../constants/app';
+import Home from '../../../Home';
+import { fetchCodigo, generarCodigo, deprecarCodigo } from '../../../../store/Paciente';
 import DataService from '../../../../utils/api/Data';
 
 class CodigoQR extends React.Component {
   static propTypes = {
     doGenerarCodigo: PropTypes.func.isRequired,
     doDeprecarCodigo: PropTypes.func.isRequired,
-    doFetchData: PropTypes.func.isRequired,
-    // doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasCodigo: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
     isValido: PropTypes.bool.isRequired,
-    showError: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -60,17 +57,19 @@ class CodigoQR extends React.Component {
           this.setState({ hasCodigo: false, error: '' });
         }
       } else {
-        this.setState({ showError: true, error: 'Es necesario que visites un médico y que cargue los datos de emergencia para poder generar el QR.' });
+        this.setState({
+          showError: true,
+          error: 'Es necesario que visites un médico y que cargue los datos de emergencia para poder generar el QR.',
+        });
       }
     }
   }
 
   checkIsValido(data) {
     if (data.lastMedicalCheck !== null) {
-      this.setState({ isValido: true })
-      this.props.doGenerarCodigo();
+      this.setState({ isValido: true });
     } else {
-      this.setState({ isValido: false })
+      this.setState({ isValido: false });
     }
   }
 
