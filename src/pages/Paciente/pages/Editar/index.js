@@ -47,7 +47,7 @@ class EditarPaciente extends React.Component {
               <RaisedButton
                 style={{ marginTop: '1vh' }}
                 label="Volver"
-                onTouchTap={() => browserHistory.push('/home')}
+                onTouchTap={() => browserHistory.goBack()}
               />
             </CardActions>
           </Card>

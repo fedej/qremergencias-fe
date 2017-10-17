@@ -75,7 +75,7 @@ class DatosEmergencia extends React.Component {
               }
               <RaisedButton
                 label="Volver"
-                onTouchTap={() => browserHistory.push('/home')}
+                onTouchTap={() => browserHistory.goBack()}
                 primary
               />
             </CardActions>
