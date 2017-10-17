@@ -63,13 +63,13 @@ export const fetchCambiosDatosPaciente = () => (dispatch) => {
     .catch(err => dispatch({ type: PACIENTE_CAMBIOS_DATOS_ERROR, error: err.message }));
 };
 
-export const fetchCodigo = () => (dispatch) => {
+export const fetchCodigo = user => (dispatch) => {
   dispatch({ type: OBTENER_QR_REQUEST });
 
-  PacienteService.getCodigoQR()
-    .then(codigo => dispatch({ type: OBTENER_QR_SUCCESS, codigo }))
+  PacienteService.getCodigoQR(user)
+    .then(codigo => dispatch({ type: OBTENER_QR_SUCCESS, codigo, hasCodigo: true }))
     .catch((err) => {
-      dispatch({ type: OBTENER_QR_ERROR, error: err.message });
+      dispatch({ type: OBTENER_QR_ERROR, error: err.message, hasCodigo: false });
     });
 };
 

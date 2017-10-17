@@ -13,9 +13,9 @@ export default class PacienteService {
     return API.getChangesUsingGET();
   }
 
-  static getCodigoQR() {
+  static getCodigoQR(user) {
     const API = new EmergencyDataControllerApi(UserService.getApiClient());
-    return API.getQRUsingGET();
+    return API.getQRUsingGET(user);
   }
 
   static generarCodigoQR() {

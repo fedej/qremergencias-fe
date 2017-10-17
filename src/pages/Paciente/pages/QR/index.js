@@ -11,13 +11,13 @@ import 'sweetalert/dist/sweetalert.css';
 import config from '../../../../constants/app';
 import Home from '../../../Home';
 import { fetchCodigo, generarCodigo, deprecarCodigo } from '../../../../store/Paciente';
-import DataService from '../../../../utils/api/Data';
 import ProfileService from '../../../../utils/api/Profile';
 
 class CodigoQR extends React.Component {
   static propTypes = {
     doGenerarCodigo: PropTypes.func.isRequired,
     doDeprecarCodigo: PropTypes.func.isRequired,
+    doFetchCodigo: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     hasCodigo: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
@@ -69,6 +69,7 @@ class CodigoQR extends React.Component {
   checkIsValido(data) {
     if (data.contacts.length) {
       this.setState({ isValido: true });
+      this.props.doFetchCodigo(this.props.username);
     } else {
       this.setState({ isValido: false });
     }
@@ -168,7 +169,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  doFetchCodigo: () => dispatch(fetchCodigo()),
+  doFetchCodigo: username => dispatch(fetchCodigo(username)),
   doGenerarCodigo: () => dispatch(generarCodigo()),
   doDeprecarCodigo: () => dispatch(deprecarCodigo()),
 });
