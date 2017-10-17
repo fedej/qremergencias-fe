@@ -12,6 +12,10 @@ h2 {
   font-size: 2em;
 }
 
-p {
+span {
   font-size: 1.5em;
+}
+
+.inline-div {
+  display: 'inline-block';
 }
