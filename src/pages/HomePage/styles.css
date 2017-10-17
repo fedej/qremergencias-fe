@@ -12,7 +12,8 @@ h2 {
   font-size: 2em;
 }
 
-span {
+.datadiv {
+  margin-top: 30px;
   font-size: 1.5em;
 }
 
