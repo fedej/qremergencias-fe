@@ -79,7 +79,7 @@ export default class ForgotPassword extends React.Component {
             <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '2vh' }}>
               <FlatButton
                 label="Volver"
-                onTouchTap={() => browserHistory.push('/login')}
+                onTouchTap={() => browserHistory.goBack()}
               />
             </div>
           </CardActions>

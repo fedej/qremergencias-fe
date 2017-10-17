@@ -74,7 +74,7 @@ class Verificacion extends React.Component {
               />
               <RaisedButton
                 label="Volver"
-                onTouchTap={() => browserHistory.push('/home')} // TODO: volver a ruta anterior
+                onTouchTap={() => browserHistory.goBack()}
                 primary
               />
             </CardActions>
