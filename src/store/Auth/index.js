@@ -134,7 +134,7 @@ const INITIAL_STATE = {
 export default function Reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return { ...state, isFetching: true };
+      return { ...state, isFetching: true, error: '' };
     case LOGIN_SUCCESS:
       return {
         ...state,
