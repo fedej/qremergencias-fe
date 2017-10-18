@@ -1,52 +1,56 @@
-import { connectedRouterRedirect } from 'redux-auth-wrapper/history3/redirect';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { routerActions } from 'react-router-redux';
-import Spinner from 'react-spinkit';
 
-export const UserIsAuthenticated = connectedRouterRedirect({
-  redirectPath: '/login',
-  authenticatedSelector: state => state.auth.isLoggedIn,
-  authenticatingSelector: state => state.auth.isFetching,
-  AuthenticatingComponent: Spinner,
+export const UserIsAuthenticated = UserAuthWrapper({
+  authSelector: state => state.auth,
   redirectAction: routerActions.replace,
+  predicate: auth => auth.isLoggedIn,
   wrapperDisplayName: 'UserIsAuthenticated',
+  allowRedirectBack: false,
 });
 
-export const VisibleOnlyLoggedOut = connectedRouterRedirect({
-  authenticatedSelector: state => !state.auth.isLoggedIn && !state.auth.isFetching,
-  redirectPath: '/homePage',
+export const UserIsAdmin = UserAuthWrapper({
+  authSelector: state => state.auth,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsAdmin',
+  predicate: auth => auth.isAdmin,
+  allowRedirectBack: false,
+});
+
+export const UserIsPaciente = UserAuthWrapper({
+  authSelector: state => state.auth,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsPaciente',
+  predicate: auth => !auth.isMedico,
+  allowRedirectBack: false,
+});
+
+export const UserIsMedico = UserAuthWrapper({
+  authSelector: state => state.auth,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsMedico',
+  predicate: auth => auth.isMedico,
+  allowRedirectBack: false,
+});
+
+export const VisibleOnlyLoggedOut = UserAuthWrapper({
+  authSelector: state => state.auth,
   redirectAction: routerActions.replace,
   wrapperDisplayName: 'VisibleOnlyAdmin',
+  predicate: auth => !auth.isLoggedIn,
+  failureRedirectPath: (state) => {
+    if (state.auth.isMedico) return '/home';
+    return '/historias';
+  },
   allowRedirectBack: false,
 });
 
-// export const UserIsAdmin = UserAuthWrapper({
-//   authSelector: state => state.auth,
-//   redirectAction: routerActions.replace,
-//   failureRedirectPath: '/',
-//   wrapperDisplayName: 'UserIsAdmin',
-//   predicate: auth => auth.isAdmin,
-//   allowRedirectBack: false,
-// });
-
-export const UserIsPaciente = connectedRouterRedirect({
-  authenticatedSelector: state => !state.auth.isMedico,
-  redirectAction: routerActions.replace,
-  redirectPath: '/homePage',
-  wrapperDisplayName: 'UserIsPaciente',
-  allowRedirectBack: false,
+export const VisibleOnlyAdmin = UserAuthWrapper({
+  authSelector: state => state.auth,
+  wrapperDisplayName: 'VisibleOnlyAdmin',
+  predicate: auth => auth.isAdmin,
+  FailureComponent: null,
 });
-
-export const UserIsMedico = connectedRouterRedirect({
-  authenticatedSelector: state => state.auth.isMedico,
-  redirectAction: routerActions.replace,
-  redirectPath: '/homePage',
-  wrapperDisplayName: 'UserIsMedico',
-  allowRedirectBack: false,
-});
-
-// export const VisibleOnlyAdmin = UserAuthWrapper({
-//   authSelector: state => state.auth,
-//   wrapperDisplayName: 'VisibleOnlyAdmin',
-//   predicate: auth => auth.isAdmin,
-//   FailureComponent: null,
-// });
