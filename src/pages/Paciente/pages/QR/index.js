@@ -83,7 +83,16 @@ class CodigoQR extends React.Component {
     this.setState({ expanded: !this.state.expanded });
   }
 
-  handleGenerarQR = () => this.props.doGenerarCodigo();
+  handleGenerarQR = () => {
+    if (this.state.isValido) {
+      this.props.doGenerarCodigo();
+    } else {
+      this.setState({
+        showError: true,
+        error: 'Es necesario que mínimamente cargues contactos de emergencia para poder generar el QR.',
+      });
+    }
+  }
   handleDeprecarQR = () => this.props.doDeprecarCodigo();
 
   render() {
