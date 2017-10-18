@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.formColumn {
+  flex-direction: column;
+}
+
 h1 {
   font-size: 4em;
 }
