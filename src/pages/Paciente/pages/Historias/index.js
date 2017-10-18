@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
+import '../../../../assets/styles/bootstrap.min.css';
 
 import Home from '../../../Home';
 import HistoriaClinica from '../../../Historias/components/HistoriaClinica';

@@ -279,7 +279,7 @@ class Perfil extends React.Component {
             style={{ background: 'white' }}
             thumbStyle={{ background: 'red' }}
           />
-          <div className={classnames('formCenter')}>
+          <div className={classnames('formCenter', 'formColumn')}>
             <Card style={{ margin: '20px' }}>
               <CardTitle
                 title="Perfil de usuario"
