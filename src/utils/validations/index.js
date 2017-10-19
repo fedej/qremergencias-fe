@@ -43,3 +43,7 @@ export function isEmptyString(string) {
 export function stringHasNumbers(string) {
   return /\d/g.test(string);
 }
+
+export function isOnlySting(string) {
+  return /^[A-z]+$/.test(string);
+}

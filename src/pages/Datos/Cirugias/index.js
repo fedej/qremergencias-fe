@@ -16,7 +16,7 @@ import Dialog from 'material-ui/Dialog';
 
 import {
   isEmptyString,
-  stringHasNumbers,
+  isOnlySting,
 } from '../../../utils/validations';
 
 function validarFecha(date) {
@@ -59,8 +59,8 @@ export default class Cirugias extends React.Component {
 
     if (isEmptyString(reason)) {
       this.setState({ reasonError: 'Ingrese tipo.' });
-    } else if (isEmptyString(institution)) {
-      this.setState({ reasonError: '', institutionError: 'Ingrese una descripción.' });
+    } else if (isEmptyString(institution) || !isOnlySting(institution)) {
+      this.setState({ reasonError: '', institutionError: 'Ingrese un establecimiento válido.' });
     } else if (!date) {
       this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });
     } else {
