@@ -61,11 +61,11 @@ class CompleteRegister extends React.Component {
     const { name, lastName, idNumber, birthDate, sex } = this.state;
 
     if (isEmptyString(name) || stringHasNumbers(name)) {
-      this.setState({ nameError: 'Ingrese un nombre.' });
+      this.setState({ nameError: 'Ingrese un nombre válido.' });
     } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
-      this.setState({ nameError: '', lastNameError: 'Ingrese un apellido.' });
+      this.setState({ nameError: '', lastNameError: 'Ingrese un apellido válido.' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
-      this.setState({ nameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
+      this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI válido' });
     } else if (birthDate === null) {
       this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
     } else {
