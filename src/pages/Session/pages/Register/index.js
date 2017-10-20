@@ -141,12 +141,15 @@ class Register extends React.Component {
                     name="archivo"
                   />
                   {this.state.evidenceError ? (
-                    <CardText color="gray">
+                    <CardText color="red">
+                    Por favor, adjunte su documento firmado
+                    </CardText>) : ''
+                  }
+                  <CardText color="gray">
                     Documento firmado para certificar la validez <br />
                     en el Registro Único de Profesionales.<br />
                     Mas información <a href="http://www.msal.gob.ar/images/stories/tramites-servicios/certificaciones/ru2.pdf">aquí</a>
-                    </CardText>) : ''
-                  }
+                  </CardText>
                 </CardText>
               </div>
             )
