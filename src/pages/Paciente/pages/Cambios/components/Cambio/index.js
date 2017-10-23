@@ -31,6 +31,7 @@ const translate = {
   false: 'No',
   antecedentes_oncologicos: 'Antecedentes oncologicos',
   insuficiencia_suprarrenal: 'Insuficiencia suprarrenal',
+  lastMedicalCheck: 'Ultimo chequeo medico',
 };
 
 function FilaCambio({ tipo, length, change, indice }) {
