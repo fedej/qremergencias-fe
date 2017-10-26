@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
+import { browserHistory } from 'react-router';
+import { RaisedButton } from 'material-ui';
 import 'react-progress-2/main.css';
 import '../../assets/styles/bootstrap.min.css';
 
@@ -85,6 +87,12 @@ class Historias extends React.Component {
                 />
               ))
             }
+            <RaisedButton
+              label="Volver"
+              onTouchTap={() => browserHistory.goBack()}
+              fullWidth
+              primary
+            />
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ReactPaginate

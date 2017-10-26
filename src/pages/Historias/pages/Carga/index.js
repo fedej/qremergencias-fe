@@ -156,6 +156,12 @@ class CargaHistoriaClinica extends React.Component {
                 label="Cargar"
                 onTouchTap={this.handleSubmitHistoriaClinica}
                 primary
+                fullWidth
+              />
+              <RaisedButton
+                label="Volver"
+                onTouchTap={() => browserHistory.goBack()}
+                fullWidth
               />
             </CardActions>
             <SweetAlert
