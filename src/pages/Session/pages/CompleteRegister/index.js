@@ -42,7 +42,7 @@ class CompleteRegister extends React.Component {
     idNumberError: '',
     birthDate: moment().subtract(20, 'y').toDate(),
     birthDateError: '',
-    sex: null,
+    sex: 'F',
     showError: false,
     showSuccess: false,
   }
@@ -143,7 +143,7 @@ class CompleteRegister extends React.Component {
             </div>
             <div style={{ fontWeight: 'bold', marginTop: 16 }}>
               Elija su sexo:
-              <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected="F">
+              <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected={this.state.sex}>
                 <RadioButton
                   value="F"
                   label="Femenino"
