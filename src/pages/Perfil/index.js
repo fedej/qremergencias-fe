@@ -441,6 +441,7 @@ class Perfil extends React.Component {
               />
               <CardText>
                 <TextField
+                  value={this.state.password}
                   onChange={(e, password) => this.setState({ password })}
                   hintText="Contraseña"
                   type="password"
@@ -449,6 +450,7 @@ class Perfil extends React.Component {
                   fullWidth
                 />
                 <TextField
+                  value={this.state.newPassword}
                   onChange={(e, newPassword) => this.setState({ newPassword })}
                   hintText="Contraseña"
                   type="password"
@@ -465,6 +467,7 @@ class Perfil extends React.Component {
                   • Al menos 8 caracteres </CardText>) : ''
                 }
                 <TextField
+                  value={this.state.confirmPassword}
                   onChange={(e, confirmPassword) => this.setState({ confirmPassword })}
                   hintText="Contraseña"
                   type="password"
