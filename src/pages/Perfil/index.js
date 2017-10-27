@@ -157,6 +157,7 @@ class Perfil extends React.Component {
   handleCloseContactDialog = () => {
     this.setState({ contactDialogOpened: false });
     this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
+    this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
   };
 
   handleOpenContactDialog = () => {
