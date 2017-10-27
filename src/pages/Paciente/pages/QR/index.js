@@ -29,6 +29,7 @@ class CodigoQR extends React.Component {
     hasCodigo: false,
     isValido: false,
     showError: false,
+    version: 0,
   }
 
   componentWillMount() {
@@ -53,7 +54,7 @@ class CodigoQR extends React.Component {
       Progress.hide();
       if (this.state.isValido) {
         if (nextProps.hasCodigo) {
-          this.setState({ hasCodigo: true, error: '' });
+          this.setState({ hasCodigo: true, error: '', version: this.state.version + 1 });
         } else {
           this.setState({ hasCodigo: false, error: '' });
         }
@@ -128,8 +129,9 @@ class CodigoQR extends React.Component {
                 >
                   <img
                     style={{ width: '100%', maxWidth: '360px' }}
+                    ref={(image) => { this.image = image; }}
                     alt="Código QR"
-                    src={`${config.BASE_URL}/qremergencias/api/emergencyData/qr?user=${this.props.username}`}
+                    src={`${config.BASE_URL}/qremergencias/api/emergencyData/qr?user=${this.props.username}#${this.state.version}`}
                   />
                 </CardText>
               )
