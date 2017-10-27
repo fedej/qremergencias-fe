@@ -212,7 +212,7 @@ export default class TempCodeControllerApi {
       let returnType = 'String';
 
       return this.apiClient.callApi(
-        '/api/mobile/tempCode/verify/{tempCode}', 'GET',
+        '/api/tempCode/verify/{tempCode}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
