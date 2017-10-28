@@ -86,6 +86,11 @@ class CompleteRegister extends React.Component {
     }
   }
 
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  }
+
   handleSuccessCallback = () => {
     this.setState({ showSuccess: false });
     browserHistory.push('/login');
@@ -135,6 +140,7 @@ class CompleteRegister extends React.Component {
                 onChange={(e, birthDate) => this.setState({ birthDate })}
                 value={this.state.birthDate}
                 locale="es-ES"
+                formatDate={this.formatDate}
                 DateTimeFormat={Intl.DateTimeFormat}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>

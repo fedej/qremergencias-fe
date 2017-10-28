@@ -87,6 +87,11 @@ export default class Internaciones extends React.Component {
     }
   }
 
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  };
+
   handleOpenDialog = () => {
     const { selected } = this.state;
     const { hospitalizations } = this.props;
@@ -182,6 +187,7 @@ export default class Internaciones extends React.Component {
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
               locale="es-ES"
+              formatDate={this.formatDate}
               DateTimeFormat={Intl.DateTimeFormat}
             />
             <TextField

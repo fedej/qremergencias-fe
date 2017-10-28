@@ -132,6 +132,11 @@ export default class Patologias extends React.Component {
     });
   };
 
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  };
+
   handleDeletePathology = (key) => {
     const pathologies = this.props.pathologies;
     if (pathologies[key].type !== 'otro') {
@@ -169,20 +174,20 @@ export default class Patologias extends React.Component {
             <Table onRowSelection={this.handleRowSelection}>
               <TableHeader>
                 <TableRow>
+                  <TableHeaderColumn>Fecha</TableHeaderColumn>
                   <TableHeaderColumn>Tipo</TableHeaderColumn>
                   <TableHeaderColumn>Descripcion</TableHeaderColumn>
-                  <TableHeaderColumn>Fecha</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {
                   pathologies && pathologies.length && pathologies.map((p, i) =>
                     (<TableRow selected={this.isSelected(i)} key={i}>
+                      <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                       <TableRowColumn>
                         {pathologyType.find(pathology => pathology.key === p.type).value}
                       </TableRowColumn>
                       <TableRowColumn>{p.description}</TableRowColumn>
-                      <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                     </TableRow>),
                   )
                 }
@@ -195,6 +200,17 @@ export default class Patologias extends React.Component {
             modal
             actions={actions}
           >
+            <DatePicker
+              value={this.state.date}
+              textFieldStyle={{ width: '100%' }}
+              shouldDisableDate={validarFecha}
+              hintText="Fecha"
+              onChange={(e, date) => this.setState({ date })}
+              errorText={this.state.dateError}
+              locale="es-ES"
+              formatDate={this.formatDate}
+              DateTimeFormat={Intl.DateTimeFormat}
+            />
             <SelectField
               value={this.state.type}
               floatingLabelText="Tipo de patología"
@@ -219,16 +235,6 @@ export default class Patologias extends React.Component {
               type="text"
               floatingLabelText="Descripción"
               fullWidth
-            />
-            <DatePicker
-              value={this.state.date}
-              textFieldStyle={{ width: '100%' }}
-              shouldDisableDate={validarFecha}
-              hintText="Fecha"
-              onChange={(e, date) => this.setState({ date })}
-              errorText={this.state.dateError}
-              locale="es-ES"
-              DateTimeFormat={Intl.DateTimeFormat}
             />
           </Dialog>
           <CardActions style={{ display: 'flex', justifyContent: 'left', flexDirection: 'row' }}>

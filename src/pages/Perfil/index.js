@@ -271,6 +271,11 @@ class Perfil extends React.Component {
     }
   }
 
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  }
+
   handleChangePassword = () => {
     const { dispatch } = this.props;
     const {
@@ -353,6 +358,7 @@ class Perfil extends React.Component {
                   onChange={(e, birthDate) => this.setState({ birthDate, qrUpdateRequired: true })}
                   errorText={this.state.birthDateError}
                   locale="es-ES"
+                  formatDate={this.formatDate}
                   DateTimeFormat={Intl.DateTimeFormat}
                 />
                 <div style={{ fontWeight: 'bold', marginTop: 16 }}>

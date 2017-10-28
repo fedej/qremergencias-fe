@@ -87,6 +87,11 @@ export default class Cirugias extends React.Component {
     }
   }
 
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  };
+
   handleOpenDialog = () => {
     const { selected } = this.state;
     const { surgeries } = this.props;
@@ -179,6 +184,7 @@ export default class Cirugias extends React.Component {
               hintText="Fecha"
               onChange={(e, date) => this.setState({ date })}
               errorText={this.state.dateError}
+              formatDate={this.formatDate}
               locale="es-ES"
               DateTimeFormat={Intl.DateTimeFormat}
             />
