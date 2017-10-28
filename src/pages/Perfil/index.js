@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { TextField, RaisedButton, DatePicker } from 'material-ui';
+import { TextField, RaisedButton, DatePicker, Checkbox } from 'material-ui';
 import Dialog from 'material-ui/Dialog';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import {
@@ -78,6 +78,7 @@ class Perfil extends React.Component {
     contactLastNameError: '',
     contactPhoneNumber: '',
     contactPhoneNumberError: '',
+    contactPrimary: false,
     message: '',
     title: '',
     loaded: false,
@@ -156,7 +157,7 @@ class Perfil extends React.Component {
 
   handleCloseContactDialog = () => {
     this.setState({ contactDialogOpened: false });
-    this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
+    this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', contactPrimary: '', selectedIndex: '' });
     this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
   };
 
@@ -169,6 +170,7 @@ class Perfil extends React.Component {
         contactFirstName: contacts[selectedIndex].firstName,
         contactLastName: contacts[selectedIndex].lastName,
         contactPhoneNumber: contacts[selectedIndex].phoneNumber,
+        contactPrimary: contacts[selectedIndex].primary,
         selectedIndex,
       });
     } else {
@@ -179,10 +181,10 @@ class Perfil extends React.Component {
   };
 
   handleContactData = () => {
-    const { contactFirstName, contactLastName, contactPhoneNumber, selectedIndex } = this.state;
+    const { contactFirstName, contactLastName, contactPhoneNumber, contactPrimary, selectedIndex } = this.state;
 
     if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
-      this.setState({ firstNameError: 'Ingrese un nombre.' });
+      this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
     } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido.' });
     } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
@@ -192,12 +194,13 @@ class Perfil extends React.Component {
 
       let contacts = [];
 
-      if (selectedIndex !== '') {
+      if (selectedIndex !== '') { // EDITANDO
         contacts = this.state.contacts;
         contacts[selectedIndex].firstName = contactFirstName;
         contacts[selectedIndex].lastName = contactLastName;
         contacts[selectedIndex].phoneNumber = contactPhoneNumber;
-      } else {
+        contacts[selectedIndex].primary = contactPrimary;
+      } else {  // NUEVO
         if (this.state.contacts) {
           contacts = this.state.contacts;
         }
@@ -205,10 +208,12 @@ class Perfil extends React.Component {
           firstName: contactFirstName,
           lastName: contactLastName,
           phoneNumber: contactPhoneNumber,
+          primary: contactPrimary,
         });
       }
+
       this.setState({ contacts, contactDialogOpened: false });
-      this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
+      this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', contactPrimary: '', selectedIndex: '' });
     }
   }
 
@@ -223,6 +228,8 @@ class Perfil extends React.Component {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+    } else if (contacts.filter(c => c.primary).length !== 1) {
+      this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un unico contacto primario' });
     } else {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
@@ -380,6 +387,11 @@ class Perfil extends React.Component {
                   floatingLabelText="N° de Teléfono"
                   fullWidth
                 />
+                <Checkbox
+                  checked={this.state.contactPrimary}
+                  onCheck={(e, contactPrimary) => this.setState({ contactPrimary })}
+                  label="Primario"
+                />
               </Dialog>
             </Card>
             {
@@ -395,6 +407,7 @@ class Perfil extends React.Component {
                         <TableHeaderColumn>Nombre</TableHeaderColumn>
                         <TableHeaderColumn>Apellido</TableHeaderColumn>
                         <TableHeaderColumn>Telefono</TableHeaderColumn>
+                        <TableHeaderColumn>Primario</TableHeaderColumn>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -404,6 +417,7 @@ class Perfil extends React.Component {
                             <TableRowColumn>{c.firstName}</TableRowColumn>
                             <TableRowColumn>{c.lastName}</TableRowColumn>
                             <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                            <TableRowColumn>{c.primary ? 'Si' : ''}</TableRowColumn>
                           </TableRow>
                         ))
                       }
