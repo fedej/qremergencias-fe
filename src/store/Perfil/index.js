@@ -70,10 +70,10 @@ export const fetchProfile = () => (dispatch) => {
     .catch(err => dispatch(profileError(err.message)));
 };
 
-export const updateProfile = profile => (dispatch) => {
+export const updateProfile = (profile, qrUpdateRequired) => (dispatch) => {
   dispatch(requestUpdate());
 
-  ProfileService.updateProfile(profile)
+  ProfileService.updateProfile(profile, qrUpdateRequired)
     .then(() => dispatch(fetchProfile()))
     .catch(err => dispatch(updateError(err.message)));
 };

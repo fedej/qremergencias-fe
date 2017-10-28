@@ -8,9 +8,9 @@ export default class ProfileService {
     return API.listUsingGET();
   }
 
-  static updateProfile(data) {
+  static updateProfile(data, qrUpdateRequired) {
     const API = new ProfileControllerApi(UserService.getApiClient());
-    return API.updateUsingPATCH1(data);
+    return API.updateUsingPATCH1(data, qrUpdateRequired);
   }
 
 }
