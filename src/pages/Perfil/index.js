@@ -88,6 +88,7 @@ class Perfil extends React.Component {
     newPasswordError: '',
     confirmPassword: '',
     confirmPasswordError: '',
+    qrUpdateRequired: false,
   }
 
   componentWillMount() {
@@ -103,11 +104,15 @@ class Perfil extends React.Component {
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
       let more = {};
+      let mensaje = 'Modifación exitosa. ';
+      if (this.state.qrUpdateRequired) {
+        mensaje += 'Deberás regenerar tu código QR.';
+      }
       if (this.state.loaded) {
         more = {
           showMessage: true,
           title: 'Perfil',
-          message: 'Modificación exitosa',
+          message: mensaje,
           password: '',
           newPassword: '',
           confirmPassword: '',
@@ -132,11 +137,15 @@ class Perfil extends React.Component {
       Progress.show();
     } else {
       Progress.hide();
+      let mensaje = 'Perfil actualizado. ';
+      if (this.state.qrUpdateRequired) {
+        mensaje += 'Deberás regenerar tu código QR.';
+      }
 
       if (this.props.isFetching && !error) {
         this.setState({
           showMessage: true,
-          message: 'Perfil actualizado',
+          message: mensaje,
         });
       }
     }
@@ -181,7 +190,12 @@ class Perfil extends React.Component {
   };
 
   handleContactData = () => {
-    const { contactFirstName, contactLastName, contactPhoneNumber, contactPrimary, selectedIndex } = this.state;
+    const { contactFirstName,
+      contactLastName,
+      contactPhoneNumber,
+      contactPrimary,
+      selectedIndex,
+    } = this.state;
 
     if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
       this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
@@ -217,22 +231,32 @@ class Perfil extends React.Component {
     }
   }
 
+  handleSuccessCallback = () => {
+    this.setState({ showMessage: false, qrUpdateRequired: false });
+  }
+
   handleActualizarPerfil = () => {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
     if (isEmptyString(firstName) || stringHasNumbers(firstName)) {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
     } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
-      this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
+      this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
-      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento' });
     } else if (contacts.filter(c => c.primary).length !== 1) {
-      this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un unico contacto primario' });
+      this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un único contacto primario' });
     } else {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
+
+      let { qrUpdateRequired } = this.state;
+
+      if (this.props.isMedico) {
+        qrUpdateRequired = false;
+      }
 
       const data = {
         firstName,
@@ -243,8 +267,7 @@ class Perfil extends React.Component {
         contacts,
       };
 
-      // TODO = devolver un mensaje de guardado exitoso
-      dispatch(updateProfile(data));
+      dispatch(updateProfile(data, qrUpdateRequired));
     }
   }
 
@@ -327,14 +350,14 @@ class Perfil extends React.Component {
                   shouldDisableDate={validarMayorDeEdad}
                   hintText="Fecha de Nacimiento"
                   floatingLabelText="Fecha de Nacimiento"
-                  onChange={(e, birthDate) => this.setState({ birthDate })}
+                  onChange={(e, birthDate) => this.setState({ birthDate, qrUpdateRequired: true })}
                   errorText={this.state.birthDateError}
                   locale="es-ES"
                   DateTimeFormat={Intl.DateTimeFormat}
                 />
                 <div style={{ fontWeight: 'bold', marginTop: 16 }}>
                   Sexo:
-                  <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} valueSelected={this.state.sex}>
+                  <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex, qrUpdateRequired: true })} valueSelected={this.state.sex}>
                     <RadioButton
                       value="F"
                       label="Femenino"
@@ -514,7 +537,7 @@ class Perfil extends React.Component {
               show={this.state.showMessage}
               title={this.state.title}
               text={this.state.message}
-              onConfirm={() => this.setState({ showMessage: false })}
+              onConfirm={this.handleSuccessCallback}
             />
           </div>
         </div>
