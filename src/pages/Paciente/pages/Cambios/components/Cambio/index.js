@@ -121,7 +121,7 @@ function Cambio({ cambio }) {
       <div className={classnames('cambio-info')}>
         <div className={classnames('cambio-header')}>
           <h4>Autor: {cambio.author}</h4>
-          <h4>Fecha: {moment(cambio.date).format('DD/MM/YYYY HH:mm:ss')}</h4>
+          <h4>Fecha: {moment(cambio.date).format('DD / MM / YYYY - HH:mm:ss')}</h4>
         </div>
         <div>
           <TipoCambio cambio={cambio} />
