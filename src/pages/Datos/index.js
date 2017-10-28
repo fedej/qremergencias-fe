@@ -42,7 +42,6 @@ class DatosDeEmergencia extends React.Component {
       medications: PropTypes.array,
       surgeries: PropTypes.array,
       error: PropTypes.string,
-      qrUpdateRequired: PropTypes.bool,
     }),
     isFetching: PropTypes.bool.isRequired,
   }
@@ -122,16 +121,14 @@ class DatosDeEmergencia extends React.Component {
       hospitalizations,
       medications,
       surgeries,
-      qrUpdateRequired,
     };
 
     const { dispatch, paciente } = this.props;
-    dispatch(updateData(data, paciente));
-    this.setState({ qrUpdateRequired: false });
+    dispatch(updateData(data, paciente, qrUpdateRequired));
   }
 
   handleSuccessCallback = () => {
-    this.setState({ showSuccess: false });
+    this.setState({ showSuccess: false, qrUpdateRequired: false });
   }
 
   render() {
@@ -204,7 +201,7 @@ class DatosDeEmergencia extends React.Component {
             <SweetAlert
               show={this.state.showSuccess}
               title="Exito"
-              text="Los datos se han cargado con exito"
+              text={this.state.qrUpdateRequired ? 'Los datos se han cargado con exito. Recuerdale al paciente que debe regenerar el codigo QR.' : 'Los datos se han cargado con exito'}
               onConfirm={this.handleSuccessCallback}
             />
           </div>
