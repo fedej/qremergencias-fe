@@ -43,6 +43,7 @@ export default class Patologias extends React.Component {
   static propTypes = {
     pathologies: PropTypes.arrayOf(PropTypes.shape({})),
     onPathologiesChange: PropTypes.func.isRequired,
+    onQRUpdateRequiredChange: PropTypes.func.isRequired,
   }
 
   state = {
@@ -77,8 +78,10 @@ export default class Patologias extends React.Component {
     } else if (!date) {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
     } else if (this.checkDuplicate(type, description, selectedIndex, this.props.pathologies)) {
-      this.setState({ typeError: (type !== 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '',
-        descriptionError: (type === 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '' });
+      this.setState({
+        typeError: (type !== 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '',
+        descriptionError: (type === 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : ''
+      });
     } else {
       this.setState({ typeError: '', descriptionError: '', dateError: '' });
 
@@ -94,6 +97,9 @@ export default class Patologias extends React.Component {
         pathos[selectedIndex].type = type;
         pathos[selectedIndex].description = description;
         pathos[selectedIndex].date = date;
+      }
+      if (type !== 'otro') {
+        this.props.onQRUpdateRequiredChange(true);
       }
       this.props.onPathologiesChange(pathos);
       this.setState({ dialogOpened: false });
@@ -128,6 +134,9 @@ export default class Patologias extends React.Component {
 
   handleDeletePathology = (key) => {
     const pathologies = this.props.pathologies;
+    if (pathologies[key].type !== 'otro') {
+      this.props.onQRUpdateRequiredChange(true);
+    }
     pathologies.splice(key, 1);
     this.props.onPathologiesChange(pathologies);
     this.setState({ selected: [] });

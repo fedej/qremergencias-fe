@@ -42,6 +42,7 @@ class DatosDeEmergencia extends React.Component {
       medications: PropTypes.array,
       surgeries: PropTypes.array,
       error: PropTypes.string,
+      qrUpdateRequired: PropTypes.bool,
     }),
     isFetching: PropTypes.bool.isRequired,
   }
@@ -54,6 +55,7 @@ class DatosDeEmergencia extends React.Component {
     pathologies: [],
     hospitalizations: [],
     medications: [],
+    qrUpdateRequired: false,
   }
 
   componentWillMount() {
@@ -107,8 +109,12 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ surgeries });
   }
 
+  handleQRUpdateRequiredChange = (qrUpdateRequired) => {
+    this.setState({ qrUpdateRequired });
+  }
+
   handleSaveData = () => {
-    const { general, pathologies, hospitalizations, medications, surgeries } = this.state;
+    const { general, pathologies, hospitalizations, medications, surgeries, qrUpdateRequired } = this.state;
 
     const data = {
       general,
@@ -116,10 +122,12 @@ class DatosDeEmergencia extends React.Component {
       hospitalizations,
       medications,
       surgeries,
+      qrUpdateRequired,
     };
 
     const { dispatch, paciente } = this.props;
     dispatch(updateData(data, paciente));
+    this.setState({ qrUpdateRequired: false });
   }
 
   handleSuccessCallback = () => {
@@ -149,12 +157,14 @@ class DatosDeEmergencia extends React.Component {
                   <Tab label="Generales">
                     <Generales
                       onGeneralChange={this.handleGeneralChange}
+                      onQRUpdateRequiredChange={this.handleQRUpdateRequiredChange}
                       general={general}
                     />
                   </Tab>
                   <Tab label="Patologias">
                     <Patologias
                       onPathologiesChange={this.handlePathologiesChange}
+                      onQRUpdateRequiredChange={this.handleQRUpdateRequiredChange}
                       pathologies={pathologies || []}
                     />
                   </Tab>
