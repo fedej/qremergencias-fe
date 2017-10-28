@@ -30,11 +30,9 @@ import MedicationDTO from './model/MedicationDTO';
 import PageOfChangesDTO from './model/PageOfChangesDTO';
 import PageOfMedicalRecordDTO from './model/PageOfMedicalRecordDTO';
 import PathologyDTO from './model/PathologyDTO';
-import PublicKeyDTO from './model/PublicKeyDTO';
 import Sort from './model/Sort';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
-import VerificationDTO from './model/VerificationDTO';
 import EmergencyDataControllerApi from './api/EmergencyDataControllerApi';
 import MedicalRecordControllerApi from './api/MedicalRecordControllerApi';
 import ProfileControllerApi from './api/ProfileControllerApi';
@@ -183,12 +181,6 @@ export {
     PathologyDTO,
 
     /**
-     * The PublicKeyDTO model constructor.
-     * @property {module:model/PublicKeyDTO}
-     */
-    PublicKeyDTO,
-
-    /**
      * The Sort model constructor.
      * @property {module:model/Sort}
      */
@@ -205,12 +197,6 @@ export {
      * @property {module:model/UserProfileDTO}
      */
     UserProfileDTO,
-
-    /**
-     * The VerificationDTO model constructor.
-     * @property {module:model/VerificationDTO}
-     */
-    VerificationDTO,
 
     /**
     * The EmergencyDataControllerApi service constructor.
