@@ -193,7 +193,6 @@ class Perfil extends React.Component {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
 
       let contacts = [];
-      let shouldRemainOpened = false;
 
       if (selectedIndex !== '') { // EDITANDO
         contacts = this.state.contacts;
@@ -201,31 +200,20 @@ class Perfil extends React.Component {
         contacts[selectedIndex].lastName = contactLastName;
         contacts[selectedIndex].phoneNumber = contactPhoneNumber;
         contacts[selectedIndex].primary = contactPrimary;
-        if (contacts.filter(c => c.primary).length !== 1) {
-          this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un unico contacto primario' });
-          shouldRemainOpened = true;
-        }
       } else {  // NUEVO
         if (this.state.contacts) {
           contacts = this.state.contacts;
         }
-        if ((contacts.filter(c => c.primary).length + (contactPrimary ? 1 : 0)) !== 1) {
-          this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un unico contacto primario' });
-          shouldRemainOpened = true;
-        } else {
-          contacts.push({
-            firstName: contactFirstName,
-            lastName: contactLastName,
-            phoneNumber: contactPhoneNumber,
-            primary: contactPrimary,
-          });
-        }
+        contacts.push({
+          firstName: contactFirstName,
+          lastName: contactLastName,
+          phoneNumber: contactPhoneNumber,
+          primary: contactPrimary,
+        });
       }
 
-      if (!shouldRemainOpened) {
-        this.setState({ contacts, contactDialogOpened: shouldRemainOpened });
-        this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', contactPrimary: '', selectedIndex: '', contactsPrimaryError: '' });
-      }
+      this.setState({ contacts, contactDialogOpened: false });
+      this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', contactPrimary: '', selectedIndex: '' });
     }
   }
 
@@ -240,6 +228,8 @@ class Perfil extends React.Component {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+    } else if (contacts.filter(c => c.primary).length !== 1) {
+      this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un unico contacto primario' });
     } else {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
@@ -400,7 +390,6 @@ class Perfil extends React.Component {
                 <Checkbox
                   checked={this.state.contactPrimary}
                   onCheck={(e, contactPrimary) => this.setState({ contactPrimary })}
-                  errorText={this.state.contactsPrimaryError}
                   label="Primario"
                 />
               </Dialog>
