@@ -311,9 +311,10 @@ export default class EmergencyDataControllerApi {
      * updateEmergencyData
      * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
      * @param {String} userId userId
+     * @param {Boolean} qrUpdateRequired qrUpdateRequired
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO, userId) {
+    updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO, userId, qrUpdateRequired) {
       let postBody = emergencyDataDTO;
 
       // verify the required parameter 'emergencyDataDTO' is set
@@ -326,11 +327,17 @@ export default class EmergencyDataControllerApi {
         throw new Error("Missing the required parameter 'userId' when calling updateEmergencyDataUsingPATCH");
       }
 
+      // verify the required parameter 'qrUpdateRequired' is set
+      if (qrUpdateRequired === undefined || qrUpdateRequired === null) {
+        throw new Error("Missing the required parameter 'qrUpdateRequired' when calling updateEmergencyDataUsingPATCH");
+      }
+
 
       let pathParams = {
       };
       let queryParams = {
-        'userId': userId
+        'userId': userId,
+        'qrUpdateRequired': qrUpdateRequired
       };
       let headerParams = {
       };
@@ -353,10 +360,11 @@ export default class EmergencyDataControllerApi {
      * updateEmergencyData
      * @param {module:model/EmergencyDataDTO} emergencyDataDTO emergencyDataDTO
      * @param {String} userId userId
+     * @param {Boolean} qrUpdateRequired qrUpdateRequired
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateEmergencyDataUsingPATCH(emergencyDataDTO, userId) {
-      return this.updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO, userId)
+    updateEmergencyDataUsingPATCH(emergencyDataDTO, userId, qrUpdateRequired) {
+      return this.updateEmergencyDataUsingPATCHWithHttpInfo(emergencyDataDTO, userId, qrUpdateRequired)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

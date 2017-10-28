@@ -8,9 +8,9 @@ export default class DataService {
     return API.getEmergencyDataUsingGET(username);
   }
 
-  static updateData(data, username) {
+  static updateData(data, username, qrUpdateRequired) {
     const API = new EmergencyDataControllerApi(UserService.getApiClient());
-    return API.updateEmergencyDataUsingPATCH(data, username);
+    return API.updateEmergencyDataUsingPATCH(data, username, qrUpdateRequired);
   }
 
 }

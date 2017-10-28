@@ -54,6 +54,7 @@ class DatosDeEmergencia extends React.Component {
     pathologies: [],
     hospitalizations: [],
     medications: [],
+    qrUpdateRequired: false,
   }
 
   componentWillMount() {
@@ -107,8 +108,12 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ surgeries });
   }
 
+  handleQRUpdateRequiredChange = (qrUpdateRequired) => {
+    this.setState({ qrUpdateRequired });
+  }
+
   handleSaveData = () => {
-    const { general, pathologies, hospitalizations, medications, surgeries } = this.state;
+    const { general, pathologies, hospitalizations, medications, surgeries, qrUpdateRequired } = this.state;
 
     const data = {
       general,
@@ -119,11 +124,11 @@ class DatosDeEmergencia extends React.Component {
     };
 
     const { dispatch, paciente } = this.props;
-    dispatch(updateData(data, paciente));
+    dispatch(updateData(data, paciente, qrUpdateRequired));
   }
 
   handleSuccessCallback = () => {
-    this.setState({ showSuccess: false });
+    this.setState({ showSuccess: false, qrUpdateRequired: false });
   }
 
   render() {
@@ -149,12 +154,14 @@ class DatosDeEmergencia extends React.Component {
                   <Tab label="Generales">
                     <Generales
                       onGeneralChange={this.handleGeneralChange}
+                      onQRUpdateRequiredChange={this.handleQRUpdateRequiredChange}
                       general={general}
                     />
                   </Tab>
                   <Tab label="Patologias">
                     <Patologias
                       onPathologiesChange={this.handlePathologiesChange}
+                      onQRUpdateRequiredChange={this.handleQRUpdateRequiredChange}
                       pathologies={pathologies || []}
                     />
                   </Tab>
@@ -194,7 +201,7 @@ class DatosDeEmergencia extends React.Component {
             <SweetAlert
               show={this.state.showSuccess}
               title="Exito"
-              text="Los datos se han cargado con exito"
+              text={this.state.qrUpdateRequired ? 'Los datos se han cargado con exito. Recuerdale al paciente que debe regenerar el codigo QR.' : 'Los datos se han cargado con exito'}
               onConfirm={this.handleSuccessCallback}
             />
           </div>

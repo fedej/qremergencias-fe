@@ -57,10 +57,10 @@ export const fetchData = user => (dispatch) => {
     .catch(err => dispatch(dataError(err.message)));
 };
 
-export const updateData = (data, user) => (dispatch) => {
+export const updateData = (data, user, qrUpdateRequired) => (dispatch) => {
   dispatch(requestUpdate());
 
-  DataService.updateData(data, user)
+  DataService.updateData(data, user, qrUpdateRequired)
     .then(() => dispatch(updateSuccess(data)))
     .catch(err => dispatch(updateError(err.message)));
 };

@@ -74,6 +74,7 @@ export default class Generales extends React.Component {
       allergies: PropTypes.array,
       lastMedicalCheck: PropTypes.date,
     }),
+    onQRUpdateRequiredChange: PropTypes.func.isRequired,
     onGeneralChange: PropTypes.func.isRequired,
   }
 
@@ -84,8 +85,9 @@ export default class Generales extends React.Component {
   }
 
   handleBloodTypeChange = (event, index, value) => {
-    const general = this.props.general;
+    const { general } = this.props;
     general.bloodType = value;
+    this.props.onQRUpdateRequiredChange(true);
     this.props.onGeneralChange(general);
   }
 
@@ -103,6 +105,7 @@ export default class Generales extends React.Component {
     if (this.state.allergyBasic !== 'otro') {
       const alergia = basicAllergies.find(a => a.value === allergyBasic);
       allergy = this.state.allergyBasic;
+      this.props.onQRUpdateRequiredChange(true);
     } else if (!isEmptyString(this.state.allergyDescription)) {
       allergy = this.state.allergyDescription.trim();
     } else {
@@ -114,7 +117,6 @@ export default class Generales extends React.Component {
       if (!general.allergies) {
         general.allergies = [];
       }
-
       if (general.allergies.indexOf(allergy) === -1) {
         general.allergies.push(allergy);
         this.props.onGeneralChange(general);
@@ -125,6 +127,10 @@ export default class Generales extends React.Component {
 
   handleDeleteAllergy = (key) => {
     const general = this.props.general;
+    const b = basicAllergies.find(a => a.value === general.allergies[key]);
+    if (b !== undefined) {
+      this.props.onQRUpdateRequiredChange(true);
+    }
     general.allergies.splice(key, 1);
     this.props.onGeneralChange(general);
   }
