@@ -1,0 +1,29 @@
+.cambio {
+  border: 1px solid black;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+  font-size: 15px;
+  border-radius: 3px;
+}
+
+.cambio-info {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+.cambio-header {
+  padding-left: 10px;
+}
+
+.tableHeader {
+  background-color: rgba(10, 7, 7, 0.1);
+}
+
+.agregado {
+  background-color: rgba(0, 165, 22, 0.15);
+}
+
+.borrado {
+  background-color: rgba(255, 0, 0, 0.15);
+}
