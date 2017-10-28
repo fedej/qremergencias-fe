@@ -288,7 +288,7 @@ class Perfil extends React.Component {
             thumbStyle={{ background: 'red' }}
           />
           <div className={classnames('formCenter', 'formColumn')}>
-            <Card style={{ margin: '20px' }}>
+            <Card style={{ margin: '20px', width: '80%' }}>
               <CardTitle
                 title="Perfil de usuario"
                 subtitle="Actualizá tus datos personales"
@@ -396,7 +396,7 @@ class Perfil extends React.Component {
             </Card>
             {
               !this.props.isMedico ? (
-                <Card style={{ margin: '20px' }}>
+                <Card style={{ margin: '20px', width: '80%' }}>
                   <CardTitle
                     title="Contactos de Emergencia"
                     subtitle="Carga los datos de tu contactos para un caso de emergencia"
@@ -450,7 +450,7 @@ class Perfil extends React.Component {
                 </Card>
               ) : null
             }
-            <Card style={{ margin: '20px' }}>
+            <Card style={{ margin: '20px', width: '80%' }}>
               <CardTitle
                 title="Cambiar Contraseña"
               />
