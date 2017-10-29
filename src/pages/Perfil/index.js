@@ -205,9 +205,9 @@ class Perfil extends React.Component {
       selectedIndex,
     } = this.state;
 
-    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
+    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName) || !isOnlyString(contactFirstName)) {
       this.setState({ contactFirstNameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName)) {
+    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName) || !isOnlyString(contactLastName)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido válido.' });
     } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
