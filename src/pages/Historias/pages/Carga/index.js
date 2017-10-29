@@ -15,7 +15,6 @@ import { uploadHistoriClinica } from '../../../../store/Historias';
 import {
   hasEmptyStringProperties,
   isEmptyString,
-  stringHasNumbers,
   isOnlySting,
 } from '../../../../utils/validations';
 
@@ -158,17 +157,15 @@ class CargaHistoriaClinica extends React.Component {
                 {this.state.fileError}
               </p>
             </CardText>
-            <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+            <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
                 label="Cargar"
                 onTouchTap={this.handleSubmitHistoriaClinica}
                 primary
-                fullWidth
               />
               <RaisedButton
                 label="Volver"
                 onTouchTap={() => browserHistory.goBack()}
-                fullWidth
               />
             </CardActions>
             <SweetAlert
