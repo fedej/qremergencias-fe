@@ -47,8 +47,9 @@ class DatosDeEmergencia extends React.Component {
   }
 
   state = {
-    showError: false,
-    showSuccess: false,
+    showMessage: false,
+    messageTitle: '',
+    message: '',
     general: {},
     error: '',
     pathologies: [],
@@ -70,12 +71,14 @@ class DatosDeEmergencia extends React.Component {
     const { data } = nextProps;
 
     if (data.error) {
-      this.setState({ showError: true });
+      this.setState({ showMessage: true, messageTitle: 'Error', message: data.error });
       Progress.hide();
     } else if (data.uploaded) {
       this.setState({
         ...data,
-        showSuccess: true,
+        showMessage: true,
+        messageTitle: 'Éxito',
+        message: this.state.qrUpdateRequired ? 'Los datos se han cargado con exito. Recuerdale al paciente que debe regenerar el codigo QR.' : 'Los datos se han cargado con exito',
       });
     } else {
       this.setState(data);
@@ -113,7 +116,14 @@ class DatosDeEmergencia extends React.Component {
   }
 
   handleSaveData = () => {
-    const { general, pathologies, hospitalizations, medications, surgeries, qrUpdateRequired } = this.state;
+    const {
+      general,
+      pathologies,
+      hospitalizations,
+      medications,
+      surgeries,
+      qrUpdateRequired,
+    } = this.state;
 
     const data = {
       general,
@@ -128,7 +138,7 @@ class DatosDeEmergencia extends React.Component {
   }
 
   handleSuccessCallback = () => {
-    this.setState({ showSuccess: false, qrUpdateRequired: false });
+    this.setState({ showMessage: false, qrUpdateRequired: false });
   }
 
   render() {
@@ -199,9 +209,9 @@ class DatosDeEmergencia extends React.Component {
               </CardActions>
             </Card>
             <SweetAlert
-              show={this.state.showSuccess}
-              title="Exito"
-              text={this.state.qrUpdateRequired ? 'Los datos se han cargado con exito. Recuerdale al paciente que debe regenerar el codigo QR.' : 'Los datos se han cargado con exito'}
+              show={this.state.showMessage}
+              title={this.state.messageTitle}
+              text={this.state.message}
               onConfirm={this.handleSuccessCallback}
             />
           </div>

@@ -62,7 +62,13 @@ export const updateData = (data, user, qrUpdateRequired) => (dispatch) => {
 
   DataService.updateData(data, user, qrUpdateRequired)
     .then(() => dispatch(updateSuccess(data)))
-    .catch(err => dispatch(updateError(err.message)));
+    .catch((err) => {
+      if (err.response) {
+        return dispatch(updateError(err.message));
+      }
+
+      return dispatch(updateError('No se pudo guardar'));
+    });
 };
 
 const INITIAL_STATE = {
