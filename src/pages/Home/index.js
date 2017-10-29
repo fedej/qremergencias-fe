@@ -60,7 +60,7 @@ export default class Home extends React.Component {
           autoClose={false}
           type="error"
         />
-        <div style={{ marginTop: '1.5em' }}>{this.propschildren}</div>
+        <div style={{ marginTop: '1.5em' }}>{this.props.children}</div>
       </div>
     );
   }
