@@ -14,6 +14,7 @@ import {
   isValidDNI,
   isEmptyString,
   stringHasNumbers,
+  isOnlyString,
 } from '../../../../utils/validations';
 
 import { completeRegistration } from '../../../../store/Auth';
@@ -60,9 +61,9 @@ class CompleteRegister extends React.Component {
   handleCompleteRegister = () => {
     const { name, lastName, idNumber, birthDate, sex } = this.state;
 
-    if (isEmptyString(name) || stringHasNumbers(name)) {
+    if (isEmptyString(name) || stringHasNumbers(name) || !isOnlyString(name)) {
       this.setState({ nameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || !isOnlyString(lastName)) {
       this.setState({ nameError: '', lastNameError: 'Ingrese un apellido válido.' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI válido' });

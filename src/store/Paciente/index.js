@@ -7,6 +7,8 @@ export const PACIENTE_CAMBIOS_DATOS_REQUEST = 'PACIENTE/PACIENTE_CAMBIOS_DATOS_R
 export const PACIENTE_CAMBIOS_DATOS_ERROR = 'PACIENTE/PACIENTE_CAMBIOS_DATOS_ERROR';
 export const PACIENTE_CAMBIOS_DATOS_SUCCESS = 'PACIENTE/PACIENTE_CAMBIOS_DATOS_SUCCESS';
 
+export const CLEAR_PACIENTE_EDITANDO = 'PACIENTE/CLEAR_PACIENTE_EDITANDO';
+
 export const VINCULAR_PACIENTE_SUCCESS = 'PACIENTE/VINCULAR_PACIENTE_SUCCESS';
 export const VINCULAR_PACIENTE_ERROR = 'PACIENTE/VINCULAR_PACIENTE_ERROR';
 
@@ -89,8 +91,12 @@ export const deprecarCodigo = () => (dispatch) => {
     .catch(err => dispatch({ type: DEPRECAR_QR_ERROR, error: err.message }));
 };
 
+export const clearPacienteSiendoEditado = () => ({
+  type: CLEAR_PACIENTE_EDITANDO,
+});
+
 const INITIAL_STATE = {
-  editando: {},
+  editando: '',
   isFetching: false,
   error: '',
   cambios: {},
@@ -133,6 +139,8 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
       return { ...state, isFetching: false, hasCodigo: false };
     case DEPRECAR_QR_ERROR:
       return { ...state, isFetching: false, error: action.message };
+    case CLEAR_PACIENTE_EDITANDO:
+      return { ...state, editando: '', error: '' };
     default:
       return state;
   }

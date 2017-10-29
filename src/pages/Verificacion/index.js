@@ -11,7 +11,7 @@ import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../Home';
 import { vincularPaciente } from '../../store/Paciente';
-import { isOnlySting } from '../../utils/validations';
+import { isOnlyString } from '../../utils/validations';
 
 class Verificacion extends React.Component {
   static propTypes = {
@@ -41,7 +41,7 @@ class Verificacion extends React.Component {
   handleVerificarPaciente = () => {
     if (this.state.token === '') {
       this.setState({ error: 'Ingrese el código de verificación', showError: true });
-    } else if (isOnlySting(this.state.token)) {
+    } else if (isOnlyString(this.state.token)) {
       this.setState({ error: 'Ingrese un código de verificaión válido', showError: true });
     } else {
       const { dispatch } = this.props;

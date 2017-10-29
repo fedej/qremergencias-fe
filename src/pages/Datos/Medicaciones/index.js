@@ -227,7 +227,7 @@ export default class Medicaciones extends React.Component {
               errorText={this.state.amountError}
               onChange={(e, amount) => this.setState({ amount })}
               hintText="Cantidad"
-              type="text"
+              type="number"
               floatingLabelText="Cantidad"
               fullWidth
             />

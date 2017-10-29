@@ -145,20 +145,18 @@ class Register extends React.Component {
                     type="file"
                     name="archivo"
                   />
-                  {this.state.evidenceError ? (
-                    <CardText color="red">
-                    Adjunte documento firmado para certificar la validez <br />
-                    en el Registro Único de Profesionales.<br />
-                    Más información
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://www.msal.gob.ar/images/stories/tramites-servicios/certificaciones/ru2.pdf"
-                    >
-                      &nbsp;aquí
-                    </a>
-                    </CardText>) : ''
-                  }
+                  <CardText color="red">
+                  Adjunte documento firmado para certificar la validez <br />
+                  en el Registro Único de Profesionales.<br />
+                  Más información
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="http://www.msal.gob.ar/images/stories/tramites-servicios/certificaciones/ru2.pdf"
+                  >
+                    &nbsp;aquí
+                  </a>
+                  </CardText>)
                 </CardText>
               </div>
             )

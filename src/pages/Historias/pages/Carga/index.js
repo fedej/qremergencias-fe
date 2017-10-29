@@ -15,7 +15,8 @@ import { uploadHistoriClinica } from '../../../../store/Historias';
 import {
   hasEmptyStringProperties,
   isEmptyString,
-  isOnlySting,
+  isOnlyString,
+  isOnlyNumber,
 } from '../../../../utils/validations';
 
 const INITIAL_STATE = {
@@ -72,13 +73,13 @@ class CargaHistoriaClinica extends React.Component {
     const { dispatch, paciente } = this.props;
     const errores = {};
 
-    errores.nombreError = isEmptyString(this.state.nombre) || !isOnlySting(this.state.nombre) ?
+    errores.nombreError = isEmptyString(this.state.nombre) || !isOnlyString(this.state.nombre) ?
       'Ingrese un nombre de estudio válido.' : '';
 
     errores.fechaRealizacionError = !this.state.fechaRealizacion ?
       'Ingrese la fecha de realización del estudio.' : '';
 
-    errores.informeError = isEmptyString(this.state.informe) || !isOnlySting(this.state.informe) ?
+    errores.informeError = isEmptyString(this.state.informe) || isOnlyNumber(this.state.informe) ?
       'Ingrese el detalle del estudio.' : '';
 
     errores.fileError = !this.fileInput.files[0] ?

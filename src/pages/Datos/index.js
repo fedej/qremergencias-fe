@@ -17,6 +17,7 @@ import Internaciones from './Internaciones';
 import Cirugias from './Cirugias';
 import Medicaciones from './Medicaciones';
 
+import { clearPacienteSiendoEditado } from '../../store/Paciente';
 import { fetchData, updateData } from '../../store/Datos';
 
 import Home from '../Home';
@@ -141,6 +142,12 @@ class DatosDeEmergencia extends React.Component {
     this.setState({ showMessage: false, qrUpdateRequired: false });
   }
 
+  handleGoBack = () => {
+    const { dispatch } = this.props;
+    dispatch(clearPacienteSiendoEditado());
+    browserHistory.goBack();
+  }
+
   render() {
     const {
       general,
@@ -202,8 +209,8 @@ class DatosDeEmergencia extends React.Component {
                   primary
                 />
                 <RaisedButton
-                  label="Cancelar"
-                  onTouchTap={browserHistory.goBack}
+                  label="Volver"
+                  onTouchTap={this.handleGoBack}
                   primary
                 />
               </CardActions>
