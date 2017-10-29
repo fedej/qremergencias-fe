@@ -40,7 +40,13 @@ export const logIn = creds => (dispatch) => {
 
   UserService.login(creds)
     .then(profile => dispatch(loginSuccess(profile)))
-    .catch(err => dispatch(loginError(err.response.body.message)));
+    .catch((err) => {
+      if (err.response) {
+        return dispatch(loginError(err.response.body.message));
+      }
+
+      return dispatch(loginError('Error al iniciar sesion'));
+    });
 };
 
 function requestLogout() {
