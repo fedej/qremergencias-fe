@@ -42,7 +42,7 @@ class CompleteRegister extends React.Component {
     idNumberError: '',
     birthDate: moment().subtract(20, 'y').toDate(),
     birthDateError: '',
-    sex: null,
+    sex: 'F',
     showError: false,
     showSuccess: false,
   }
@@ -84,6 +84,11 @@ class CompleteRegister extends React.Component {
 
       dispatch(completeRegistration(data));
     }
+  }
+
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
   }
 
   handleSuccessCallback = () => {
@@ -135,6 +140,7 @@ class CompleteRegister extends React.Component {
                 onChange={(e, birthDate) => this.setState({ birthDate })}
                 value={this.state.birthDate}
                 locale="es-ES"
+                formatDate={this.formatDate}
                 DateTimeFormat={Intl.DateTimeFormat}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>
@@ -143,7 +149,7 @@ class CompleteRegister extends React.Component {
             </div>
             <div style={{ fontWeight: 'bold', marginTop: 16 }}>
               Elija su sexo:
-              <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected="F">
+              <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} defaultSelected={this.state.sex}>
                 <RadioButton
                   value="F"
                   label="Femenino"

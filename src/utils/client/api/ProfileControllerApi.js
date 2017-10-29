@@ -80,9 +80,10 @@ export default class ProfileControllerApi {
     /**
      * update
      * @param {module:model/UserProfileDTO} userProfileDTO userProfileDTO
+     * @param {Boolean} qrUpdateRequired qrUpdateRequired
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateUsingPATCH1WithHttpInfo(userProfileDTO) {
+    updateUsingPATCH1WithHttpInfo(userProfileDTO, qrUpdateRequired) {
       let postBody = userProfileDTO;
 
       // verify the required parameter 'userProfileDTO' is set
@@ -90,10 +91,16 @@ export default class ProfileControllerApi {
         throw new Error("Missing the required parameter 'userProfileDTO' when calling updateUsingPATCH1");
       }
 
+      // verify the required parameter 'qrUpdateRequired' is set
+      if (qrUpdateRequired === undefined || qrUpdateRequired === null) {
+        throw new Error("Missing the required parameter 'qrUpdateRequired' when calling updateUsingPATCH1");
+      }
+
 
       let pathParams = {
       };
       let queryParams = {
+        'qrUpdateRequired': qrUpdateRequired
       };
       let headerParams = {
       };
@@ -115,10 +122,11 @@ export default class ProfileControllerApi {
     /**
      * update
      * @param {module:model/UserProfileDTO} userProfileDTO userProfileDTO
+     * @param {Boolean} qrUpdateRequired qrUpdateRequired
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateUsingPATCH1(userProfileDTO) {
-      return this.updateUsingPATCH1WithHttpInfo(userProfileDTO)
+    updateUsingPATCH1(userProfileDTO, qrUpdateRequired) {
+      return this.updateUsingPATCH1WithHttpInfo(userProfileDTO, qrUpdateRequired)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

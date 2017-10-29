@@ -41,20 +41,20 @@ export default class Patologias extends React.Component {
             <Table>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
+                  <TableHeaderColumn>Fecha</TableHeaderColumn>
                   <TableHeaderColumn>Tipo</TableHeaderColumn>
                   <TableHeaderColumn>Descripcion</TableHeaderColumn>
-                  <TableHeaderColumn>Fecha</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
                 {
                   pathologies && pathologies.length && pathologies.map((p, i) =>
                     (<TableRow key={i}>
+                      <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                       <TableRowColumn>
                         {pathologyType.find(pathology => pathology.key === p.type).value}
                       </TableRowColumn>
                       <TableRowColumn>{p.description}</TableRowColumn>
-                      <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                     </TableRow>),
                   )
                 }

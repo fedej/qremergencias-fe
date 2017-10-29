@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { TextField, RaisedButton, DatePicker } from 'material-ui';
+import { TextField, RaisedButton, DatePicker, Checkbox } from 'material-ui';
 import Dialog from 'material-ui/Dialog';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import {
@@ -78,6 +78,7 @@ class Perfil extends React.Component {
     contactLastNameError: '',
     contactPhoneNumber: '',
     contactPhoneNumberError: '',
+    contactPrimary: false,
     message: '',
     title: '',
     loaded: false,
@@ -87,6 +88,7 @@ class Perfil extends React.Component {
     newPasswordError: '',
     confirmPassword: '',
     confirmPasswordError: '',
+    qrUpdateRequired: false,
   }
 
   componentWillMount() {
@@ -102,11 +104,15 @@ class Perfil extends React.Component {
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
       let more = {};
+      let mensaje = 'Modifación exitosa. ';
+      if (this.state.qrUpdateRequired) {
+        mensaje += 'Deberás regenerar tu código QR.';
+      }
       if (this.state.loaded) {
         more = {
           showMessage: true,
           title: 'Perfil',
-          message: 'Modificación exitosa',
+          message: mensaje,
           password: '',
           newPassword: '',
           confirmPassword: '',
@@ -131,11 +137,15 @@ class Perfil extends React.Component {
       Progress.show();
     } else {
       Progress.hide();
+      let mensaje = 'Perfil actualizado. ';
+      if (this.state.qrUpdateRequired) {
+        mensaje += 'Deberás regenerar tu código QR.';
+      }
 
       if (this.props.isFetching && !error) {
         this.setState({
           showMessage: true,
-          message: 'Perfil actualizado',
+          message: mensaje,
         });
       }
     }
@@ -156,7 +166,8 @@ class Perfil extends React.Component {
 
   handleCloseContactDialog = () => {
     this.setState({ contactDialogOpened: false });
-    this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
+    this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', contactPrimary: '', selectedIndex: '' });
+    this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
   };
 
   handleOpenContactDialog = () => {
@@ -168,6 +179,7 @@ class Perfil extends React.Component {
         contactFirstName: contacts[selectedIndex].firstName,
         contactLastName: contacts[selectedIndex].lastName,
         contactPhoneNumber: contacts[selectedIndex].phoneNumber,
+        contactPrimary: contacts[selectedIndex].primary,
         selectedIndex,
       });
     } else {
@@ -178,10 +190,15 @@ class Perfil extends React.Component {
   };
 
   handleContactData = () => {
-    const { contactFirstName, contactLastName, contactPhoneNumber, selectedIndex } = this.state;
+    const { contactFirstName,
+      contactLastName,
+      contactPhoneNumber,
+      contactPrimary,
+      selectedIndex,
+    } = this.state;
 
     if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
-      this.setState({ firstNameError: 'Ingrese un nombre.' });
+      this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
     } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido.' });
     } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
@@ -191,12 +208,13 @@ class Perfil extends React.Component {
 
       let contacts = [];
 
-      if (selectedIndex !== '') {
+      if (selectedIndex !== '') { // EDITANDO
         contacts = this.state.contacts;
         contacts[selectedIndex].firstName = contactFirstName;
         contacts[selectedIndex].lastName = contactLastName;
         contacts[selectedIndex].phoneNumber = contactPhoneNumber;
-      } else {
+        contacts[selectedIndex].primary = contactPrimary;
+      } else {  // NUEVO
         if (this.state.contacts) {
           contacts = this.state.contacts;
         }
@@ -204,11 +222,17 @@ class Perfil extends React.Component {
           firstName: contactFirstName,
           lastName: contactLastName,
           phoneNumber: contactPhoneNumber,
+          primary: contactPrimary,
         });
       }
+
       this.setState({ contacts, contactDialogOpened: false });
-      this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', selectedIndex: '' });
+      this.setState({ contactFirstName: '', contactLastName: '', contactPhoneNumber: '', contactPrimary: '', selectedIndex: '' });
     }
+  }
+
+  handleSuccessCallback = () => {
+    this.setState({ showMessage: false, qrUpdateRequired: false });
   }
 
   handleActualizarPerfil = () => {
@@ -217,14 +241,22 @@ class Perfil extends React.Component {
     if (isEmptyString(firstName) || stringHasNumbers(firstName)) {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
     } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
-      this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido.' });
+      this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
-      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
+      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento' });
+    } else if (contacts.filter(c => c.primary).length !== 1) {
+      this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un único contacto primario' });
     } else {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
       const { dispatch } = this.props;
+
+      let { qrUpdateRequired } = this.state;
+
+      if (this.props.isMedico) {
+        qrUpdateRequired = false;
+      }
 
       const data = {
         firstName,
@@ -235,9 +267,13 @@ class Perfil extends React.Component {
         contacts,
       };
 
-      // TODO = devolver un mensaje de guardado exitoso
-      dispatch(updateProfile(data));
+      dispatch(updateProfile(data, qrUpdateRequired));
     }
+  }
+
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
   }
 
   handleChangePassword = () => {
@@ -280,7 +316,7 @@ class Perfil extends React.Component {
             thumbStyle={{ background: 'red' }}
           />
           <div className={classnames('formCenter', 'formColumn')}>
-            <Card style={{ margin: '20px' }}>
+            <Card style={{ margin: '20px', width: '80%' }}>
               <CardTitle
                 title="Perfil de usuario"
                 subtitle="Actualizá tus datos personales"
@@ -319,14 +355,15 @@ class Perfil extends React.Component {
                   shouldDisableDate={validarMayorDeEdad}
                   hintText="Fecha de Nacimiento"
                   floatingLabelText="Fecha de Nacimiento"
-                  onChange={(e, birthDate) => this.setState({ birthDate })}
+                  onChange={(e, birthDate) => this.setState({ birthDate, qrUpdateRequired: true })}
                   errorText={this.state.birthDateError}
                   locale="es-ES"
+                  formatDate={this.formatDate}
                   DateTimeFormat={Intl.DateTimeFormat}
                 />
                 <div style={{ fontWeight: 'bold', marginTop: 16 }}>
                   Sexo:
-                  <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex })} valueSelected={this.state.sex}>
+                  <RadioButtonGroup name="groupalSex" onChange={(e, sex) => this.setState({ sex, qrUpdateRequired: true })} valueSelected={this.state.sex}>
                     <RadioButton
                       value="F"
                       label="Femenino"
@@ -379,11 +416,16 @@ class Perfil extends React.Component {
                   floatingLabelText="N° de Teléfono"
                   fullWidth
                 />
+                <Checkbox
+                  checked={this.state.contactPrimary}
+                  onCheck={(e, contactPrimary) => this.setState({ contactPrimary })}
+                  label="Primario"
+                />
               </Dialog>
             </Card>
             {
               !this.props.isMedico ? (
-                <Card style={{ margin: '20px' }}>
+                <Card style={{ margin: '20px', width: '80%' }}>
                   <CardTitle
                     title="Contactos de Emergencia"
                     subtitle="Carga los datos de tu contactos para un caso de emergencia"
@@ -394,6 +436,7 @@ class Perfil extends React.Component {
                         <TableHeaderColumn>Nombre</TableHeaderColumn>
                         <TableHeaderColumn>Apellido</TableHeaderColumn>
                         <TableHeaderColumn>Telefono</TableHeaderColumn>
+                        <TableHeaderColumn>Primario</TableHeaderColumn>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -403,6 +446,7 @@ class Perfil extends React.Component {
                             <TableRowColumn>{c.firstName}</TableRowColumn>
                             <TableRowColumn>{c.lastName}</TableRowColumn>
                             <TableRowColumn>{c.phoneNumber}</TableRowColumn>
+                            <TableRowColumn>{c.primary ? 'Si' : ''}</TableRowColumn>
                           </TableRow>
                         ))
                       }
@@ -435,12 +479,13 @@ class Perfil extends React.Component {
                 </Card>
               ) : null
             }
-            <Card style={{ margin: '20px' }}>
+            <Card style={{ margin: '20px', width: '80%' }}>
               <CardTitle
                 title="Cambiar Contraseña"
               />
               <CardText>
                 <TextField
+                  value={this.state.password}
                   onChange={(e, password) => this.setState({ password })}
                   hintText="Contraseña"
                   type="password"
@@ -449,6 +494,7 @@ class Perfil extends React.Component {
                   fullWidth
                 />
                 <TextField
+                  value={this.state.newPassword}
                   onChange={(e, newPassword) => this.setState({ newPassword })}
                   hintText="Contraseña"
                   type="password"
@@ -465,6 +511,7 @@ class Perfil extends React.Component {
                   • Al menos 8 caracteres </CardText>) : ''
                 }
                 <TextField
+                  value={this.state.confirmPassword}
                   onChange={(e, confirmPassword) => this.setState({ confirmPassword })}
                   hintText="Contraseña"
                   type="password"
@@ -496,7 +543,7 @@ class Perfil extends React.Component {
               show={this.state.showMessage}
               title={this.state.title}
               text={this.state.message}
-              onConfirm={() => this.setState({ showMessage: false })}
+              onConfirm={this.handleSuccessCallback}
             />
           </div>
         </div>

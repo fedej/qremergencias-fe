@@ -65,6 +65,9 @@ export default class UserContactDTO {
             if (data.hasOwnProperty('phoneNumber')) {
                 obj['phoneNumber'] = ApiClient.convertToType(data['phoneNumber'], 'String');
             }
+            if (data.hasOwnProperty('primary')) {
+                obj['primary'] = ApiClient.convertToType(data['primary'], 'Boolean');
+            }
         }
         return obj;
     }
@@ -81,6 +84,10 @@ export default class UserContactDTO {
     * @member {String} phoneNumber
     */
     phoneNumber = undefined;
+    /**
+    * @member {Boolean} primary
+    */
+    primary = undefined;
 
 
 

@@ -9,6 +9,8 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import moment from 'moment';
+import classnames from 'classnames';
+import './styles.css';
 
 const translate = {
   pathologies: 'Patologias',
@@ -31,16 +33,15 @@ const translate = {
   false: 'No',
   antecedentes_oncologicos: 'Antecedentes oncologicos',
   insuficiencia_suprarrenal: 'Insuficiencia suprarrenal',
+  lastMedicalCheck: 'Ultimo chequeo medico',
 };
 
+const iconAdded = require('../../../../../../assets/icons/added.png');
+const iconRemoved = require('../../../../../../assets/icons/removed.png');
+
 function FilaCambio({ tipo, length, change, indice }) {
-  let modifier = '';
   let section = tipo;
-  if (tipo.includes('.new')) {
-    modifier = ' [Nuevo!]';
-  } else if (tipo.includes('.deleted')) {
-    modifier = ' [Borrado!]';
-  }
+
   let indiceCambio = '';
   if (section.includes('[')) {
     const lastIndexOfAngularCorchetStart = section.lastIndexOf('[');
@@ -52,7 +53,7 @@ function FilaCambio({ tipo, length, change, indice }) {
     section = section.substring(0, section.lastIndexOf('.new'));
   }
 
-  section = translate[section] + indiceCambio + modifier;
+  section = translate[section] + indiceCambio;
 
   let oldValue = change.oldValue ? change.oldValue : (change.removed && change.removed.constructor.name === 'Array' && change.removed.length > 0) ? `Removidos: ${change.removed}` : '-';
   if (translate[oldValue]) {
@@ -66,7 +67,7 @@ function FilaCambio({ tipo, length, change, indice }) {
 
   return (
     <TableRow key={indice}>
-      {indice === 0 ? <TableRowColumn rowSpan={length} >{section}</TableRowColumn> : ''}
+      {indice === 0 ? <TableRowColumn rowSpan={length} ><span><img alt="" src={tipo.includes('.new') ? iconAdded : iconRemoved} />{section}</span></TableRowColumn> : ''}
       <TableRowColumn>{translate[change.property]}</TableRowColumn>
       <TableRowColumn>{oldValue}</TableRowColumn>
       <TableRowColumn>{newValue}</TableRowColumn>
@@ -84,7 +85,7 @@ FilaCambio.propTypes = {
 function TipoCambio({ cambio }) {
   return (
     <Table selectable={false}>
-      <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+      <TableHeader displaySelectAll={false} adjustForCheckbox={false} className={classnames('tableHeader')}>
         <TableRow>
           <TableHeaderColumn>Sección</TableHeaderColumn>
           <TableHeaderColumn>Campo</TableHeaderColumn>
@@ -116,16 +117,15 @@ TipoCambio.propTypes = {
 
 function Cambio({ cambio }) {
   return (
-    <div>
-      <div>
-        <h3>Autor: {cambio.author}</h3>
-        <h5>Fecha: {moment(cambio.date).format('DD/MM/YYYY HH:mm:ss')}</h5>
-      </div>
-      <br />
-      <div>
-        <h5>Cambios:</h5>
-        <br />
-        <TipoCambio cambio={cambio} />
+    <div className={classnames('cambio')}>
+      <div className={classnames('cambio-info')}>
+        <div className={classnames('cambio-header')}>
+          <h4>Autor: {cambio.author}</h4>
+          <h4>Fecha: {moment(cambio.date).format('DD / MM / YYYY - HH:mm:ss')}</h4>
+        </div>
+        <div>
+          <TipoCambio cambio={cambio} />
+        </div>
       </div>
     </div>
   );

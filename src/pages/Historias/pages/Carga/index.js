@@ -64,6 +64,11 @@ class CargaHistoriaClinica extends React.Component {
     }
   }
 
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  }
+
   handleSubmitHistoriaClinica = () => {
     const { dispatch, paciente } = this.props;
     const errores = {};
@@ -129,6 +134,7 @@ class CargaHistoriaClinica extends React.Component {
                 shouldDisableDate={disableFutureDays}
                 onChange={(e, fechaRealizacion) => this.setState({ fechaRealizacion })}
                 locale="es-ES"
+                formatDate={this.formatDate}
                 DateTimeFormat={Intl.DateTimeFormat}
               />
               <p style={{ color: 'rgb(244, 67, 54)' }}>
@@ -157,6 +163,12 @@ class CargaHistoriaClinica extends React.Component {
                 label="Cargar"
                 onTouchTap={this.handleSubmitHistoriaClinica}
                 primary
+                fullWidth
+              />
+              <RaisedButton
+                label="Volver"
+                onTouchTap={() => browserHistory.goBack()}
+                fullWidth
               />
             </CardActions>
             <SweetAlert

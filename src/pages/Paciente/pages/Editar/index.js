@@ -27,25 +27,25 @@ class EditarPaciente extends React.Component {
             />
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
               <RaisedButton
-                style={{ marginTop: '1vh' }}
+                style={{ marginTop: '1vh', marginRight: '0px' }}
                 label="Editar Datos de Emergencia"
                 onTouchTap={() => browserHistory.push('/datos')}
                 primary
               />
               <RaisedButton
-                style={{ marginTop: '1vh' }}
+                style={{ marginTop: '1vh', marginRight: '0px' }}
                 label="Ver Historia Clinica"
                 onTouchTap={() => browserHistory.push('/historiasPaciente')}
                 primary
               />
               <RaisedButton
-                style={{ marginTop: '1vh' }}
+                style={{ marginTop: '1vh', marginRight: '0px' }}
                 label="Cargar Historia Clinica"
                 onTouchTap={() => browserHistory.push('/carga')}
                 primary
               />
               <RaisedButton
-                style={{ marginTop: '1vh' }}
+                style={{ marginTop: '1vh', marginRight: '0px' }}
                 label="Volver"
                 onTouchTap={() => browserHistory.goBack()}
               />
