@@ -80,7 +80,7 @@ class Historias extends React.Component {
             thumbStyle={{ background: 'red' }}
           />
           {
-          this.state.historias.numberOfElements ? (
+          this.state.historias.length ? (
             <div>
               <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
                 {
@@ -92,12 +92,14 @@ class Historias extends React.Component {
                     />
                   ))
                 }
-                <RaisedButton
-                  label="Volver"
-                  onTouchTap={() => browserHistory.goBack()}
-                  fullWidth
-                  primary
-                />
+                <div style={{ textAlign: 'center' }}>
+                  <RaisedButton
+                    style={{ marginTop: '20px' }}
+                    label="Volver"
+                    onTouchTap={() => browserHistory.goBack()}
+                    primary
+                  />
+                </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <ReactPaginate
