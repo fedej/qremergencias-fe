@@ -4,8 +4,11 @@ import UserService from './User';
 
 export default class PacienteService {
   static vincular(token) {
-    const API = new TempCodeControllerApi(UserService.getApiClient());
-    return API.verifyTempCodeUsingGET(token);
+    return new Promise((resolve, reject) => {
+      resolve(token);
+    });
+    // const API = new TempCodeControllerApi(UserService.getApiClient());
+    // return API.verifyTempCodeUsingGET(token);
   }
 
   static getCambiosDatosEmergencia() {
