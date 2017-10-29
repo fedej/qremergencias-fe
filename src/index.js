@@ -9,7 +9,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Spinner from 'react-spinkit';
 
 import configure from './store';
-
 import Routes from './routes';
 
 import './main.css';
