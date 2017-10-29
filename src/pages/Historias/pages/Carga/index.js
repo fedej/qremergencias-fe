@@ -16,6 +16,7 @@ import {
   hasEmptyStringProperties,
   isEmptyString,
   isOnlySting,
+  isOnlyNumber,
 } from '../../../../utils/validations';
 
 const INITIAL_STATE = {
@@ -78,7 +79,7 @@ class CargaHistoriaClinica extends React.Component {
     errores.fechaRealizacionError = !this.state.fechaRealizacion ?
       'Ingrese la fecha de realización del estudio.' : '';
 
-    errores.informeError = isEmptyString(this.state.informe) || !isOnlySting(this.state.informe) ?
+    errores.informeError = isEmptyString(this.state.informe) || isOnlyNumber(this.state.informe) ?
       'Ingrese el detalle del estudio.' : '';
 
     errores.fileError = !this.fileInput.files[0] ?
