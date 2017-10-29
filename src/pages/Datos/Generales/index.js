@@ -57,6 +57,7 @@ const styles = {
   },
   chip: {
     margin: 4,
+    display: 'inline-flex',
   },
 };
 
@@ -212,6 +213,7 @@ export default class Generales extends React.Component {
             </table>
             <br />
             <br />
+            <div>
             {
               general.allergies ? general.allergies.map((texto, i) => (
                 <Chip
@@ -224,6 +226,7 @@ export default class Generales extends React.Component {
               ),
               ) : ''
             }
+            </div>
           </CardText>
         </Card>
       </div>
