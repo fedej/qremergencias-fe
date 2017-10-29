@@ -153,6 +153,7 @@ export default class Medicaciones extends React.Component {
   handleCloseDialog = () => {
     this.setState({ dialogOpened: false });
     this.setState({ name: '', description: '', amount: '', period: '' });
+    this.setState({ nameError: '', descriptionError: '', amountError: '', periodError: '' });
   };
 
   render() {

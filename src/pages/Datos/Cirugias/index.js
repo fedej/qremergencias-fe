@@ -127,6 +127,7 @@ export default class Cirugias extends React.Component {
   handleCloseDialog = () => {
     this.setState({ dialogOpened: false });
     this.setState({ date: '', reason: '', institution: '' });
+    this.setState({ reasonError: '', institutionError: '', dateError: '' });
   };
 
   render() {

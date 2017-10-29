@@ -150,6 +150,7 @@ export default class Patologias extends React.Component {
   handleCloseDialog = () => {
     this.setState({ dialogOpened: false });
     this.setState({ type: '', description: '', date: '' });
+    this.setState({ typeError: '', descriptionError: '', dateError: '' });
   };
 
   render() {
