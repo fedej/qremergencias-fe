@@ -56,6 +56,7 @@ export default class Home extends React.Component {
         <Nav />
         <Drawer />
         <ToastContainer
+          style={{ zIndex: '900' }}
           position="bottom-right"
           autoClose={false}
           type="error"
