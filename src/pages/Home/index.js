@@ -1,25 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
+import NetworkManager, { MESSAGE_ERROR } from '../../utils/api/Network';
 
 import Nav from '../../components/Nav';
 import Drawer from '../../components/Drawer';
 
-function Home({ children }) {
-  return (
-    <div>
-      <Nav />
-      <Drawer />
-      <div style={{ marginTop: '1.5em' }}>{children}</div>
-    </div>
-  );
+
+export default class Home extends React.Component {
+  static propTypes = {
+    children: PropTypes.element,
+  }
+
+  static defaultProps = {
+    children: null,
+  }
+
+  static offlineChecker;
+
+  state = {
+    toastIsVisible: false,
+  }
+
+  componentWillMount() {
+    this.offlineChecker = setInterval(() => {
+      NetworkManager
+        .isOnline()
+        .then((isOnline) => {
+          if (!isOnline) {
+            this.showNetworkError();
+          }
+        })
+        .catch(() => this.showNetworkError());
+    }, 10 * 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.offlineChecker);
+  }
+
+  showNetworkError = () => {
+    if (!this.state.toastIsVisible) {
+      toast.error(MESSAGE_ERROR, {
+        onClose: () => this.setState({ toastIsVisible: false }),
+      });
+      this.setState({ toastIsVisible: true });
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Nav />
+        <Drawer />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={false}
+          type="error"
+        />
+        <div style={{ marginTop: '1.5em' }}>{this.propschildren}</div>
+      </div>
+    );
+  }
 }
-
-Home.defaultProps = {
-  children: null,
-};
-
-Home.propTypes = {
-  children: PropTypes.element,
-};
-
-export default Home;
