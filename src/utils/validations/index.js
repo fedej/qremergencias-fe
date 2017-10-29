@@ -49,5 +49,5 @@ export function isOnlyString(string) {
 }
 
 export function isOnlyNumber(string) {
-  return /^[0-9-\s]+$/.test(string);
+  return /^[0-9]+$/.test(string);
 }
