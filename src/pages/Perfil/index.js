@@ -89,6 +89,7 @@ class Perfil extends React.Component {
     confirmPassword: '',
     confirmPasswordError: '',
     qrUpdateRequired: false,
+    contactsUpdated: false,
   }
 
   componentWillMount() {
@@ -104,10 +105,13 @@ class Perfil extends React.Component {
 
     if (this.props.isFetching && !nextProps.isFetching && !nextProps.error) {
       let more = {};
-      let mensaje = 'Modifación exitosa. ';
+      let mensaje = 'Perfil actualizado. ';
       if (this.state.qrUpdateRequired) {
-        mensaje += 'Deberás regenerar tu código QR.';
+        mensaje += '\nDeberás regenerar tu código QR.';
+      } else if (this.state.contactsUpdated) {
+        mensaje += '\nLos contactos de emergencia han sido editados.\nSi fuera necesario regenerar el QR recibirás un e-mail.';
       }
+
       if (this.state.loaded) {
         more = {
           showMessage: true,
@@ -139,7 +143,9 @@ class Perfil extends React.Component {
       Progress.hide();
       let mensaje = 'Perfil actualizado. ';
       if (this.state.qrUpdateRequired) {
-        mensaje += 'Deberás regenerar tu código QR.';
+        mensaje += '\nDeberás regenerar tu código QR.';
+      } else if (this.state.contactsUpdated) {
+        mensaje += '\nLos contactos de emergencia han sido editados. \nSi fuera necesario regenerar el QR recibirás un e-mail.';
       }
 
       if (this.props.isFetching && !error) {
@@ -159,7 +165,7 @@ class Perfil extends React.Component {
   handleEraseContact = () => {
     const { contacts, selected } = this.state;
     contacts.splice(selected, 1);
-    this.setState({ contacts, selected: [] });
+    this.setState({ contacts, selected: [], contactsUpdated: true });
   }
 
   handleRowSelection = selected => this.setState({ selected });
@@ -172,6 +178,7 @@ class Perfil extends React.Component {
 
   handleOpenContactDialog = () => {
     const { contacts, selected } = this.state;
+    this.setState({ contactsUpdated: true });
     if (selected.length) {
       const selectedIndex = selected[0];
       this.setState({
@@ -232,7 +239,7 @@ class Perfil extends React.Component {
   }
 
   handleSuccessCallback = () => {
-    this.setState({ showMessage: false, qrUpdateRequired: false });
+    this.setState({ showMessage: false, qrUpdateRequired: false, contactsUpdated: false });
   }
 
   handleActualizarPerfil = () => {
