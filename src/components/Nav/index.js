@@ -32,7 +32,6 @@ class NavComponent extends Component {
     return (
       <AppBar
         title={title}
-        iconClassNameRight="muidocs-icon-navigation-expand-more"
         onLeftIconButtonTouchTap={this.handleToggleDrawer}
         iconElementRight={<div><span className={classnames('navBarUser')}>{username}<img alt="" src={iconMenuProfile} /></span></div>}
       />
