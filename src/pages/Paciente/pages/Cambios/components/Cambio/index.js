@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FaPlusCircle from 'react-icons/lib/fa/plus-circle';
 import FaMinusCircle from 'react-icons/lib/fa/minus-circle';
+import FaExchange from 'react-icons/lib/fa/exchange';
 import {
   Table,
   TableBody,
@@ -67,7 +68,7 @@ function FilaCambio({ tipo, length, change, indice }) {
 
   return (
     <TableRow key={indice}>
-      {indice === 0 ? <TableRowColumn rowSpan={length} >{tipo.includes('.new') ? <FaPlusCircle size={30} color="green" /> : <FaMinusCircle size={30} color="tomato" />} { section } </TableRowColumn> : ''}
+      {indice === 0 ? <TableRowColumn rowSpan={length} >{tipo.includes('.new') ? <FaPlusCircle size={30} color="green" /> : ( tipo.includes('.deleted') ? <FaMinusCircle size={30} color="tomato" /> : <FaExchange size={30} color="blue" />)} { section } </TableRowColumn> : ''}
       <TableRowColumn>{translate[change.property]}</TableRowColumn>
       <TableRowColumn>{oldValue}</TableRowColumn>
       <TableRowColumn>{newValue}</TableRowColumn>
