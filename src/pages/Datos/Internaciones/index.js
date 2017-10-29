@@ -76,7 +76,7 @@ export default class Internaciones extends React.Component {
           date,
           reason,
           institution,
-          type: 'ADMISSION',
+          type: 'admision',
         });
       } else {
         hospitalizations = this.props.hospitalizations;

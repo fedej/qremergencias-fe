@@ -73,7 +73,7 @@ export default class Cirugias extends React.Component {
           date,
           reason,
           institution,
-          type: 'SURGERY',
+          type: 'cirugia',
         });
       } else {
         surgeries = this.props.surgeries;
