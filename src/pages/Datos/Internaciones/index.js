@@ -17,7 +17,7 @@ import Dialog from 'material-ui/Dialog';
 import {
   isEmptyString,
   stringHasNumbers,
-  isOnlySting,
+  isOnlyString,
 } from '../../../utils/validations';
 
 function validarFecha(date) {
@@ -62,7 +62,7 @@ export default class Internaciones extends React.Component {
       this.setState({ reasonError: 'Ingrese tipo.' });
     } else if (isEmptyString(institution)
       || stringHasNumbers(institution)
-      || !isOnlySting(institution)) {
+      || !isOnlyString(institution)) {
       this.setState({ reasonError: '', institutionError: 'Ingrese una descripción válida.' });
     } else if (!date) {
       this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });

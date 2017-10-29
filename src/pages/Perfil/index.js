@@ -27,6 +27,7 @@ import {
   isValidPhoneNumber,
   isValidPassword,
   isEmptyString,
+  isOnlyString,
   stringHasNumbers,
 } from '../../utils/validations';
 import Home from '../Home';
@@ -205,9 +206,9 @@ class Perfil extends React.Component {
     } = this.state;
 
     if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName)) {
-      this.setState({ contactFirstNameError: 'Ingrese un nombre.' });
+      this.setState({ contactFirstNameError: 'Ingrese un nombre válido.' });
     } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName)) {
-      this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido.' });
+      this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido válido.' });
     } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
     } else {
@@ -245,15 +246,15 @@ class Perfil extends React.Component {
   handleActualizarPerfil = () => {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
-    if (isEmptyString(firstName) || stringHasNumbers(firstName)) {
+    if (isEmptyString(firstName) || stringHasNumbers(firstName) || !isOnlyString(firstName)) {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
-    } else if (isEmptyString(lastName) || stringHasNumbers(lastName)) {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || !isOnlyString(lastName)) {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (birthDate === null) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento' });
-    } else if (contacts.filter(c => c.primary).length !== 1) {
+    } else if ((contacts.filter(c => c.primary).length !== 1) && !this.props.isMedico) {
       this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un único contacto primario' });
     } else {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });

@@ -44,8 +44,8 @@ export function stringHasNumbers(string) {
   return /\d/g.test(string);
 }
 
-export function isOnlySting(string) {
-  return /^[A-z]+$/.test(string);
+export function isOnlyString(string) {
+  return /^[a-zA-Z]+$/.test(string);
 }
 
 export function isOnlyNumber(string) {
