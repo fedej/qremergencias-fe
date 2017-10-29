@@ -68,7 +68,7 @@ class ResetPassword extends React.Component {
               onChange={(e, password) => this.setState({ password })}
               hintText="Nueva Contraseña"
               errorText={this.state.passwordError}
-              type="text"
+              type="password"
               floatingLabelText="Contraseña"
               fullWidth
             />
@@ -76,7 +76,7 @@ class ResetPassword extends React.Component {
               value={this.state.confirmPassword}
               onChange={(e, confirmPassword) => this.setState({ confirmPassword })}
               hintText="Confirmar Contraseña"
-              type="text"
+              type="password"
               floatingLabelText="Contraseña"
               fullWidth
             />

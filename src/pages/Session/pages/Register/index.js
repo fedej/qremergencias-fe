@@ -62,9 +62,14 @@ class Register extends React.Component {
     } else if (password === '' || !isValidPassword(password)) {
       this.setState({ emailError: '', passwordError: 'Ingrese una contraseña válida.' });
     } else if (esMedico && (registrationNumber === '' || !isValidMatricula(registrationNumber))) {
-      this.setState({ emailError: '', passwordError: '', registrationNumberError: 'Debe ingresar su matrícula.' })
+      this.setState({ emailError: '', passwordError: '', registrationNumberError: 'Ingrese una matrícula válida.' });
     } else if (esMedico && !this.fileInput.files[0]) {
-      this.setState({ emailError: '', passwordError: '', registrationNumberError: '', evidenceError: 'Debe ingresar la evidencia que verifique que usted es médico.'})
+      this.setState({
+        emailError: '',
+        passwordError: '',
+        registrationNumberError: '',
+        evidenceError: 'Debe ingresar la evidencia que verifique que usted es médico.',
+      });
     } else {
       this.setState({ emailError: '', passwordError: '', registrationNumberError: '', evidenceError: '' });
 
@@ -142,14 +147,18 @@ class Register extends React.Component {
                   />
                   {this.state.evidenceError ? (
                     <CardText color="red">
-                    Por favor, adjunte su documento firmado
+                    Adjunte documento firmado para certificar la validez <br />
+                    en el Registro Único de Profesionales.<br />
+                    Más información
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="http://www.msal.gob.ar/images/stories/tramites-servicios/certificaciones/ru2.pdf"
+                    >
+                      &nbsp;aquí
+                    </a>
                     </CardText>) : ''
                   }
-                  <CardText color="gray">
-                    Documento firmado para certificar la validez <br />
-                    en el Registro Único de Profesionales.<br />
-                    Mas información <a href="http://www.msal.gob.ar/images/stories/tramites-servicios/certificaciones/ru2.pdf">aquí</a>
-                  </CardText>
                 </CardText>
               </div>
             )
