@@ -37,22 +37,15 @@ export default class HeaderCheckControllerApi {
 
     /**
      * ping
-     * @param {String} userId userId
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link 'String'} and HTTP response
      */
-    pingUsingGETWithHttpInfo(userId) {
+    pingUsingGETWithHttpInfo() {
       let postBody = null;
-
-      // verify the required parameter 'userId' is set
-      if (userId === undefined || userId === null) {
-        throw new Error("Missing the required parameter 'userId' when calling pingUsingGET");
-      }
 
 
       let pathParams = {
       };
       let queryParams = {
-        'userId': userId
       };
       let headerParams = {
       };
@@ -73,11 +66,10 @@ export default class HeaderCheckControllerApi {
 
     /**
      * ping
-     * @param {String} userId userId
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link 'String'}
      */
-    pingUsingGET(userId) {
-      return this.pingUsingGETWithHttpInfo(userId)
+    pingUsingGET() {
+      return this.pingUsingGETWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
