@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FaPlusCircle from 'react-icons/lib/fa/plus-circle';
+import FaMinusCircle from 'react-icons/lib/fa/minus-circle';
 import {
   Table,
   TableBody,
@@ -11,6 +13,7 @@ import {
 import moment from 'moment';
 import classnames from 'classnames';
 import './styles.css';
+
 
 const translate = {
   pathologies: 'Patologias',
@@ -35,9 +38,6 @@ const translate = {
   insuficiencia_suprarrenal: 'Insuficiencia suprarrenal',
   lastMedicalCheck: 'Ultimo chequeo medico',
 };
-
-const iconAdded = require('../../../../../../assets/icons/added.png');
-const iconRemoved = require('../../../../../../assets/icons/removed.png');
 
 function FilaCambio({ tipo, length, change, indice }) {
   let section = tipo;
@@ -67,7 +67,7 @@ function FilaCambio({ tipo, length, change, indice }) {
 
   return (
     <TableRow key={indice}>
-      {indice === 0 ? <TableRowColumn rowSpan={length} ><span><img alt="" src={tipo.includes('.new') ? iconAdded : iconRemoved} />{section}</span></TableRowColumn> : ''}
+      {indice === 0 ? <TableRowColumn rowSpan={length} >{tipo.includes('.new') ? <FaPlusCircle size={30} color="green" /> : <FaMinusCircle size={30} color="tomato" />} { section } </TableRowColumn> : ''}
       <TableRowColumn>{translate[change.property]}</TableRowColumn>
       <TableRowColumn>{oldValue}</TableRowColumn>
       <TableRowColumn>{newValue}</TableRowColumn>
