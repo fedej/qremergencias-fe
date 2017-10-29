@@ -116,7 +116,7 @@ class Historias extends React.Component {
               </div>
             </div>
           ) : (
-            <div>
+            <div style={{ padding: '20px' }}>
               <div className={classnames('formCenter')}>
                 <h2>¡Parece ser que aún no tenés nada cargado en tu historia clínica!</h2>
               </div>

@@ -13,6 +13,13 @@ import HistoriaClinica from '../../../Historias/components/HistoriaClinica';
 
 import { fetchHistoriasClinicasDePaciente } from '../../../../store/Historias';
 
+const historiasContainerStyle = {
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'column',
+  padding: '20px',
+};
+
 class HistoriasPaciente extends React.Component {
   static defaultProps = {
     historias: [],
@@ -88,16 +95,18 @@ class HistoriasPaciente extends React.Component {
             style={{ background: 'white' }}
             thumbStyle={{ background: 'red' }}
           />
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'column', padding: '20px' }}>
+          <div style={historiasContainerStyle}>
             {
               this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
             }
-            <RaisedButton
-              label="Volver"
-              onTouchTap={() => browserHistory.goBack()}
-              fullWidth
-              primary
-            />
+            <div style={{ textAlign: 'center' }}>
+              <RaisedButton
+                style={{ marginTop: '20px' }}
+                label="Volver"
+                onTouchTap={() => browserHistory.goBack()}
+                primary
+              />
+            </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ReactPaginate

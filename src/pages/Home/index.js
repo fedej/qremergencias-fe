@@ -34,7 +34,7 @@ export default class Home extends React.Component {
           }
         })
         .catch(() => this.showNetworkError());
-    }, 10 * 1000);
+    }, 30 * 1000);
   }
 
   componentWillUnmount() {
