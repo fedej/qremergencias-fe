@@ -5,9 +5,9 @@ export const MESSAGE_ERROR = 'No se puede conectar con el servidor';
 export default class NetworkManager {
   static async isOnline() {
     try {
-      const ENDPOINT = `${config.BASE_URL}/qremergencias/api/login`;
+      const ENDPOINT = `${config.BASE_URL}/qremergencias/api/check/ping`;
       const request = new Request(ENDPOINT, {
-        method: 'HEAD',
+        method: 'GET',
       });
 
       const response = await fetch(request)
