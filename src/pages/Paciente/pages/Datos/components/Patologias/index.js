@@ -50,7 +50,7 @@ export default class Patologias extends React.Component {
                 {
                   pathologies && pathologies.length && pathologies.map((p, i) =>
                     (<TableRow key={i}>
-                      <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
+                      <TableRowColumn>{moment.utc(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                       <TableRowColumn>
                         {pathologyType.find(pathology => pathology.key === p.type).value}
                       </TableRowColumn>

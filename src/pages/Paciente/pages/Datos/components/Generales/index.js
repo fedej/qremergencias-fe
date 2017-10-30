@@ -34,7 +34,7 @@ export default class Generales extends React.Component {
             <TextField
               type="text"
               disabled
-              value={moment(general.lastMedicalCheck).format('DD / MM / YYYY')}
+              value={moment.utc(general.lastMedicalCheck).format('DD / MM / YYYY')}
               floatingLabelText="Último chequeo médico"
               floatingLabelFixed
             />

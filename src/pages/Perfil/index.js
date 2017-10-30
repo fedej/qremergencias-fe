@@ -33,7 +33,7 @@ import {
 import Home from '../Home';
 
 function validarMayorDeEdad(date) {
-  const fecha = moment().subtract(18, 'y');
+  const fecha = moment().utc().subtract(18, 'y');
   return date > fecha;
 }
 
@@ -280,7 +280,7 @@ class Perfil extends React.Component {
   }
 
   formatDate = (date) => {
-    const string = moment(date).format('DD / MM / YYYY');
+    const string = moment.utc(date).format('DD / MM / YYYY');
     return string;
   }
 

@@ -63,7 +63,7 @@ class HistoriaClinica extends Component {
 
   render() {
     const { historia } = this.props;
-    const fecha = moment(historia.performed).format('DD / MM / YYYY');
+    const fecha = moment.utc(historia.performed).format('DD / MM / YYYY');
 
     const file = historia.files[0];
     let viewer;

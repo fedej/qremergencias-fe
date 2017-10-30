@@ -21,7 +21,7 @@ import {
 } from '../../../utils/validations';
 
 function validarFecha(date) {
-  const fecha = moment().toDate();
+  const fecha = moment().utc().toDate();
   return date > fecha;
 }
 
@@ -91,7 +91,7 @@ export default class Internaciones extends React.Component {
   }
 
   formatDate = (date) => {
-    const string = moment(date).format('DD / MM / YYYY');
+    const string = moment.utc(date).format('DD / MM / YYYY');
     return string;
   };
 
@@ -166,7 +166,7 @@ export default class Internaciones extends React.Component {
                     (
                       <TableRow selected={this.isSelected(i)} key={i}>
                         <TableRowColumn>
-                          {moment(p.date).format('DD / MM / YYYY')}
+                          {moment.utc(p.date).format('DD / MM / YYYY')}
                         </TableRowColumn>
                         <TableRowColumn>{p.reason}</TableRowColumn>
                         <TableRowColumn>{p.institution}</TableRowColumn>

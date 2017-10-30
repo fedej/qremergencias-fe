@@ -31,7 +31,7 @@ const pathologyType = [
 
 
 function validarFecha(date) {
-  const fecha = moment().toDate();
+  const fecha = moment().utc().toDate();
   return date > fecha;
 }
 
@@ -133,7 +133,7 @@ export default class Patologias extends React.Component {
   };
 
   formatDate = (date) => {
-    const string = moment(date).format('DD / MM / YYYY');
+    const string = moment.utc(date).format('DD / MM / YYYY');
     return string;
   };
 

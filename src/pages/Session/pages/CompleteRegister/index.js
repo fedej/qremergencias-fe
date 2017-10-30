@@ -21,7 +21,7 @@ import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
 
 function validarMayorDeEdad(date) {
-  const fecha = moment().subtract(18, 'y');
+  const fecha = moment().utc().subtract(18, 'y');
   return date > fecha;
 }
 
@@ -41,7 +41,7 @@ class CompleteRegister extends React.Component {
     lastNameError: '',
     idNumber: '',
     idNumberError: '',
-    birthDate: moment().subtract(20, 'y').toDate(),
+    birthDate: moment().utc().subtract(20, 'y').toDate(),
     birthDateError: '',
     sex: 'F',
     showError: false,
@@ -79,7 +79,7 @@ class CompleteRegister extends React.Component {
         lastName,
         idNumber,
         sex,
-        birthDate: moment(birthDate).format('YYYY-MM-DD'),
+        birthDate: moment.utc(birthDate).format('YYYY-MM-DD'),
         token,
       };
 
@@ -88,7 +88,7 @@ class CompleteRegister extends React.Component {
   }
 
   formatDate = (date) => {
-    const string = moment(date).format('DD / MM / YYYY');
+    const string = moment.utc(date).format('DD / MM / YYYY');
     return string;
   }
 

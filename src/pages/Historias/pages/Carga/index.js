@@ -65,7 +65,7 @@ class CargaHistoriaClinica extends React.Component {
   }
 
   formatDate = (date) => {
-    const string = moment(date).format('DD / MM / YYYY');
+    const string = moment.utc(date).format('DD / MM / YYYY');
     return string;
   }
 
@@ -90,7 +90,7 @@ class CargaHistoriaClinica extends React.Component {
         const data = {
           file: this.fileInput.files[0],
           name: this.state.nombre,
-          performed: moment(this.state.fechaRealizacion).format('YYYY-MM-DD'),
+          performed: moment.utc(this.state.fechaRealizacion).format('YYYY-MM-DD'),
           text: this.state.informe,
           user: paciente,
         };

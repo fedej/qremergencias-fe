@@ -46,7 +46,7 @@ export default class Internaciones extends React.Component {
                     (
                       <TableRow key={i}>
                         <TableRowColumn>
-                          {moment(p.date).format('DD / MM / YYYY')}
+                          {moment.utc(p.date).format('DD / MM / YYYY')}
                         </TableRowColumn>
                         <TableRowColumn>{p.reason}</TableRowColumn>
                         <TableRowColumn>{p.institution}</TableRowColumn>

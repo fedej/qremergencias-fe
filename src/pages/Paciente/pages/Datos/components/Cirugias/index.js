@@ -45,7 +45,7 @@ export default class Cirugias extends React.Component {
                   {
                     surgeries.map((p, i) => (
                       <TableRow key={i}>
-                        <TableRowColumn>{moment(p.date).format('DD / MM / YYYY')}</TableRowColumn>
+                        <TableRowColumn>{moment.utc(p.date).format('DD / MM / YYYY')}</TableRowColumn>
                         <TableRowColumn>{p.reason}</TableRowColumn>
                         <TableRowColumn>{p.institution}</TableRowColumn>
                       </TableRow>
