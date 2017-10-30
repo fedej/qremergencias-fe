@@ -34,6 +34,7 @@ import Sort from './model/Sort';
 import UserContactDTO from './model/UserContactDTO';
 import UserProfileDTO from './model/UserProfileDTO';
 import EmergencyDataControllerApi from './api/EmergencyDataControllerApi';
+import HeaderCheckControllerApi from './api/HeaderCheckControllerApi';
 import MedicalRecordControllerApi from './api/MedicalRecordControllerApi';
 import ProfileControllerApi from './api/ProfileControllerApi';
 import TempCodeControllerApi from './api/TempCodeControllerApi';
@@ -203,6 +204,12 @@ export {
     * @property {module:api/EmergencyDataControllerApi}
     */
     EmergencyDataControllerApi,
+
+    /**
+    * The HeaderCheckControllerApi service constructor.
+    * @property {module:api/HeaderCheckControllerApi}
+    */
+    HeaderCheckControllerApi,
 
     /**
     * The MedicalRecordControllerApi service constructor.
