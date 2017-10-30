@@ -73,7 +73,7 @@ class CargaHistoriaClinica extends React.Component {
     const { dispatch, paciente } = this.props;
     const errores = {};
 
-    errores.nombreError = isEmptyString(this.state.nombre) || !isOnlyString(this.state.nombre) ?
+    errores.nombreError = isEmptyString(this.state.nombre) || isOnlyNumber(this.state.nombre) ?
       'Ingrese un nombre de estudio válido.' : '';
 
     errores.fechaRealizacionError = !this.state.fechaRealizacion ?
