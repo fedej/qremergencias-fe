@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField, RaisedButton } from 'material-ui';
+import { TextField, RaisedButton, DatePicker } from 'material-ui';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 import SelectField from 'material-ui/SelectField';
@@ -11,8 +11,12 @@ import Chip from 'material-ui/Chip';
 
 import {
   isEmptyString,
-  stringHasNumbers,
 } from '../../../utils/validations';
+
+function validarFecha(date) {
+  const fecha = moment().toDate();
+  return date > fecha;
+}
 
 const items = [
   <MenuItem key={1} value={'A+'} primaryText="A+" />,
@@ -136,8 +140,21 @@ export default class Generales extends React.Component {
     this.props.onGeneralChange(general);
   }
 
+  handleLastMedicalCheck = (e, date) => {
+    const { general } = this.props;
+    const newGeneral = { ...general };
+    newGeneral.lastMedicalCheck = date.toISOString();
+    this.props.onGeneralChange(newGeneral);
+  }
+
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  };
+
   render() {
-    const general = this.props.general;
+    const { general } = this.props;
+    const lastMedicalCheck = general.lastMedicalCheck ? new Date(general.lastMedicalCheck) : null;
     return (
       <div className={classnames('formCenter')}>
         <Card style={{ margin: '20px' }}>
@@ -152,12 +169,15 @@ export default class Generales extends React.Component {
               {items}
             </SelectField>
             <tr>
-              <TextField
-                type="text"
-                disabled
-                value={moment(general.lastMedicalCheck).format('DD / MM / YYYY')}
-                floatingLabelText="Último chequeo médico"
-                floatingLabelFixed
+              <DatePicker
+                value={lastMedicalCheck}
+                textFieldStyle={{ width: '100%' }}
+                hintText="Fecha último chequeo"
+                shouldDisableDate={validarFecha}
+                onChange={this.handleLastMedicalCheck}
+                locale="es-ES"
+                formatDate={this.formatDate}
+                DateTimeFormat={Intl.DateTimeFormat}
               />
             </tr>
             <Toggle
