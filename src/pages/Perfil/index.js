@@ -205,9 +205,9 @@ class Perfil extends React.Component {
       selectedIndex,
     } = this.state;
 
-    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName) || !isOnlyString(contactFirstName)) {
+    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName) || contactFirstName.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ contactFirstNameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName) || !isOnlyString(contactLastName)) {
+    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName) || contactLastName.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido válido.' });
     } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
       this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
@@ -246,9 +246,9 @@ class Perfil extends React.Component {
   handleActualizarPerfil = () => {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
-    if (isEmptyString(firstName) || stringHasNumbers(firstName) || !isOnlyString(firstName)) {
+    if (isEmptyString(firstName) || stringHasNumbers(firstName) || firstName.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ firstNameError: 'Ingrese un nombre.' });
-    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || !isOnlyString(lastName)) {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
