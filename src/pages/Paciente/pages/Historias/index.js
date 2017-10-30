@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
 import { browserHistory } from 'react-router';
 import { RaisedButton } from 'material-ui';
+import classnames from 'classnames';
 import 'react-progress-2/main.css';
 import '../../../../assets/styles/bootstrap.min.css';
 
@@ -95,34 +96,46 @@ class HistoriasPaciente extends React.Component {
             style={{ background: 'white' }}
             thumbStyle={{ background: 'red' }}
           />
-          <div style={historiasContainerStyle}>
-            {
-              this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
-            }
-            <div style={{ textAlign: 'center' }}>
-              <RaisedButton
-                style={{ marginTop: '20px' }}
-                label="Volver"
-                onTouchTap={() => browserHistory.goBack()}
-                primary
-              />
-            </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <ReactPaginate
-              previousLabel="previous"
-              nextLabel="next"
-              breakLabel={<a href="">...</a>}
-              breakClassName="break-me"
-              pageCount={this.props.totalPages}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.handlePageClick}
-              containerClassName="pagination"
-              subContainerClassName="pages pagination"
-              activeClassName="active"
-            />
-          </div>
+          {
+            this.state.historias && this.state.historias.length ? (
+              <div>
+                <div style={historiasContainerStyle}>
+                  {
+                    this.state.historias.map((h, i) => <HistoriaClinica historia={h} key={i} />)
+                  }
+                  <div style={{ textAlign: 'center' }}>
+                    <RaisedButton
+                      style={{ marginTop: '20px' }}
+                      label="Volver"
+                      onTouchTap={() => browserHistory.goBack()}
+                      primary
+                    />
+                  </div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ReactPaginate
+                    previousLabel="previous"
+                    nextLabel="next"
+                    breakLabel={<a href="">...</a>}
+                    breakClassName="break-me"
+                    pageCount={this.props.totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName="pagination"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div style={{ padding: '20px' }}>
+                <div className={classnames('formCenter')}>
+                  <h2>El paciente no tiene historias médicas cargadas</h2>
+                </div>
+              </div>
+            )
+          }
         </div>
       </Home>
     );
