@@ -6,6 +6,7 @@ import { TextField, RaisedButton, Dialog, FlatButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
 
+import { isValidPassword } from '../../../../utils/validations';
 import UserService from '../../../../utils/api/User';
 import '../../styles.css';
 
@@ -19,6 +20,7 @@ class ResetPassword extends React.Component {
     password: '',
     confirmPassword: '',
     passwordError: '',
+    passwordInvalida: false,
   }
 
   handleResetPassword = () => {
@@ -27,12 +29,24 @@ class ResetPassword extends React.Component {
     const token = new URLSearchParams(window.location.search).get('token');
 
     if (password === confirmPassword) {
-      const data = { newPassword: password, confirmPassword, token: token, "recaptchaResponse": "HACK" };
-      UserService.resetPassword(data)
-         .then(() => {
-           this.setState({ dialogOpen: true });
-         })
-         .catch(err => this.setState({ passwordError: 'Error al cambiar contraseña' }))
+      if (isValidPassword(password)) {
+        const data = {
+          newPassword: password,
+          confirmPassword,
+          token,
+          recaptchaResponse: 'HACK',
+        };
+
+        this.setState({ passwordError: '' });
+
+        UserService.resetPassword(data)
+          .then(() => {
+            this.setState({ dialogOpen: true });
+          })
+          .catch(() => this.setState({ passwordError: 'Error al cambiar contraseña' }))
+      } else {
+        this.setState({ passwordError: 'Las contraseña no es válida', passwordInvalida: true });
+      }
     } else {
       this.setState({ passwordError: 'Las contraseñas no coinciden' });
     }
@@ -80,6 +94,14 @@ class ResetPassword extends React.Component {
               floatingLabelText="Contraseña"
               fullWidth
             />
+            {this.state.passwordInvalida ? (<CardText color="gray">
+              La contraseña debe contener:<br />
+              • Una letra mayúscula<br />
+              • Una letra minúscula<br />
+              • Un número<br />
+              • Un caracter especial !@#&/()?¿¡$%<br />
+              • Al menos 8 caracteres </CardText>) : ''
+            }
           </CardText>
           <CardActions
             style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}
