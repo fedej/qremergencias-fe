@@ -247,7 +247,7 @@ class Perfil extends React.Component {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
 
     if (isEmptyString(firstName) || stringHasNumbers(firstName) || firstName.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ firstNameError: 'Ingrese un nombre.' });
+      this.setState({ firstNameError: 'Ingrese un nombre válido.' });
     } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
