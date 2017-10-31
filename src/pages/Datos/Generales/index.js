@@ -13,6 +13,8 @@ import {
   isEmptyString,
 } from '../../../utils/validations';
 
+import { correctDate } from '../../../utils/dateformat';
+
 function validarFecha(date) {
   const fecha = moment().utc().toDate();
   return date > fecha;
@@ -170,7 +172,7 @@ export default class Generales extends React.Component {
             </SelectField>
             <tr>
               <DatePicker
-                value={lastMedicalCheck}
+                value={correctDate(lastMedicalCheck)}
                 textFieldStyle={{ width: '100%' }}
                 hintText="Fecha último chequeo"
                 shouldDisableDate={validarFecha}

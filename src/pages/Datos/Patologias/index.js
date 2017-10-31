@@ -21,6 +21,8 @@ import {
   stringHasNumbers,
 } from '../../../utils/validations';
 
+import { correctDate } from '../../../utils/dateformat';
+
 const pathologyType = [
   { key: 'asma', value: 'asma' },
   { key: 'hipertension', value: 'hipertension' },
@@ -202,7 +204,7 @@ export default class Patologias extends React.Component {
             actions={actions}
           >
             <DatePicker
-              value={this.state.date}
+              value={correctDate(this.state.date)}
               textFieldStyle={{ width: '100%' }}
               shouldDisableDate={validarFecha}
               hintText="Fecha"

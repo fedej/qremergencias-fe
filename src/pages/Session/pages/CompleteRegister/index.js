@@ -17,6 +17,8 @@ import {
   isOnlyString,
 } from '../../../../utils/validations';
 
+import { correctDate } from '../../../../utils/dateformat';
+
 import { completeRegistration } from '../../../../store/Auth';
 import '../../styles.css';
 
@@ -139,7 +141,7 @@ class CompleteRegister extends React.Component {
                 hintText="Fecha de Nacimiento"
                 shouldDisableDate={validarMayorDeEdad}
                 onChange={(e, birthDate) => this.setState({ birthDate })}
-                value={this.state.birthDate}
+                value={correctDate(this.state.birthDate)}
                 locale="es-ES"
                 formatDate={this.formatDate}
                 DateTimeFormat={Intl.DateTimeFormat}

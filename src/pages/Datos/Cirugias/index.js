@@ -18,6 +18,7 @@ import {
   isEmptyString,
   isOnlyString,
 } from '../../../utils/validations';
+import { correctDate } from '../../../utils/dateformat';
 
 function validarFecha(date) {
   const fecha = moment().utc().toDate();
@@ -179,7 +180,7 @@ export default class Cirugias extends React.Component {
             actions={actions}
           >
             <DatePicker
-              value={this.state.date}
+              value={correctDate(this.state.date)}
               shouldDisableDate={validarFecha}
               textFieldStyle={{ width: '100%' }}
               hintText="Fecha"

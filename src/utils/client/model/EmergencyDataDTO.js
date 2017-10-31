@@ -17,6 +17,7 @@ import GeneralDataDTO from './GeneralDataDTO';
 import HospitalizationDTO from './HospitalizationDTO';
 import MedicationDTO from './MedicationDTO';
 import PathologyDTO from './PathologyDTO';
+import UserContactDTO from './UserContactDTO';
 
 
 
@@ -60,6 +61,9 @@ export default class EmergencyDataDTO {
             
             
 
+            if (data.hasOwnProperty('contacts')) {
+                obj['contacts'] = ApiClient.convertToType(data['contacts'], [UserContactDTO]);
+            }
             if (data.hasOwnProperty('general')) {
                 obj['general'] = GeneralDataDTO.constructFromObject(data['general']);
             }
@@ -82,6 +86,10 @@ export default class EmergencyDataDTO {
         return obj;
     }
 
+    /**
+    * @member {Array.<module:model/UserContactDTO>} contacts
+    */
+    contacts = undefined;
     /**
     * @member {module:model/GeneralDataDTO} general
     */

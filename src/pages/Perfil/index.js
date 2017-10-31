@@ -20,6 +20,7 @@ import moment from 'moment';
 import Progress from 'react-progress-2';
 import 'react-progress-2/main.css';
 import 'sweetalert/dist/sweetalert.css';
+import { correctDate } from '../../utils/dateformat';
 
 import { fetchProfile, updateProfile, changePassword } from '../../store/Perfil';
 import {
@@ -358,7 +359,7 @@ class Perfil extends React.Component {
                   fullWidth
                 />
                 <DatePicker
-                  value={this.state.birthDate}
+                  value={correctDate(this.state.birthDate)}
                   textFieldStyle={{ width: '100%' }}
                   shouldDisableDate={validarMayorDeEdad}
                   hintText="Fecha de Nacimiento"
