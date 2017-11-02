@@ -41,7 +41,7 @@ export const logIn = creds => (dispatch) => {
   UserService.login(creds)
     .then(profile => dispatch(loginSuccess(profile)))
     .catch((err) => {
-      if (err.response) {
+      if (err.response && err.response.body) {
         return dispatch(loginError(err.response.body.message));
       }
 
@@ -117,7 +117,13 @@ export const signUp = creds => (dispatch) => {
   } else {
     UserService.register(creds)
       .then(() => dispatch(registerSuccess()))
-      .catch(err => dispatch(registerError(err.response.body.message)));
+      .catch((err) => {
+        if (err.response && err.response.body) {
+          dispatch(registerError(err.response.body.message));
+        } else {
+          dispatch(registerError('No se pudo contectar al servidor'));
+        }
+      });
   }
 };
 
