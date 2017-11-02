@@ -186,8 +186,8 @@ class CompleteRegister extends React.Component {
         />
         <SweetAlert
           show={this.state.showSuccess}
-          title="Exito"
-          text="El registro se completo correctamente. Por favor ingrese su email y contraseña para usar el sistema."
+          title="Éxito"
+          text="El registro se completó correctamente. Por favor ingrese su email y contraseña para usar el sistema."
           onConfirm={this.handleSuccessCallback}
         />
 

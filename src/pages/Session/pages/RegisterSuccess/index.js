@@ -20,7 +20,7 @@ export default function RegisterSuccess() {
           <img src={icon} alt="Logo" />
           <p style={{ marginTop: '20px' }}>
             Gracias por registrarte, te enviamos un mail a tu casilla de correo,
-            confirma tu cuenta por favor.
+            confirmá tu cuenta por favor.
           </p>
         </CardText>
       </Card>

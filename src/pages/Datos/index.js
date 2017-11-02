@@ -79,7 +79,7 @@ class DatosDeEmergencia extends React.Component {
         ...data,
         showMessage: true,
         messageTitle: 'Éxito',
-        message: this.state.qrUpdateRequired ? 'Los datos se han cargado con exito. Recuerdale al paciente que debe regenerar el codigo QR.' : 'Los datos se han cargado con exito',
+        message: this.state.qrUpdateRequired ? 'Los datos se han cargado con éxito. Recuérdale al paciente que debe regenerar el código QR.' : 'Los datos se han cargado con éxito',
       });
     } else {
       this.setState(data);
