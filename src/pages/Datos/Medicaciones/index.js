@@ -179,9 +179,9 @@ export default class Medicaciones extends React.Component {
               <TableHeader>
                 <TableRow>
                   <TableHeaderColumn>Nombre</TableHeaderColumn>
-                  <TableHeaderColumn>Descripcion</TableHeaderColumn>
+                  <TableHeaderColumn>Descripción</TableHeaderColumn>
                   <TableHeaderColumn>Cantidad</TableHeaderColumn>
-                  <TableHeaderColumn>Periodo</TableHeaderColumn>
+                  <TableHeaderColumn>Período</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>

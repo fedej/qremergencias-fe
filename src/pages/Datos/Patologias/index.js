@@ -179,7 +179,7 @@ export default class Patologias extends React.Component {
                 <TableRow>
                   <TableHeaderColumn>Fecha</TableHeaderColumn>
                   <TableHeaderColumn>Tipo</TableHeaderColumn>
-                  <TableHeaderColumn>Descripcion</TableHeaderColumn>
+                  <TableHeaderColumn>Descripción</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody>

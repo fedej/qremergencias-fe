@@ -488,6 +488,17 @@ class Perfil extends React.Component {
                 </Card>
               ) : null
             }
+            <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
+              <RaisedButton
+                label="Guardar"
+                onTouchTap={this.handleActualizarPerfil}
+                primary
+              />
+              <RaisedButton
+                label="Volver"
+                onTouchTap={() => browserHistory.goBack()}
+              />
+            </CardActions>
             <Card style={{ margin: '20px', width: '80%' }}>
               <CardTitle
                 title="Cambiar Contraseña"
@@ -537,23 +548,13 @@ class Perfil extends React.Component {
                 />
               </CardActions>
             </Card>
-            <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-              <RaisedButton
-                label="Guardar"
-                onTouchTap={this.handleActualizarPerfil}
-                primary
-              />
-              <RaisedButton
-                label="Volver"
-                onTouchTap={() => browserHistory.goBack()}
-              />
-            </CardActions>
             <SweetAlert
               show={this.state.showMessage}
               title={this.state.title}
               text={this.state.message}
               onConfirm={this.handleSuccessCallback}
             />
+
           </div>
         </div>
       </Home>
