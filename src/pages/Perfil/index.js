@@ -281,7 +281,7 @@ class Perfil extends React.Component {
   }
 
   formatDate = (date) => {
-    const string = moment.utc(date).format('DD / MM / YYYY');
+    const string = moment(date).format('DD / MM / YYYY');
     return string;
   }
 

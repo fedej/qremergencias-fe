@@ -1,15 +1,13 @@
+
 export function correctDate(date) {
-  if (date && date instanceof Date) {
-    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-    return date;
-  }
-  return null;
+  const fecha = new Date(date);
+  return new Date(fecha.getTime() + (fecha.getTimezoneOffset() * 60000));
 }
 
 export function correctDateToUTC(date) {
   if (date && date instanceof Date) {
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
+    return new Date(date.getTime());
   }
   return null;
 }
