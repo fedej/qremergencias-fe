@@ -60,8 +60,7 @@ class HomePage extends React.Component {
                 <div className={classnames('datadiv')}>
                   <span>
                     <img alt="" src={iconMenuQR} />
-                      Gestionar el <strong>QR</strong>
-                       con el que podrán acceder a tus datos de emergencia.
+                      Gestionar el <strong>QR</strong> con el que podrán acceder a tus datos de emergencia.
                   </span>
                 </div>
                 <div className={classnames('datadiv')}>

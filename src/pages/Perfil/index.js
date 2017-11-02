@@ -437,7 +437,7 @@ class Perfil extends React.Component {
                 <Card style={{ margin: '20px', width: '80%' }}>
                   <CardTitle
                     title="Contactos de Emergencia"
-                    subtitle="Carga los datos de tu contactos para un caso de emergencia"
+                    subtitle="Cargá los datos de tus contactos para un caso de emergencia"
                   />
                   <Table onRowSelection={this.handleRowSelection}>
                     <TableHeader>

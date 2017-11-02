@@ -156,7 +156,7 @@ class Register extends React.Component {
                   >
                     &nbsp;aquí
                   </a>
-                  </CardText>)
+                  </CardText>
                 </CardText>
               </div>
             )

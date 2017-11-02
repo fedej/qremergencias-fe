@@ -177,8 +177,8 @@ class CargaHistoriaClinica extends React.Component {
             />
             <SweetAlert
               show={this.state.showSuccess}
-              title="Exito"
-              text="Carga realizada con exito"
+              title="Éxito"
+              text="Carga realizada con éxito"
               onConfirm={this.handleSuccessCallback}
             />
           </Card>
