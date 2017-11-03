@@ -63,9 +63,9 @@ class CompleteRegister extends React.Component {
   handleCompleteRegister = () => {
     const { name, lastName, idNumber, birthDate, sex } = this.state;
 
-    if (isEmptyString(name) || stringHasNumbers(name) || !isOnlyString(name)) {
+    if (isEmptyString(name) || stringHasNumbers(name) || name.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ nameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || !isOnlyString(lastName)) {
+    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) {
       this.setState({ nameError: '', lastNameError: 'Ingrese un apellido válido.' });
     } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
       this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI válido' });
