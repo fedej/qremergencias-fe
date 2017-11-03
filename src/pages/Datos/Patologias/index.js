@@ -75,7 +75,7 @@ export default class Patologias extends React.Component {
 
     if (isEmptyString(type)) {
       this.setState({ typeError: 'Ingrese tipo.' });
-    } else if (type === 'otro' && (isEmptyString(description) || stringHasNumbers(description))) {
+    } else if (type === 'otro' && isEmptyString(description)) {
       this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
     } else if (!date) {
       this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
