@@ -41,15 +41,14 @@ class Verificacion extends React.Component {
   }
 
   handleVerificarPaciente = () => {
-    if (this.state.token === '') {
-      this.setState({ error: 'Ingrese el código de verificación', showError: true });
+    if (isEmptyString(this.state.idNumber) || !isValidDNI(this.state.idNumber)) {
+      this.setState({ tokenError: '', idNumberError: 'El DNI debe ser numérico' });
     } else if (!isOnlyNumber(this.state.token)) {
-      this.setState({ error: 'Ingrese un código de verificaión válido', showError: true });
-    } else if (isEmptyString(this.state.idNumber) || !isValidDNI(this.state.idNumber)) {
-      this.setState({ error: 'El DNI debe ser numérico', showError: true });
+      this.setState({ idNumberError: '', tokenError: 'Ingrese un código de verificaión válido' });
     } else {
+      this.setState({ idNumberError: '', tokenError: '' });
       const { dispatch } = this.props;
-      dispatch(vincularPaciente(this.state.token + this.state.idNumber));
+      dispatch(vincularPaciente('' + this.state.token + this.state.idNumber));
     }
   }
 
@@ -75,7 +74,7 @@ class Verificacion extends React.Component {
               <TextField
                 value={this.state.token}
                 onChange={(e, token) => this.setState({ token })}
-                errorText={this.state.nameError}
+                errorText={this.state.tokenError}
                 hintText="Ingresa el código"
                 type="text"
                 floatingLabelText="Código"
