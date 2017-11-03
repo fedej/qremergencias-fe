@@ -11,7 +11,7 @@ import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../Home';
 import { vincularPaciente } from '../../store/Paciente';
-import { isOnlyString } from '../../utils/validations';
+import { isOnlyNumber, isEmptyString, isValidDNI } from '../../utils/validations';
 
 class Verificacion extends React.Component {
   static propTypes = {
@@ -25,6 +25,8 @@ class Verificacion extends React.Component {
     token: '',
     error: '',
     showError: false,
+    idNumber: '',
+    idNumberError: '',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,11 +43,13 @@ class Verificacion extends React.Component {
   handleVerificarPaciente = () => {
     if (this.state.token === '') {
       this.setState({ error: 'Ingrese el código de verificación', showError: true });
-    } else if (isOnlyString(this.state.token)) {
+    } else if (!isOnlyNumber(this.state.token)) {
       this.setState({ error: 'Ingrese un código de verificaión válido', showError: true });
+    } else if (isEmptyString(this.state.idNumber) || !isValidDNI(this.state.idNumber)) {
+      this.setState({ error: 'El DNI debe ser numérico', showError: true });
     } else {
       const { dispatch } = this.props;
-      dispatch(vincularPaciente(this.state.token));
+      dispatch(vincularPaciente(this.state.token + this.state.idNumber));
     }
   }
 
@@ -56,9 +60,18 @@ class Verificacion extends React.Component {
           <Card style={{ margin: '20px' }}>
             <CardTitle
               title="Verificar paciente"
-              subtitle="Necesitamos que ingreses el codigo de acceso para modificar los datos del paciente"
+              subtitle="Necesitamos que ingreses el código de acceso para modificar los datos del paciente"
             />
             <CardText>
+              <TextField
+                value={this.state.idNumber}
+                onChange={(e, idNumber) => this.setState({ idNumber })}
+                errorText={this.state.idNumberError}
+                hintText="Ingresá el DNI del paciente"
+                type="text"
+                floatingLabelText="DNI"
+                fullWidth
+              />
               <TextField
                 value={this.state.token}
                 onChange={(e, token) => this.setState({ token })}
