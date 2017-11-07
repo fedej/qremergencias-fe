@@ -71,6 +71,7 @@ export const fetchCodigo = user => (dispatch) => {
   PacienteService.getCodigoQR(user)
     .then(codigo => dispatch({ type: OBTENER_QR_SUCCESS, codigo, hasCodigo: true }))
     .catch((err) => {
+      console.log(err);
       dispatch({ type: OBTENER_QR_ERROR, error: err.message, hasCodigo: false });
     });
 };
