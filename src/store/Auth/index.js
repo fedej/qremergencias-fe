@@ -13,7 +13,18 @@ export const LOGOUT_SUCCESS = 'Auth/LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'Auth/LOGOUT_FAILURE';
 
 export const LOGOUT = 'Auth/LOGOUT';
+export const COMPLETE_TUTORIAL = 'Auth/COMPLETE_TUTORIAL';
+export const COMPLETE_EDITAR_TUTORIAL = 'Auth/COMPLETE_EDITAR_TUTORIAL';
 
+export function completeTutorial() {
+  return {
+    type: COMPLETE_TUTORIAL,
+  };
+}
+
+export function completeEditarTutorial() {
+  return { type: COMPLETE_EDITAR_TUTORIAL };
+}
 
 function requestLogin() {
   return {
@@ -139,6 +150,8 @@ const INITIAL_STATE = {
   isLoggedIn: false,
   isFetching: false,
   isMedico: true,
+  hasCompletedEditarTutorial: false,
+  hasCompletedTutorial: false,
   profile: {},
   error: '',
 };
@@ -167,11 +180,15 @@ export default function Reducer(state = INITIAL_STATE, action = {}) {
     case LOGOUT_REQUEST:
       return { ...state, isFetching: true };
     case LOGOUT_SUCCESS:
-      return { ...state, isFetching: false, isLoggedIn: false, error: '', profile: {} };
+      return INITIAL_STATE;
     case LOGOUT_FAILURE:
       return { ...state, isFetching: false, error: action.message };
     case LOGOUT:
-      return { ...state, isOpen: !state.isOpen };
+      return INITIAL_STATE;
+    case COMPLETE_TUTORIAL:
+      return { ...state, hasCompletedTutorial: true };
+    case COMPLETE_EDITAR_TUTORIAL:
+      return { ...state, hasCompletedEditarTutorial: true };
     default:
       return state;
   }
