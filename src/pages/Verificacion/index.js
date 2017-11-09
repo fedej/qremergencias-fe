@@ -4,17 +4,36 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { TextField, RaisedButton } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import Joyride from 'react-joyride';
 import classnames from 'classnames';
 import SweetAlert from 'sweetalert-react';
 
 import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../Home';
+import { completeEditarTutorial } from '../../store/Auth';
 import { vincularPaciente } from '../../store/Paciente';
 import { isOnlyString } from '../../utils/validations';
 
+const steps = [
+  {
+    title: 'Ingrese el código que figura en la aplicación del paciente.',
+    textAlign: 'center',
+    selector: '#codigo',
+    position: 'left',
+  },
+  {
+    title: 'Confirme el código',
+    textAlign: 'center',
+    selector: '#verificar',
+    position: 'right',
+  },
+];
+
 class Verificacion extends React.Component {
   static propTypes = {
+    hasCompletedEditarTutorial: PropTypes.bool.isRequired,
+    doCompleteEditarTutorial: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -25,6 +44,7 @@ class Verificacion extends React.Component {
     token: '',
     error: '',
     showError: false,
+    step: 0,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,9 +69,22 @@ class Verificacion extends React.Component {
     }
   }
 
+  handleCallback = (data) => {
+    if (data.type === 'finished') {
+      this.props.doCompleteEditarTutorial();
+    }
+  }
+
   render() {
     return (
       <Home>
+        <Joyride
+          ref={(ref) => { this.joyride = ref; }}
+          steps={steps}
+          stepIndex={this.state.step}
+          run={!this.props.hasCompletedEditarTutorial}
+          callback={this.handleCallback}
+        />
         <div className={classnames('formCenter')}>
           <Card style={{ margin: '20px' }}>
             <CardTitle
@@ -60,6 +93,7 @@ class Verificacion extends React.Component {
             />
             <CardText>
               <TextField
+                id="codigo"
                 value={this.state.token}
                 onChange={(e, token) => this.setState({ token })}
                 errorText={this.state.nameError}
@@ -71,6 +105,7 @@ class Verificacion extends React.Component {
             </CardText>
             <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
               <RaisedButton
+                id="verificar"
                 label="Verificar"
                 onTouchTap={this.handleVerificarPaciente}
                 primary
@@ -99,7 +134,14 @@ function mapStateToProps(state) {
     error: state.paciente.error,
     isFetching: state.paciente.isFetching,
     editando: state.paciente.editando,
+    hasCompletedEditarTutorial: state.auth.hasCompletedEditarTutorial,
   };
 }
 
-export default connect(mapStateToProps)(Verificacion);
+function mapDispatchToProps(dispatch) {
+  return {
+    doCompleteEditarTutorial: () => dispatch(completeEditarTutorial()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Verificacion);
