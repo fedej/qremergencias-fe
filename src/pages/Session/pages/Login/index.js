@@ -113,7 +113,7 @@ class Login extends React.Component {
             />
             <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '2vh' }}>
               <FlatButton
-                label="Olvidaste tu contraseña?"
+                label="¿Olvidaste tu contraseña?"
                 onTouchTap={() => browserHistory.push('/forgotPassword')}
               />
             </div>
