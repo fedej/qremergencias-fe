@@ -82,9 +82,9 @@ export default class Medicaciones extends React.Component {
   handleDialogData = () => {
     const { name, description, amount, period, selectedIndex } = this.state;
 
-    if (isEmptyString(name) || stringHasNumbers(name)) {
-      this.setState({ nameError: 'Ingrese nombre.' });
-    } else if (isEmptyString(description) || stringHasNumbers(description)) {
+    if (isEmptyString(name)) {
+      this.setState({ nameError: 'Ingrese un nombre.' });
+    } else if (isEmptyString(description)) {
       this.setState({ nameError: '', descriptionError: 'Ingrese una descripción.' });
     } else if (isEmptyString(amount)) {
       this.setState({ nameError: '', descriptionError: '', amountError: 'Ingrese una cantidad.' });
@@ -227,7 +227,7 @@ export default class Medicaciones extends React.Component {
               errorText={this.state.amountError}
               onChange={(e, amount) => this.setState({ amount })}
               hintText="Cantidad"
-              type="number"
+              type="text"
               floatingLabelText="Cantidad"
               fullWidth
             />

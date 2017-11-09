@@ -13,7 +13,7 @@ import 'sweetalert/dist/sweetalert.css';
 import Home from '../Home';
 import { completeEditarTutorial } from '../../store/Auth';
 import { vincularPaciente } from '../../store/Paciente';
-import { isOnlyString } from '../../utils/validations';
+import { isOnlyNumber, isEmptyString, isValidDNI } from '../../utils/validations';
 
 const steps = [
   {
@@ -45,6 +45,8 @@ class Verificacion extends React.Component {
     error: '',
     showError: false,
     step: 0,
+    idNumber: '',
+    idNumberError: '',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,13 +61,14 @@ class Verificacion extends React.Component {
   }
 
   handleVerificarPaciente = () => {
-    if (this.state.token === '') {
-      this.setState({ error: 'Ingrese el código de verificación', showError: true });
-    } else if (isOnlyString(this.state.token)) {
-      this.setState({ error: 'Ingrese un código de verificaión válido', showError: true });
+    if (isEmptyString(this.state.idNumber) || !isValidDNI(this.state.idNumber)) {
+      this.setState({ tokenError: '', idNumberError: 'El DNI debe ser numérico' });
+    } else if (!isOnlyNumber(this.state.token)) {
+      this.setState({ idNumberError: '', tokenError: 'Ingrese un código de verificaión válido' });
     } else {
+      this.setState({ idNumberError: '', tokenError: '' });
       const { dispatch } = this.props;
-      dispatch(vincularPaciente(this.state.token));
+      dispatch(vincularPaciente('' + this.state.token + this.state.idNumber));
     }
   }
 
@@ -89,15 +92,24 @@ class Verificacion extends React.Component {
           <Card style={{ margin: '20px' }}>
             <CardTitle
               title="Verificar paciente"
-              subtitle="Necesitamos que ingreses el codigo de acceso para modificar los datos del paciente"
+              subtitle="Necesitamos que ingreses el código de verificación para modificar los datos del paciente"
             />
             <CardText>
+              <TextField
+                value={this.state.idNumber}
+                onChange={(e, idNumber) => this.setState({ idNumber })}
+                errorText={this.state.idNumberError}
+                hintText="Ingresá el DNI del paciente"
+                type="text"
+                floatingLabelText="DNI"
+                fullWidth
+              />
               <TextField
                 id="codigo"
                 value={this.state.token}
                 onChange={(e, token) => this.setState({ token })}
-                errorText={this.state.nameError}
-                hintText="Ingresa el código"
+                errorText={this.state.tokenError}
+                hintText="Ingresa el código de verificación"
                 type="text"
                 floatingLabelText="Código"
                 fullWidth

@@ -62,9 +62,7 @@ export default class Internaciones extends React.Component {
 
     if (isEmptyString(reason)) {
       this.setState({ reasonError: 'Ingrese tipo.' });
-    } else if (isEmptyString(institution)
-      || stringHasNumbers(institution)
-      || !isOnlyString(institution)) {
+    } else if (isEmptyString(institution)) {
       this.setState({ reasonError: '', institutionError: 'Ingrese una descripción válida.' });
     } else if (!date) {
       this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });
