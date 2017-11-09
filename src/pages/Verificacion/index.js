@@ -12,7 +12,7 @@ import 'sweetalert/dist/sweetalert.css';
 
 import Home from '../Home';
 import { completeEditarTutorial } from '../../store/Auth';
-import { vincularPaciente } from '../../store/Paciente';
+import { vincularPaciente, clearPacienteSiendoEditado } from '../../store/Paciente';
 import { isOnlyNumber, isEmptyString, isValidDNI } from '../../utils/validations';
 
 const steps = [
@@ -73,9 +73,16 @@ class Verificacion extends React.Component {
   }
 
   handleCallback = (data) => {
+    const { dispatch } = this.props;
     if (data.type === 'finished') {
-      this.props.doCompleteEditarTutorial();
+      dispatch(completeEditarTutorial());
     }
+  }
+
+  handleGoBack = () => {
+    const { dispatch } = this.props;
+    dispatch(clearPacienteSiendoEditado());
+    browserHistory.push('/homePage');
   }
 
   render() {
@@ -124,7 +131,7 @@ class Verificacion extends React.Component {
               />
               <RaisedButton
                 label="Volver"
-                onTouchTap={() => browserHistory.goBack()}
+                onTouchTap={this.handleGoBack}
                 primary
               />
             </CardActions>
@@ -150,10 +157,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    doCompleteEditarTutorial: () => dispatch(completeEditarTutorial()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Verificacion);
+export default connect(mapStateToProps)(Verificacion);

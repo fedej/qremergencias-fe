@@ -17,7 +17,6 @@ import Internaciones from './Internaciones';
 import Cirugias from './Cirugias';
 import Medicaciones from './Medicaciones';
 
-import { clearPacienteSiendoEditado } from '../../store/Paciente';
 import { fetchData, updateData } from '../../store/Datos';
 
 import Home from '../Home';
@@ -71,24 +70,23 @@ class DatosDeEmergencia extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
 
-    if (data.error) {
-      this.setState({ showMessage: true, messageTitle: 'Error', message: data.error });
-      Progress.hide();
-    } else if (data.uploaded) {
-      this.setState({
-        ...data,
-        showMessage: true,
-        messageTitle: 'Éxito',
-        message: this.state.qrUpdateRequired ? 'Los datos se han cargado con éxito. Recuérdale al paciente que debe regenerar el código QR.' : 'Los datos se han cargado con éxito',
-      });
-    } else {
-      this.setState(data);
-    }
-
     if (nextProps.isFetching && !this.props.isFetching) {
       Progress.show();
     } else {
       Progress.hide();
+      if (data.error) {
+        this.setState({ showMessage: true, messageTitle: 'Error', message: data.error });
+        Progress.hide();
+      } else if (data.uploaded) {
+        this.setState({
+          ...data,
+          showMessage: true,
+          messageTitle: 'Éxito',
+          message: this.state.qrUpdateRequired ? 'Los datos se han cargado con éxito. Recuérdale al paciente que debe regenerar el código QR.' : 'Los datos se han cargado con éxito',
+        });
+      } else {
+        this.setState(data);
+      }
     }
   }
 
@@ -140,12 +138,6 @@ class DatosDeEmergencia extends React.Component {
 
   handleSuccessCallback = () => {
     this.setState({ showMessage: false, qrUpdateRequired: false });
-  }
-
-  handleGoBack = () => {
-    const { dispatch } = this.props;
-    dispatch(clearPacienteSiendoEditado());
-    browserHistory.goBack();
   }
 
   render() {
@@ -210,7 +202,7 @@ class DatosDeEmergencia extends React.Component {
                 />
                 <RaisedButton
                   label="Volver"
-                  onTouchTap={this.handleGoBack}
+                  onTouchTap={() => browserHistory.goBack()}
                   primary
                 />
               </CardActions>
