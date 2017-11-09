@@ -45,7 +45,7 @@ export const logIn = creds => (dispatch) => {
         return dispatch(loginError(err.response.body.message));
       }
 
-      return dispatch(loginError('Error al iniciar sesion'));
+      return dispatch(loginError('Error al iniciar sesión. No se pudo contectar al servidor.'));
     });
 };
 
@@ -121,7 +121,7 @@ export const signUp = creds => (dispatch) => {
         if (err.response && err.response.body) {
           dispatch(registerError(err.response.body.message));
         } else {
-          dispatch(registerError('No se pudo contectar al servidor'));
+          dispatch(registerError('Error al registrarse. No se pudo contectar al servidor.'));
         }
       });
   }

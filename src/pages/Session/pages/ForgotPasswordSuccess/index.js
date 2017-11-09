@@ -22,11 +22,11 @@ export default class RegisterSuccess extends React.Component {
     return (
       <div className={classnames('formCenter', 'formSuccess')}>
         <Card>
-          <CardTitle title="Revisa tu mail" />
+          <CardTitle title="Revisá tu email" />
           <CardText style={{ textAlign: 'center' }}>
             <img src={icon} alt="Logo" />
             <p style={{ marginTop: '20px' }}>
-              Te enviamos un mail con instrucciones para restablecer tu contraseña
+              Te enviamos un email con instrucciones para restablecer tu contraseña
             </p>
           </CardText>
         </Card>

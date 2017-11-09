@@ -177,7 +177,7 @@ class Register extends React.Component {
         </Card>
         <SweetAlert
           show={this.state.showError}
-          title="Error al registrarse"
+          title="Error"
           text={this.props.auth.error}
           onConfirm={() => this.setState({ showError: false })}
         />

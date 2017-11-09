@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import { TextField, RaisedButton, FlatButton, Dialog } from 'material-ui';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import classnames from 'classnames';
+import SweetAlert from 'sweetalert-react';
 
 import UserService from '../../../../utils/api/User';
 import { isValidEmail } from '../../../../utils/validations';
@@ -14,7 +15,7 @@ export default class ForgotPassword extends React.Component {
   state = {
     email: '',
     emailError: '',
-    modalOpen: false,
+    showError: false,
     error: '',
   }
 
@@ -27,12 +28,14 @@ export default class ForgotPassword extends React.Component {
         username: email,
       };
 
+      this.setState({ emailError: '' });
+
       UserService.restorePassword(data)
         .then(() => browserHistory.push('/forgotPasswordSuccess'))
-        .catch((err) => {
+        .catch(() => {
           this.setState({
-            modalOpen: true,
-            error: err.message,
+            showError: true,
+            error: 'Error al restablecer contraseña. No se pudo contectar al servidor.',
           });
         });
     } else {
@@ -40,19 +43,7 @@ export default class ForgotPassword extends React.Component {
     }
   }
 
-  handleClose = () => {
-    this.setState({ modalOpen: false });
-  }
-
   render() {
-    const actions = [
-      <FlatButton
-        label="Ok"
-        primary
-        onTouchTap={this.handleClose}
-      />,
-    ];
-
     return (
       <div className={classnames('homeBackground', 'formCenter')}>
         <Card>
@@ -84,15 +75,12 @@ export default class ForgotPassword extends React.Component {
             </div>
           </CardActions>
         </Card>
-        <Dialog
+        <SweetAlert
+          show={this.state.showError}
           title="Error"
-          actions={actions}
-          modal={false}
-          open={this.state.modalOpen}
-          onRequestClose={this.handleClose}
-        >
-          {this.state.error}
-        </Dialog>
+          text={this.state.error}
+          onConfirm={() => this.setState({ showError: false })}
+        />
       </div>
     );
   }
