@@ -11,7 +11,7 @@ import SweetAlert from 'sweetalert-react';
 import 'sweetalert/dist/sweetalert.css';
 
 import { signUp } from '../../../../store/Auth';
-import { isValidEmail, isValidPassword, isValidMatricula } from '../../../../utils/validations';
+import { isValidEmail, isValidPassword, isValidMatricula, hasEmptyStringProperties } from '../../../../utils/validations';
 import './styles.css';
 
 class Register extends React.Component {
@@ -32,7 +32,7 @@ class Register extends React.Component {
     passwordError: '',
     registrationNumber: '',
     registrationNumberError: '',
-    fileError: '',
+    evidenceError: '',
   }
 
   componentWillMount() {
@@ -56,23 +56,19 @@ class Register extends React.Component {
 
   handleRegister = () => {
     const { email, password, esMedico, registrationNumber } = this.state;
+    const errores = {};
 
-    if (email === '' || !isValidEmail(email)) {
-      this.setState({ emailError: 'Ingrese una dirección de mail válida.' });
-    } else if (password === '' || !isValidPassword(password)) {
-      this.setState({ emailError: '', passwordError: 'Ingrese una contraseña válida.' });
-    } else if (esMedico && (registrationNumber === '' || !isValidMatricula(registrationNumber))) {
-      this.setState({ emailError: '', passwordError: '', registrationNumberError: 'Ingrese una matrícula válida.' });
-    } else if (esMedico && !this.fileInput.files[0]) {
-      this.setState({
-        emailError: '',
-        passwordError: '',
-        registrationNumberError: '',
-        evidenceError: 'Debe ingresar la evidencia que verifique que usted es médico.',
-      });
-    } else {
-      this.setState({ emailError: '', passwordError: '', registrationNumberError: '', evidenceError: '' });
+    errores.emailError = (email === '' || !isValidEmail(email)) ?
+      'Ingrese una dirección de mail válida.' : '';
+    errores.passwordError = (password === '' || !isValidPassword(password)) ?
+      'Ingrese una contraseña válida.' : '';
+    errores.registrationNumberError = (esMedico && (registrationNumber === '' || !isValidMatricula(registrationNumber))) ?
+      'Ingrese una matrícula válida.' : '';
+    errores.evidenceError = (esMedico && !this.fileInput.files[0]) ?
+      'Debe ingresar la evidencia que verifique que usted es médico.' : '';
 
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       const { dispatch } = this.props;
       const role = esMedico ? 'ROLE_MEDICO' : 'ROLE_PACIENTE';
       let file = null;

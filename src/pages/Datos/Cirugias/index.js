@@ -16,7 +16,7 @@ import Dialog from 'material-ui/Dialog';
 
 import {
   isEmptyString,
-  isOnlyString,
+  hasEmptyStringProperties,
 } from '../../../utils/validations';
 import { correctDate } from '../../../utils/dateformat';
 
@@ -57,16 +57,17 @@ export default class Cirugias extends React.Component {
 
   handleDialogData = () => {
     const { date, reason, institution, selectedIndex } = this.state;
+    const errores = {};
 
-    if (isEmptyString(reason)) {
-      this.setState({ reasonError: 'Ingrese tipo.' });
-    } else if (isEmptyString(institution)) {
-      this.setState({ reasonError: '', institutionError: 'Ingrese un establecimiento válido.' });
-    } else if (!date) {
-      this.setState({ reasonError: '', institutionError: '', dateError: 'Ingrese una fecha.' });
-    } else {
-      this.setState({ reasonError: '', institutionError: '', dateError: '' });
+    errores.reasonError = (isEmptyString(reason)) ?
+      'Ingrese tipo.' : '';
+    errores.institutionError = (isEmptyString(institution)) ?
+      'Ingrese un establecimiento válido.' : '';
+    errores.dateError = (!date) ?
+      'Ingrese una fecha.' : '';
 
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       let surgeries = this.props.surgeries.slice();
 
       if (selectedIndex === '') {

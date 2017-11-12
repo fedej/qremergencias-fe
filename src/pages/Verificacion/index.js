@@ -13,7 +13,7 @@ import 'sweetalert/dist/sweetalert.css';
 import Home from '../Home';
 import { completeEditarTutorial } from '../../store/Auth';
 import { vincularPaciente, clearPacienteSiendoEditado } from '../../store/Paciente';
-import { isOnlyNumber, isEmptyString, isValidDNI } from '../../utils/validations';
+import { isOnlyNumber, isEmptyString, isValidDNI, hasEmptyStringProperties } from '../../utils/validations';
 
 const steps = [
   {
@@ -61,12 +61,15 @@ class Verificacion extends React.Component {
   }
 
   handleVerificarPaciente = () => {
-    if (isEmptyString(this.state.idNumber) || !isValidDNI(this.state.idNumber)) {
-      this.setState({ tokenError: '', idNumberError: 'El DNI debe ser numérico' });
-    } else if (!isOnlyNumber(this.state.token)) {
-      this.setState({ idNumberError: '', tokenError: 'Ingrese un código de verificaión válido' });
-    } else {
-      this.setState({ idNumberError: '', tokenError: '' });
+    const errores = {};
+
+    errores.idNumberError = (isEmptyString(this.state.idNumber) || !isValidDNI(this.state.idNumber)) ? 
+      'El DNI debe ser numérico' : '';
+    errores.tokenError = (!isOnlyNumber(this.state.token)) ?
+      'Ingrese un código de verificaión válido' : '';
+
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       const { dispatch } = this.props;
       dispatch(vincularPaciente('' + this.state.token + this.state.idNumber));
     }
