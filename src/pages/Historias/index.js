@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
+import moment from 'moment';
 import { browserHistory } from 'react-router';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, DatePicker, TextField } from 'material-ui';
 import classnames from 'classnames';
 import 'react-progress-2/main.css';
 import '../../assets/styles/bootstrap.min.css';
@@ -14,6 +15,19 @@ import Home from '../Home';
 import HistoriaClinica from './components/HistoriaClinica';
 
 import { fetchHistoriasClinicas } from '../../store/Historias';
+
+
+function validarFechaDesde(fecha, fechaHasta) {
+  if (fechaHasta) {
+    return fecha > fechaHasta;
+  }
+
+  return fecha > moment().utc().toDate();
+}
+
+function validarFechaHasta(fecha) {
+  return fecha > moment().utc().toDate();
+}
 
 class Historias extends React.Component {
   static defaultProps = {
@@ -38,6 +52,11 @@ class Historias extends React.Component {
     historias: [],
     page: 0,
     itemsPerPage: 2,
+    filters: {
+      fechaDesde: null,
+      fechaHasta: null,
+      nombreHistoria: '',
+    },
   }
 
   componentWillMount() {
@@ -69,11 +88,84 @@ class Historias extends React.Component {
     const page = data.selected;
     this.setState({ page }, () =>
       this.props.doFetchHistoriasClinicas(this.state.page, this.state.itemsPerPage));
-  };
+  }
+
+  handleChangeFilter(tipoFiltro, e, value) {
+    // TODO: validar formato de fechas
+    switch (tipoFiltro) {
+      case 'desde': {
+        const { page, itemsPerPage, filters } = this.state;
+        this.setState({ filters: { ...filters, fechaDesde: value } },
+          this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
+          break;
+      }
+      case 'hasta': {
+        const { page, itemsPerPage, filters } = this.state;
+        if (filters.fechaDesde && filters.fechaDesde > value) {
+          this.setState({ filters: { ...filters, fechaDesde: null, fechaHasta: value } },
+            this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
+        } else {
+          this.setState({ filters: { ...filters, fechaHasta: value } },
+            this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
+        }
+          break;
+      }
+      case 'nombreHistoria': {
+        const { page, itemsPerPage, filters } = this.state;
+        this.setState({ filters: { ...filters, nombreHistoria: value } },
+          this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
+          break;
+      }
+    }
+  }
 
   render() {
+    const ElementRight = (
+      <div>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <div>
+            <TextField
+              hintText="Nombre del Estudio..."
+              hintStyle={{ color: 'white' }}
+              inputStyle={{ color: 'white' }}
+              onChange={this.handleChangeFilter.bind(this, 'nombreHistoria')}
+              value={this.state.filters.nombreHistoria}
+            />
+          </div>
+          <div>
+            <DatePicker
+              style={{ marginLeft: '10px' }}
+              textFieldStyle={{ width: null }}
+              inputStyle={{ color: 'white' }}
+              hintText="desde"
+              hintStyle={{ color: 'white' }}
+              DateTimeFormat={Intl.DateTimeFormat}
+              locale="es-ES"
+              shouldDisableDate={(fecha) => validarFechaDesde(fecha, this.state.filters.fechaHasta)}
+              onChange={this.handleChangeFilter.bind(this, 'desde')}
+              value={this.state.filters.fechaDesde}
+            />
+          </div>
+          <div>
+            <DatePicker
+              style={{ marginLeft: '10px' }}
+              textFieldStyle={{ width: null }}
+              inputStyle={{ color: 'white' }}
+              hintText="hasta"
+              hintStyle={{ color: 'white' }}
+              DateTimeFormat={Intl.DateTimeFormat}
+              locale="es-ES"
+              shouldDisableDate={validarFechaHasta}
+              onChange={this.handleChangeFilter.bind(this, 'hasta')}
+              value={this.state.filters.fechaHasta}
+            />
+          </div>
+        </div>
+      </div>
+    )
+
     return (
-      <Home>
+      <Home navElementRight={ElementRight}>
         <div>
           <Progress.Component
             style={{ background: 'white' }}

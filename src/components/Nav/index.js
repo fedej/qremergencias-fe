@@ -27,7 +27,17 @@ class NavComponent extends Component {
   }
 
   render() {
-    const { title, username } = this.props;
+    const { title, username, elementRight } = this.props;
+
+    if (elementRight) {
+      return (
+        <AppBar
+          title={title}
+          onLeftIconButtonTouchTap={this.handleToggleDrawer}
+          iconElementRight={elementRight}
+        />
+      )
+    }
 
     return (
       <AppBar
