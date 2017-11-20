@@ -284,7 +284,7 @@ export default class EmergencyDataControllerApi {
 
       let authNames = [];
       let contentTypes = ['application/json'];
-      let accepts = ['image/png'];
+      let accepts = ['*/*'];
       let returnType = File;
 
       return this.apiClient.callApi(
@@ -301,6 +301,55 @@ export default class EmergencyDataControllerApi {
      */
     getQRUsingGET(user) {
       return this.getQRUsingGETWithHttpInfo(user)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * getQR
+     * @param {String} user user
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link File} and HTTP response
+     */
+    getQRUsingHEADWithHttpInfo(user) {
+      let postBody = null;
+
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling getQRUsingHEAD");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'user': user
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = File;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/qr', 'HEAD',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * getQR
+     * @param {String} user user
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link File}
+     */
+    getQRUsingHEAD(user) {
+      return this.getQRUsingHEADWithHttpInfo(user)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

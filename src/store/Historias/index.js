@@ -82,10 +82,10 @@ export const fetchHistoriasClinicasDePaciente = (id, token, page, size) => (disp
     .catch(err => dispatch(historiasError(err.message)));
 };
 
-export const fetchHistoriasClinicas = (page, itemsPerPage) => (dispatch) => {
+export const fetchHistoriasClinicas = (page, itemsPerPage, filters) => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.list(page, itemsPerPage)
+  HistoriasService.list(page, itemsPerPage, filters)
     .then((records) => {
       const { totalPages, content } = records;
       const historias = content.map((h) => {

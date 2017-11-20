@@ -15,6 +15,7 @@ import Home from '../Home';
 import HistoriaClinica from './components/HistoriaClinica';
 
 import { fetchHistoriasClinicas } from '../../store/Historias';
+import { correctDate } from '../../utils/dateformat';
 
 
 function validarFechaDesde(fecha, fechaHasta) {
@@ -87,34 +88,51 @@ class Historias extends React.Component {
   handlePageClick = (data) => {
     const page = data.selected;
     this.setState({ page }, () =>
-      this.props.doFetchHistoriasClinicas(this.state.page, this.state.itemsPerPage));
+      this.props.doFetchHistoriasClinicas(this.state.page, this.state.itemsPerPage, { ...this.state.filters }));
+  }
+
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  }
+
+  toLocalDate = (date) => {
+    if (!date) {
+      return null;
+    }
+    const string = moment(date).format('YYYY-MM-DD');
+    return string;
   }
 
   handleChangeFilter(tipoFiltro, e, value) {
     // TODO: validar formato de fechas
     switch (tipoFiltro) {
       case 'desde': {
-        const { page, itemsPerPage, filters } = this.state;
-        this.setState({ filters: { ...filters, fechaDesde: value } },
-          this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
-          break;
+        const { itemsPerPage, filters } = this.state;
+        this.setState({ page: 0, filters: { ...filters, fechaDesde: value } },
+          this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+            { ...this.state.filters, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(value) }));
+        break;
       }
       case 'hasta': {
-        const { page, itemsPerPage, filters } = this.state;
+        const { itemsPerPage, filters } = this.state;
         if (filters.fechaDesde && filters.fechaDesde > value) {
-          this.setState({ filters: { ...filters, fechaDesde: null, fechaHasta: value } },
-            this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
+          this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } },
+            this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+              { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         } else {
-          this.setState({ filters: { ...filters, fechaHasta: value } },
-            this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
+          this.setState({ page: 0, filters: { ...filters, fechaHasta: value } },
+            this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+              { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         }
-          break;
+        break;
       }
       case 'nombreHistoria': {
-        const { page, itemsPerPage, filters } = this.state;
-        this.setState({ filters: { ...filters, nombreHistoria: value } },
-          this.props.doFetchHistoriasClinicas(page, itemsPerPage, this.state.filters));
-          break;
+        const { itemsPerPage, filters } = this.state;
+        this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } },
+          this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+            { ...this.state.filters, nombreHistoria: value, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
+        break;
       }
     }
   }
@@ -140,10 +158,11 @@ class Historias extends React.Component {
               hintText="desde"
               hintStyle={{ color: 'white' }}
               DateTimeFormat={Intl.DateTimeFormat}
+              formatDate={this.formatDate}
               locale="es-ES"
               shouldDisableDate={(fecha) => validarFechaDesde(fecha, this.state.filters.fechaHasta)}
               onChange={this.handleChangeFilter.bind(this, 'desde')}
-              value={this.state.filters.fechaDesde}
+              value={correctDate(this.state.filters.fechaDesde)}
             />
           </div>
           <div>
@@ -154,10 +173,11 @@ class Historias extends React.Component {
               hintText="hasta"
               hintStyle={{ color: 'white' }}
               DateTimeFormat={Intl.DateTimeFormat}
+              formatDate={this.formatDate}
               locale="es-ES"
               shouldDisableDate={validarFechaHasta}
               onChange={this.handleChangeFilter.bind(this, 'hasta')}
-              value={this.state.filters.fechaHasta}
+              value={correctDate(this.state.filters.fechaHasta)}
             />
           </div>
         </div>
@@ -193,21 +213,25 @@ class Historias extends React.Component {
                   />
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ReactPaginate
-                  previousLabel="previous"
-                  nextLabel="next"
-                  breakLabel={<a href="">...</a>}
-                  breakClassName="break-me"
-                  pageCount={this.props.totalPages}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={5}
-                  onPageChange={this.handlePageClick}
-                  containerClassName="pagination"
-                  subContainerClassName="pages pagination"
-                  activeClassName="active"
-                />
-              </div>
+              {
+                this.props.totalPages > 1 ? (
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <ReactPaginate
+                      previousLabel="previous"
+                      nextLabel="next"
+                      breakLabel={<a href="">...</a>}
+                      breakClassName="break-me"
+                      pageCount={this.props.totalPages}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={this.handlePageClick}
+                      containerClassName="pagination"
+                      subContainerClassName="pages pagination"
+                      activeClassName="active"
+                    />
+                  </div>
+              ) : ''
+              }
             </div>
           ) : (
             <div style={{ padding: '20px' }}>
@@ -236,8 +260,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  doFetchHistoriasClinicas: (page, itemsPerPage) =>
-    dispatch(fetchHistoriasClinicas(page, itemsPerPage)),
+  doFetchHistoriasClinicas: (page, itemsPerPage, filters) =>
+    dispatch(fetchHistoriasClinicas(page, itemsPerPage, filters)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Historias);

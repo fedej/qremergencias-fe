@@ -37,7 +37,7 @@ export default class TempCodeControllerApi {
 
     /**
      * verifyTempCode
-     * @param {Number} tempCode tempCode
+     * @param {String} tempCode tempCode
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link 'String'} and HTTP response
      */
     verifyTempCodeUsingGETWithHttpInfo(tempCode) {
@@ -73,7 +73,7 @@ export default class TempCodeControllerApi {
 
     /**
      * verifyTempCode
-     * @param {Number} tempCode tempCode
+     * @param {String} tempCode tempCode
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link 'String'}
      */
     verifyTempCodeUsingGET(tempCode) {
