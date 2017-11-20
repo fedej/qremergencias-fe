@@ -197,6 +197,9 @@ export default class MedicalRecordControllerApi {
     /**
      * listMyRecords
      * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
      * @param {Number} opts.page Results page you want to retrieve (0..N)
      * @param {Number} opts.size Number of records per page
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -210,6 +213,9 @@ export default class MedicalRecordControllerApi {
       let pathParams = {
       };
       let queryParams = {
+        'text': opts['text'],
+        'from': opts['from'],
+        'to': opts['to'],
         'page': opts['page'],
         'size': opts['size'],
         'sort': this.apiClient.buildCollectionParam(opts['sort'], 'multi')
@@ -234,6 +240,9 @@ export default class MedicalRecordControllerApi {
     /**
      * listMyRecords
      * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
      * @param {Number} opts.page Results page you want to retrieve (0..N)
      * @param {Number} opts.size Number of records per page
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -251,6 +260,9 @@ export default class MedicalRecordControllerApi {
      * listPatientRecords
      * @param {String} username username
      * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
      * @param {Number} opts.page Results page you want to retrieve (0..N)
      * @param {Number} opts.size Number of records per page
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -270,6 +282,9 @@ export default class MedicalRecordControllerApi {
       };
       let queryParams = {
         'username': username,
+        'text': opts['text'],
+        'from': opts['from'],
+        'to': opts['to'],
         'page': opts['page'],
         'size': opts['size'],
         'sort': this.apiClient.buildCollectionParam(opts['sort'], 'multi')
@@ -295,6 +310,9 @@ export default class MedicalRecordControllerApi {
      * listPatientRecords
      * @param {String} username username
      * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
      * @param {Number} opts.page Results page you want to retrieve (0..N)
      * @param {Number} opts.size Number of records per page
      * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
