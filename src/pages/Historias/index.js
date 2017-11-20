@@ -109,34 +109,22 @@ class Historias extends React.Component {
     // TODO: validar formato de fechas
     switch (tipoFiltro) {
       case 'desde': {
-        const { itemsPerPage, filters } = this.state;
+        const { filters } = this.state;
         this.setState({ page: 0, filters: { ...filters, fechaDesde: value } });
-        // this.setState({ page: 0, filters: { ...filters, fechaDesde: value } },
-        //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-        //     { ...this.state.filters, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(value) }));
         break;
       }
       case 'hasta': {
-        const { itemsPerPage, filters } = this.state;
+        const { filters } = this.state;
         if (filters.fechaDesde && filters.fechaDesde > value) {
           this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } });
-          // this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } },
-          //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-          //     { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         } else {
           this.setState({ page: 0, filters: { ...filters, fechaHasta: value } });
-          // this.setState({ page: 0, filters: { ...filters, fechaHasta: value } },
-          //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-          //     { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         }
         break;
       }
       case 'nombreHistoria': {
-        const { itemsPerPage, filters } = this.state;
+        const { filters } = this.state;
         this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } });
-        // this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } },
-        //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-        //     { ...this.state.filters, nombreHistoria: value, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         break;
       }
     }
@@ -220,7 +208,7 @@ class Historias extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
 
     return (
       <Home navElementRight={ElementRight}>
