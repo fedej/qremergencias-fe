@@ -65,10 +65,10 @@ function deleteHistoria() {
   };
 }
 
-export const fetchHistoriasClinicasDePaciente = (id, token, page, size) => (dispatch) => {
+export const fetchHistoriasClinicasDePaciente = (id, token, page, size, filters) => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.listByUser(id, token, page, size)
+  HistoriasService.listByUser(id, token, page, size, filters)
     .then((records) => {
       const { totalPages, content } = records;
       const historias = content.map((h) => {
