@@ -6,6 +6,8 @@ import Progress from 'react-progress-2';
 import moment from 'moment';
 import { browserHistory } from 'react-router';
 import { RaisedButton, DatePicker, TextField } from 'material-ui';
+import MdSearch from 'react-icons/lib/md/search';
+import MdClear from 'react-icons/lib/md/clear';
 import classnames from 'classnames';
 import 'react-progress-2/main.css';
 import '../../assets/styles/bootstrap.min.css';
@@ -43,7 +45,6 @@ class Historias extends React.Component {
       text: PropTypes.string,
       files: PropTypes.array,
     })),
-    dispatch: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     doFetchHistoriasClinicas: PropTypes.func.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -109,32 +110,56 @@ class Historias extends React.Component {
     switch (tipoFiltro) {
       case 'desde': {
         const { itemsPerPage, filters } = this.state;
-        this.setState({ page: 0, filters: { ...filters, fechaDesde: value } },
-          this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-            { ...this.state.filters, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(value) }));
+        this.setState({ page: 0, filters: { ...filters, fechaDesde: value } });
+        // this.setState({ page: 0, filters: { ...filters, fechaDesde: value } },
+        //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+        //     { ...this.state.filters, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(value) }));
         break;
       }
       case 'hasta': {
         const { itemsPerPage, filters } = this.state;
         if (filters.fechaDesde && filters.fechaDesde > value) {
-          this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } },
-            this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-              { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
+          this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } });
+          // this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } },
+          //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+          //     { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         } else {
-          this.setState({ page: 0, filters: { ...filters, fechaHasta: value } },
-            this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-              { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
+          this.setState({ page: 0, filters: { ...filters, fechaHasta: value } });
+          // this.setState({ page: 0, filters: { ...filters, fechaHasta: value } },
+          //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+          //     { ...this.state.filters, fechaHasta: this.toLocalDate(value), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         }
         break;
       }
       case 'nombreHistoria': {
         const { itemsPerPage, filters } = this.state;
-        this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } },
-          this.props.doFetchHistoriasClinicas(0, itemsPerPage,
-            { ...this.state.filters, nombreHistoria: value, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
+        this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } });
+        // this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } },
+        //   this.props.doFetchHistoriasClinicas(0, itemsPerPage,
+        //     { ...this.state.filters, nombreHistoria: value, fechaHasta: this.toLocalDate(this.state.filters.fechaHasta), fechaDesde: this.toLocalDate(this.state.filters.fechaDesde) }));
         break;
       }
     }
+  }
+
+  handleDoSearch = () => {
+    const { itemsPerPage, filters } = this.state;
+
+    this.props.doFetchHistoriasClinicas(0, itemsPerPage, {
+      ...filters,
+      fechaDesde: filters.fechaDesde ? this.toLocalDate(filters.fechaDesde) : null,
+      fechaHasta: filters.fechaHasta ? this.toLocalDate(filters.fechaHasta) : null,
+    });
+  }
+
+  handleClearFilters = () => {
+    this.setState({
+      filters: {
+        fechaDesde: null,
+        fechaHasta: null,
+        nombreHistoria: '',
+      },
+    }, this.handleDoSearch);
   }
 
   render() {
@@ -178,6 +203,19 @@ class Historias extends React.Component {
               shouldDisableDate={validarFechaHasta}
               onChange={this.handleChangeFilter.bind(this, 'hasta')}
               value={correctDate(this.state.filters.fechaHasta)}
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <MdSearch
+              size={30}
+              style={{ color: 'white', cursor: 'pointer' }}
+              onClick={this.handleDoSearch}
+            />
+            <MdClear
+              alt="Limpiar Filtros"
+              size={30}
+              style={{ color: 'white', cursor: 'pointer' }}
+              onClick={this.handleClearFilters}
             />
           </div>
         </div>
