@@ -26,40 +26,54 @@ export default class Generales extends React.Component {
   render() {
     const general = this.props.general;
     return (
-      <div className={classnames('formCenter')}>
-        <Card style={{ margin: '20px', padding: '10px' }}>
-          <CardTitle title="Datos generales de emergencia" />
-          <CardText>
-            <p>Grupo Sanguineo: {general.bloodType}</p>
-            <TextField
-              type="text"
-              disabled
-              value={moment.utc(general.lastMedicalCheck).format('DD / MM / YYYY')}
-              floatingLabelText="Último chequeo médico"
-              floatingLabelFixed
-            />
-            <Checkbox
-              checked={general.organDonor}
-              label="¿Es donante de órganos?"
-              disabled
-            />
-            <Checkbox
-              label="¿Es alérgico?"
-              checked={general.allergic}
-              disabled
-            />
-            <br />
-            {
-              general.allergies ? general.allergies.map((texto, i) => (
-                <Chip key={i} style={{ float: 'left', marginRight: '3px' }}>
-                  {texto}
-                </Chip>
-              )) : ''
-            }
-            <br />
-          </CardText>
-        </Card>
-      </div>
+      general && Object.keys(general).length ? (
+        <div className={classnames('formCenter')}>
+          <Card style={{ margin: '20px', padding: '10px' }}>
+            <CardTitle title="Datos generales de emergencia" />
+            <CardText>
+              <p>Grupo Sanguineo: {general.bloodType}</p>
+              <TextField
+                type="text"
+                disabled
+                value={moment.utc(general.lastMedicalCheck).format('DD / MM / YYYY')}
+                floatingLabelText="Último chequeo médico"
+                floatingLabelFixed
+              />
+              <Checkbox
+                checked={general.organDonor}
+                label="¿Es donante de órganos?"
+                disabled
+              />
+              <Checkbox
+                label="¿Es alérgico?"
+                checked={general.allergic}
+                disabled
+              />
+              <br />
+              {
+                general.allergies ? general.allergies.map((texto, i) => (
+                  <Chip key={i} style={{ float: 'left', marginRight: '3px' }}>
+                    {texto}
+                  </Chip>
+                )) : ''
+              }
+              <br />
+            </CardText>
+          </Card>
+        </div>) : (
+          <div>
+            <div className={classnames('formCenter')}>
+              <h2>¡Parece ser que aún no tenés datos generales cargados!</h2>
+            </div>
+            <div className={classnames('formCenter')}>
+              <h2>Aquí podrás ver el listado de datos generales </h2>
+            </div>
+            <div className={classnames('formCenter')}>
+              <h2>a medida que los vaya cargando un médico autorizado.</h2>
+            </div>
+          </div>
+
+        )
     );
   }
 }

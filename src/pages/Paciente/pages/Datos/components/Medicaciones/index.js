@@ -46,35 +46,49 @@ export default class Medicaciones extends React.Component {
     const medications = this.props.medications;
 
     return (
-      <div className={classnames('formCenter')}>
-        <Card style={{ margin: '20px' }}>
-          <CardTitle title="Medicaciones" />
-          <CardText>
-            <Table onRowSelection={this.handleRowSelection}>
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn>Nombre</TableHeaderColumn>
-                  <TableHeaderColumn>Descripción</TableHeaderColumn>
-                  <TableHeaderColumn>Cantidad</TableHeaderColumn>
-                  <TableHeaderColumn>Período</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {
-                  medications && medications.length && medications.map((m, i) =>
-                    (<TableRow key={i}>
-                      <TableRowColumn>{m.name}</TableRowColumn>
-                      <TableRowColumn>{m.description}</TableRowColumn>
-                      <TableRowColumn>{m.amount}</TableRowColumn>
-                      <TableRowColumn>{periodsMapping[m.period]}</TableRowColumn>
-                    </TableRow>),
-                  )
-                }
-              </TableBody>
-            </Table>
-          </CardText>
-        </Card>
-      </div>
+      medications && medications.length ? (
+        <div className={classnames('formCenter')}>
+          <Card style={{ margin: '20px' }}>
+            <CardTitle title="Medicaciones" />
+            <CardText>
+              <Table onRowSelection={this.handleRowSelection}>
+                <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                  <TableRow>
+                    <TableHeaderColumn>Nombre</TableHeaderColumn>
+                    <TableHeaderColumn>Descripción</TableHeaderColumn>
+                    <TableHeaderColumn>Cantidad</TableHeaderColumn>
+                    <TableHeaderColumn>Período</TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody displayRowCheckbox={false}>
+                  {
+                    medications && medications.length && medications.map((m, i) =>
+                      (<TableRow key={i}>
+                        <TableRowColumn>{m.name}</TableRowColumn>
+                        <TableRowColumn>{m.description}</TableRowColumn>
+                        <TableRowColumn>{m.amount}</TableRowColumn>
+                        <TableRowColumn>{periodsMapping[m.period]}</TableRowColumn>
+                      </TableRow>),
+                    )
+                  }
+                </TableBody>
+              </Table>
+            </CardText>
+          </Card>
+        </div>) : (
+          <div>
+            <div className={classnames('formCenter')}>
+              <h2>¡Parece ser que aún no tenés medicaciones cargadas!</h2>
+            </div>
+            <div className={classnames('formCenter')}>
+              <h2>Aquí podrás ver el listado de medicaciones </h2>
+            </div>
+            <div className={classnames('formCenter')}>
+              <h2>a medida que las vaya cargando un médico autorizado.</h2>
+            </div>
+          </div>
+
+        )
     );
   }
 }
