@@ -18,7 +18,7 @@ import SelectField from 'material-ui/SelectField';
 
 import {
   isEmptyString,
-  stringHasNumbers,
+  hasEmptyStringProperties,
 } from '../../../utils/validations';
 
 import { correctDate } from '../../../utils/dateformat';
@@ -72,21 +72,23 @@ export default class Patologias extends React.Component {
 
   handleDialogData = () => {
     const { type, description, date, selectedIndex } = this.state;
+    const errores = {};
 
-    if (isEmptyString(type)) {
-      this.setState({ typeError: 'Ingrese tipo.' });
-    } else if (type === 'otro' && isEmptyString(description)) {
-      this.setState({ typeError: '', descriptionError: 'Ingrese una descripción.' });
-    } else if (!date) {
-      this.setState({ typeError: '', descriptionError: '', dateError: 'Ingrese una fecha.' });
-    } else if (this.checkDuplicate(type, description, selectedIndex, this.props.pathologies)) {
-      this.setState({
-        typeError: (type !== 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '',
-        descriptionError: (type === 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : ''
-      });
-    } else {
-      this.setState({ typeError: '', descriptionError: '', dateError: '' });
+    errores.typeError = (isEmptyString(type)) ?
+      'Ingrese tipo.' : '';
+    errores.descriptionError = (type === 'otro' && isEmptyString(description)) ?
+      'Ingrese una descripción.' : '';
+    errores.dateError = (!date) ?
+      'Ingrese una fecha.' : '';
+    if (errores.nameError === '' && errores.descriptionError === '') {
+      if (this.checkDuplicate(type, description, selectedIndex, this.props.pathologies)) {
+        errores.typeError = (type !== 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '';
+        errores.descriptionError = (type === 'otro') ? 'La patología ya fue agregada, por favor ingrese otra' : '';
+      }
+    }
 
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       const pathos = this.props.pathologies.slice();
 
       if (selectedIndex === '') {

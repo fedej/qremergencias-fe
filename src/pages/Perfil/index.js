@@ -30,6 +30,7 @@ import {
   isEmptyString,
   isOnlyString,
   stringHasNumbers,
+  hasEmptyStringProperties,
 } from '../../utils/validations';
 import Home from '../Home';
 
@@ -205,16 +206,17 @@ class Perfil extends React.Component {
       contactPrimary,
       selectedIndex,
     } = this.state;
+    const errores = {};
 
-    if (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName) || contactFirstName.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ contactFirstNameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(contactLastName) || stringHasNumbers(contactLastName) || contactLastName.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ contactFirstNameError: '', contactLastNameError: 'Ingrese un apellido válido.' });
-    } else if (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) {
-      this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: 'Ingrese un teléfono válido.' });
-    } else {
-      this.setState({ contactFirstNameError: '', contactLastNameError: '', contactPhoneNumberError: '' });
+    errores.contactFirstNameError = (isEmptyString(contactFirstName) || stringHasNumbers(contactFirstName) || contactFirstName.trim().split(' ').some(s => !isOnlyString(s))) ?
+      'Ingrese un nombre válido.' : '';
+    errores.contactLastNameError = (isEmptyString(contactLastName) || stringHasNumbers(contactLastName) || contactLastName.trim().split(' ').some(s => !isOnlyString(s))) ?
+      'Ingrese un apellido válido.' : '';
+    errores.contactPhoneNumberError = (isEmptyString(contactPhoneNumber) || !isValidPhoneNumber(contactPhoneNumber)) ?
+      'Ingrese un teléfono válido.' : '';
+    this.setState(errores);
 
+    if (hasEmptyStringProperties(errores)) {
       let contacts = [];
 
       if (selectedIndex !== '') { // EDITANDO
@@ -246,19 +248,21 @@ class Perfil extends React.Component {
 
   handleActualizarPerfil = () => {
     const { firstName, lastName, idNumber, birthDate, sex, contacts } = this.state;
+    const errores = {};
 
-    if (isEmptyString(firstName) || stringHasNumbers(firstName) || firstName.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ firstNameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ firstNameError: '', lastNameError: 'Ingrese un apellido' });
-    } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
-      this.setState({ firstNameError: '', lastNameError: '', idNumberError: 'El DNI debe ser numérico' });
-    } else if (birthDate === null) {
-      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento' });
-    } else if ((contacts.filter(c => c.primary).length !== 1) && !this.props.isMedico) {
+    errores.firstNameError = (isEmptyString(firstName) || stringHasNumbers(firstName) || firstName.trim().split(' ').some(s => !isOnlyString(s))) ?
+      'Ingrese un nombre válido.' : '';
+    errores.lastNameError = (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) ?
+      'Ingrese un apellido válido.' : '';
+    errores.idNumberError = (isEmptyString(idNumber) || !isValidDNI(idNumber)) ?
+      'El DNI debe ser numérico' : '';
+    errores.birthDateError = (birthDate === null) ?
+      'Ingrese una fecha de nacimiento' : '';
+
+    this.setState(errores);
+    if ((contacts.filter(c => c.primary).length !== 1) && !this.props.isMedico) {
       this.setState({ showMessage: true, title: 'Error', message: 'Debe seleccionar un único contacto primario' });
-    } else {
-      this.setState({ firstNameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
+    } else if (hasEmptyStringProperties(errores)) {
       const { dispatch } = this.props;
 
       let { qrUpdateRequired } = this.state;
@@ -292,15 +296,17 @@ class Perfil extends React.Component {
       newPassword,
       confirmPassword,
     } = this.state;
+    const errores = {};
 
-    if (password === '') {
-      this.setState({ passwordError: 'Ingrese su contraseña actual' });
-    } else if (newPassword === '' || password === newPassword || !isValidPassword(newPassword)) {
-      this.setState({ passwordError: '', newPasswordError: 'Ingrese una contraseña válida.' });
-    } else if (newPassword !== confirmPassword) {
-      this.setState({ passwordError: '', newPasswordError: '', confirmPasswordError: 'Las contraseñas no coinciden' });
-    } else {
-      this.setState({ passwordError: '', newPasswordError: '', confirmPasswordError: '' });
+    errores.passwordError = (password === '') ?
+      'Ingrese su contraseña actual' : '';
+    errores.newPasswordError = (newPassword === '' || password === newPassword || !isValidPassword(newPassword)) ?
+      'Ingrese una contraseña válida.' : '';
+    errores.confirmPasswordError = (newPassword !== confirmPassword) ?
+      'Las contraseñas no coinciden' : '';
+
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       dispatch(changePassword({ password, newPassword, confirmPassword }));
     }
   }

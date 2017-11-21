@@ -15,6 +15,7 @@ import {
   isEmptyString,
   stringHasNumbers,
   isOnlyString,
+  hasEmptyStringProperties,
 } from '../../../../utils/validations';
 
 import { correctDate } from '../../../../utils/dateformat';
@@ -62,17 +63,19 @@ class CompleteRegister extends React.Component {
 
   handleCompleteRegister = () => {
     const { name, lastName, idNumber, birthDate, sex } = this.state;
+    const errores = {};
 
-    if (isEmptyString(name) || stringHasNumbers(name) || name.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ nameError: 'Ingrese un nombre válido.' });
-    } else if (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) {
-      this.setState({ nameError: '', lastNameError: 'Ingrese un apellido válido.' });
-    } else if (isEmptyString(idNumber) || !isValidDNI(idNumber)) {
-      this.setState({ nameError: '', lastNameError: '', idNumberError: 'Ingrese un DNI válido' });
-    } else if (birthDate === null) {
-      this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: 'Ingrese una fecha de nacimiento.' });
-    } else {
-      this.setState({ nameError: '', lastNameError: '', idNumberError: '', birthDateError: '' });
+    errores.nameError = (isEmptyString(name) || stringHasNumbers(name) || name.trim().split(' ').some(s => !isOnlyString(s))) ?
+      'Ingrese un nombre válido.' : '';
+    errores.lastNameError = (isEmptyString(lastName) || stringHasNumbers(lastName) || lastName.trim().split(' ').some(s => !isOnlyString(s))) ?
+      'Ingrese un apellido válido.' : '';
+    errores.idNumberError = (isEmptyString(idNumber) || !isValidDNI(idNumber)) ?
+      'Ingrese un DNI válido' : '';
+    errores.birthDateError = (birthDate === null) ?
+      'Ingrese una fecha de nacimiento.' : '';
+
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       const { dispatch } = this.props;
       const token = new URLSearchParams(window.location.search).get('token');
 

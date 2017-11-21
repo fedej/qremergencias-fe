@@ -17,7 +17,7 @@ import SelectField from 'material-ui/SelectField';
 
 import {
   isEmptyString,
-  stringHasNumbers,
+  hasEmptyStringProperties,
 } from '../../../utils/validations';
 
 const periodsMapping = {
@@ -81,20 +81,23 @@ export default class Medicaciones extends React.Component {
 
   handleDialogData = () => {
     const { name, description, amount, period, selectedIndex } = this.state;
+    const errores = {};
 
-    if (isEmptyString(name)) {
-      this.setState({ nameError: 'Ingrese un nombre.' });
-    } else if (isEmptyString(description)) {
-      this.setState({ nameError: '', descriptionError: 'Ingrese una descripción.' });
-    } else if (isEmptyString(amount)) {
-      this.setState({ nameError: '', descriptionError: '', amountError: 'Ingrese una cantidad.' });
-    } else if (isEmptyString(period)) {
-      this.setState({ nameError: '', descriptionError: '', amountError: '', periodError: 'Ingrese una fecha.' });
-    } else if (this.checkDuplicate(name, selectedIndex, this.props.medications)) {
-      this.setState({ nameError: 'El medicamento ya fue agregado, por favor ingrese otro' });
-    } else {
-      this.setState({ nameError: '', descriptionError: '', amountError: '', periodError: '' });
+    errores.nameError = (isEmptyString(name)) ?
+      'Ingrese un nombre.' : '';
+    errores.descriptionError = (isEmptyString(description)) ?
+      'Ingrese una descripción.' : '';
+    errores.amountError = (isEmptyString(amount)) ?
+      'Ingrese una cantidad.' : '';
+    errores.periodError = (isEmptyString(period)) ?
+      'Ingrese una fecha.' : '';
+    if (errores.nameError === '') {
+      errores.nameError = (this.checkDuplicate(name, selectedIndex, this.props.medications)) ?
+        'El medicamento ya fue agregado, por favor ingrese otro' : '';
+    }
 
+    this.setState(errores);
+    if (hasEmptyStringProperties(errores)) {
       let medications = this.props.medications;
 
       if (selectedIndex === '') {
