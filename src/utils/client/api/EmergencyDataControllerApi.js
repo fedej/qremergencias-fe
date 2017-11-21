@@ -121,15 +121,29 @@ export default class EmergencyDataControllerApi {
 
     /**
      * getChanges
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
+     * @param {Number} opts.page Results page you want to retrieve (0..N)
+     * @param {Number} opts.size Number of records per page
+     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfChangesDTO} and HTTP response
      */
-    getChangesUsingGETWithHttpInfo() {
+    getChangesUsingGETWithHttpInfo(opts) {
+      opts = opts || {};
       let postBody = null;
 
 
       let pathParams = {
       };
       let queryParams = {
+        'text': opts['text'],
+        'from': opts['from'],
+        'to': opts['to'],
+        'page': opts['page'],
+        'size': opts['size'],
+        'sort': this.apiClient.buildCollectionParam(opts['sort'], 'multi')
       };
       let headerParams = {
       };
@@ -150,10 +164,17 @@ export default class EmergencyDataControllerApi {
 
     /**
      * getChanges
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
+     * @param {Number} opts.page Results page you want to retrieve (0..N)
+     * @param {Number} opts.size Number of records per page
+     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfChangesDTO}
      */
-    getChangesUsingGET() {
-      return this.getChangesUsingGETWithHttpInfo()
+    getChangesUsingGET(opts) {
+      return this.getChangesUsingGETWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
