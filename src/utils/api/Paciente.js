@@ -9,9 +9,17 @@ export default class PacienteService {
     return API.verifyTempCodeUsingGET(token);
   }
 
-  static getCambiosDatosEmergencia() {
+  static getCambiosDatosEmergencia(page, size, filters) {
+    const options = {
+      page,
+      size,
+      from: filters && filters.fechaDesde ? filters.fechaDesde : null,
+      to: filters && filters.fechaHasta ? filters.fechaHasta : null,
+      text: filters ? filters.medico : null,
+    };
+
     const API = new EmergencyDataControllerApi(UserService.getApiClient());
-    return API.getChangesUsingGET();
+    return API.getChangesUsingGET(options);
   }
 
   static getCodigoQR(user) {
