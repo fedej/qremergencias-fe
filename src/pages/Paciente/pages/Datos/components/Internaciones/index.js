@@ -28,37 +28,50 @@ export default class Internaciones extends React.Component {
     const hospitalizations = this.props.hospitalizations;
 
     return (
-      <div className={classnames('formCenter')}>
-        <Card style={{ margin: '20px' }}>
-          <CardTitle title="Internaciones" />
-          <CardText>
-            <Table onRowSelection={this.handleRowSelection}>
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn>Fecha</TableHeaderColumn>
-                  <TableHeaderColumn>Motivo</TableHeaderColumn>
-                  <TableHeaderColumn>Establecimiento</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {
-                  hospitalizations && hospitalizations.length && hospitalizations.map((p, i) =>
-                    (
-                      <TableRow key={i}>
-                        <TableRowColumn>
-                          {moment.utc(p.date).format('DD / MM / YYYY')}
-                        </TableRowColumn>
-                        <TableRowColumn>{p.reason}</TableRowColumn>
-                        <TableRowColumn>{p.institution}</TableRowColumn>
-                      </TableRow>
-                    ),
-                  )
-                }
-              </TableBody>
-            </Table>
-          </CardText>
-        </Card>
-      </div>
+      hospitalizations && hospitalizations.length ? (
+        <div className={classnames('formCenter')}>
+          <Card style={{ margin: '20px' }}>
+            <CardTitle title="Internaciones" />
+            <CardText>
+              <Table onRowSelection={this.handleRowSelection}>
+                <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                  <TableRow>
+                    <TableHeaderColumn>Fecha</TableHeaderColumn>
+                    <TableHeaderColumn>Motivo</TableHeaderColumn>
+                    <TableHeaderColumn>Establecimiento</TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody displayRowCheckbox={false}>
+                  {
+                    hospitalizations && hospitalizations.length && hospitalizations.map((p, i) =>
+                      (
+                        <TableRow key={i}>
+                          <TableRowColumn>
+                            {moment.utc(p.date).format('DD / MM / YYYY')}
+                          </TableRowColumn>
+                          <TableRowColumn>{p.reason}</TableRowColumn>
+                          <TableRowColumn>{p.institution}</TableRowColumn>
+                        </TableRow>
+                      ),
+                    )
+                  }
+                </TableBody>
+              </Table>
+            </CardText>
+          </Card>
+        </div>) : (
+          <div>
+            <div className={classnames('formCenter')}>
+              <h2>¡Parece ser que aún no tenés internaciones cargadas!</h2>
+            </div>
+            <div className={classnames('formCenter')}>
+              <h2>Aquí podrás ver el listado de internaciones </h2>
+            </div>
+            <div className={classnames('formCenter')}>
+              <h2>a medida que las vaya cargando un médico autorizado.</h2>
+            </div>
+          </div>
+        )
     );
   }
 }
