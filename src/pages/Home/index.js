@@ -51,9 +51,10 @@ export default class Home extends React.Component {
   }
 
   render() {
+    const { navElementRight } = this.props;
     return (
       <div>
-        <Nav />
+        <Nav elementRight={navElementRight} />
         <Drawer />
         <ToastContainer
           style={{ zIndex: '900' }}

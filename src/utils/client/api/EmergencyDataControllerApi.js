@@ -121,15 +121,29 @@ export default class EmergencyDataControllerApi {
 
     /**
      * getChanges
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
+     * @param {Number} opts.page Results page you want to retrieve (0..N)
+     * @param {Number} opts.size Number of records per page
+     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/PageOfChangesDTO} and HTTP response
      */
-    getChangesUsingGETWithHttpInfo() {
+    getChangesUsingGETWithHttpInfo(opts) {
+      opts = opts || {};
       let postBody = null;
 
 
       let pathParams = {
       };
       let queryParams = {
+        'text': opts['text'],
+        'from': opts['from'],
+        'to': opts['to'],
+        'page': opts['page'],
+        'size': opts['size'],
+        'sort': this.apiClient.buildCollectionParam(opts['sort'], 'multi')
       };
       let headerParams = {
       };
@@ -150,10 +164,17 @@ export default class EmergencyDataControllerApi {
 
     /**
      * getChanges
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.text text
+     * @param {Date} opts.from from
+     * @param {Date} opts.to to
+     * @param {Number} opts.page Results page you want to retrieve (0..N)
+     * @param {Number} opts.size Number of records per page
+     * @param {Array.<String>} opts.sort Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/PageOfChangesDTO}
      */
-    getChangesUsingGET() {
-      return this.getChangesUsingGETWithHttpInfo()
+    getChangesUsingGET(opts) {
+      return this.getChangesUsingGETWithHttpInfo(opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -284,7 +305,7 @@ export default class EmergencyDataControllerApi {
 
       let authNames = [];
       let contentTypes = ['application/json'];
-      let accepts = ['image/png'];
+      let accepts = ['*/*'];
       let returnType = File;
 
       return this.apiClient.callApi(
@@ -301,6 +322,55 @@ export default class EmergencyDataControllerApi {
      */
     getQRUsingGET(user) {
       return this.getQRUsingGETWithHttpInfo(user)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * getQR
+     * @param {String} user user
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link File} and HTTP response
+     */
+    getQRUsingHEADWithHttpInfo(user) {
+      let postBody = null;
+
+      // verify the required parameter 'user' is set
+      if (user === undefined || user === null) {
+        throw new Error("Missing the required parameter 'user' when calling getQRUsingHEAD");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'user': user
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = ['*/*'];
+      let returnType = File;
+
+      return this.apiClient.callApi(
+        '/api/emergencyData/qr', 'HEAD',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * getQR
+     * @param {String} user user
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link File}
+     */
+    getQRUsingHEAD(user) {
+      return this.getQRUsingHEADWithHttpInfo(user)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -65,10 +65,10 @@ function deleteHistoria() {
   };
 }
 
-export const fetchHistoriasClinicasDePaciente = (id, token, page, size) => (dispatch) => {
+export const fetchHistoriasClinicasDePaciente = (id, token, page, size, filters) => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.listByUser(id, token, page, size)
+  HistoriasService.listByUser(id, token, page, size, filters)
     .then((records) => {
       const { totalPages, content } = records;
       const historias = content.map((h) => {
@@ -82,10 +82,10 @@ export const fetchHistoriasClinicasDePaciente = (id, token, page, size) => (disp
     .catch(err => dispatch(historiasError(err.message)));
 };
 
-export const fetchHistoriasClinicas = (page, itemsPerPage) => (dispatch) => {
+export const fetchHistoriasClinicas = (page, itemsPerPage, filters) => (dispatch) => {
   dispatch(requestHistorias());
 
-  HistoriasService.list(page, itemsPerPage)
+  HistoriasService.list(page, itemsPerPage, filters)
     .then((records) => {
       const { totalPages, content } = records;
       const historias = content.map((h) => {

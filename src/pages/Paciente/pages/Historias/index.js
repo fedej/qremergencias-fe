@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import Progress from 'react-progress-2';
 import { browserHistory } from 'react-router';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, DatePicker, TextField } from 'material-ui';
+import MdSearch from 'react-icons/lib/md/search';
+import MdClear from 'react-icons/lib/md/clear';
 import classnames from 'classnames';
+import moment from 'moment';
 import 'react-progress-2/main.css';
 import '../../../../assets/styles/bootstrap.min.css';
 
@@ -13,6 +16,7 @@ import Home from '../../../Home';
 import HistoriaClinica from '../../../Historias/components/HistoriaClinica';
 
 import { fetchHistoriasClinicasDePaciente } from '../../../../store/Historias';
+import { correctDate } from '../../../../utils/dateformat';
 
 const historiasContainerStyle = {
   display: 'flex',
@@ -20,6 +24,18 @@ const historiasContainerStyle = {
   flexDirection: 'column',
   padding: '20px',
 };
+
+function validarFechaDesde(fecha, fechaHasta) {
+  if (fechaHasta) {
+    return fecha > fechaHasta;
+  }
+
+  return fecha > moment().utc().toDate();
+}
+
+function validarFechaHasta(fecha) {
+  return fecha > moment().utc().toDate();
+}
 
 class HistoriasPaciente extends React.Component {
   static defaultProps = {
@@ -44,6 +60,11 @@ class HistoriasPaciente extends React.Component {
     historias: [],
     page: 0,
     itemsPerPage: 2,
+    filters: {
+      fechaDesde: null,
+      fechaHasta: null,
+      nombreHistoria: '',
+    },
   }
 
   componentWillMount() {
@@ -86,11 +107,130 @@ class HistoriasPaciente extends React.Component {
     this.setState({ page }, () =>
       this.props
         .doFetchHistoriasClinicasDePaciente(paciente, token, page, itemsPerPage));
-  };
+  }
+
+  formatDate = (date) => {
+    const string = moment(date).format('DD / MM / YYYY');
+    return string;
+  }
+
+  toLocalDate = (date) => {
+    if (!date) {
+      return null;
+    }
+    const string = moment(date).format('YYYY-MM-DD');
+    return string;
+  }
+
+  handleChangeFilter(tipoFiltro, e, value) {
+    switch (tipoFiltro) {
+      case 'desde': {
+        const { filters } = this.state;
+        this.setState({ page: 0, filters: { ...filters, fechaDesde: value } });
+        break;
+      }
+      case 'hasta': {
+        const { filters } = this.state;
+        if (filters.fechaDesde && filters.fechaDesde > value) {
+          this.setState({ page: 0, filters: { ...filters, fechaDesde: null, fechaHasta: value } });
+        } else {
+          this.setState({ page: 0, filters: { ...filters, fechaHasta: value } });
+        }
+        break;
+      }
+      case 'nombreHistoria': {
+        const { filters } = this.state;
+        this.setState({ page: 0, filters: { ...filters, nombreHistoria: value } });
+        break;
+      }
+    }
+  }
+
+  handleDoSearch = () => {
+    const { paciente } = this.props;
+    const { itemsPerPage, filters } = this.state;
+    const token = '1234';
+
+    this.props
+      .doFetchHistoriasClinicasDePaciente(paciente, token, 0, itemsPerPage, {
+        ...filters,
+        fechaDesde: filters.fechaDesde ? this.toLocalDate(filters.fechaDesde) : null,
+        fechaHasta: filters.fechaHasta ? this.toLocalDate(filters.fechaHasta) : null,
+      });
+  }
+
+  handleClearFilters = () => {
+    this.setState({
+      filters: {
+        fechaDesde: null,
+        fechaHasta: null,
+        nombreHistoria: '',
+      },
+    }, this.handleDoSearch);
+  }
 
   render() {
+    const ElementRight = (
+      <div>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <div>
+            <TextField
+              hintText="Nombre del Estudio..."
+              hintStyle={{ color: 'white' }}
+              inputStyle={{ color: 'white' }}
+              onChange={this.handleChangeFilter.bind(this, 'nombreHistoria')}
+              value={this.state.filters.nombreHistoria}
+            />
+          </div>
+          <div>
+            <DatePicker
+              style={{ marginLeft: '10px' }}
+              textFieldStyle={{ width: null }}
+              inputStyle={{ color: 'white' }}
+              hintText="desde"
+              hintStyle={{ color: 'white' }}
+              DateTimeFormat={Intl.DateTimeFormat}
+              formatDate={this.formatDate}
+              locale="es-ES"
+              shouldDisableDate={(fecha) => validarFechaDesde(fecha, this.state.filters.fechaHasta)}
+              onChange={this.handleChangeFilter.bind(this, 'desde')}
+              value={correctDate(this.state.filters.fechaDesde)}
+            />
+          </div>
+          <div>
+            <DatePicker
+              style={{ marginLeft: '10px' }}
+              textFieldStyle={{ width: null }}
+              inputStyle={{ color: 'white' }}
+              hintText="hasta"
+              hintStyle={{ color: 'white' }}
+              DateTimeFormat={Intl.DateTimeFormat}
+              formatDate={this.formatDate}
+              locale="es-ES"
+              shouldDisableDate={validarFechaHasta}
+              onChange={this.handleChangeFilter.bind(this, 'hasta')}
+              value={correctDate(this.state.filters.fechaHasta)}
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <MdSearch
+              size={30}
+              style={{ color: 'white', cursor: 'pointer' }}
+              onClick={this.handleDoSearch}
+            />
+            <MdClear
+              alt="Limpiar Filtros"
+              size={30}
+              style={{ color: 'white', cursor: 'pointer' }}
+              onClick={this.handleClearFilters}
+            />
+          </div>
+        </div>
+      </div>
+    );
+
     return (
-      <Home>
+      <Home navElementRight={ElementRight}>
         <div>
           <Progress.Component
             style={{ background: 'white' }}
@@ -150,8 +290,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  doFetchHistoriasClinicasDePaciente: (paciente, token, page, size) =>
-    dispatch(fetchHistoriasClinicasDePaciente(paciente, token, page, size)),
+  doFetchHistoriasClinicasDePaciente: (paciente, token, page, size, filters) =>
+    dispatch(fetchHistoriasClinicasDePaciente(paciente, token, page, size, filters)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoriasPaciente);

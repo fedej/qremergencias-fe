@@ -57,10 +57,10 @@ export const vincularPaciente = token => (dispatch) => {
     .catch(err => dispatch(pacienteError(err.message)));
 };
 
-export const fetchCambiosDatosPaciente = () => (dispatch) => {
+export const fetchCambiosDatosPaciente = (page, size, filters) => (dispatch) => {
   dispatch({ type: PACIENTE_REQUEST });
 
-  PacienteService.getCambiosDatosEmergencia()
+  PacienteService.getCambiosDatosEmergencia(page, size, filters)
     .then(cambios => dispatch(cambiosSuccess(cambios)))
     .catch(err => dispatch({ type: PACIENTE_CAMBIOS_DATOS_ERROR, error: err.message }));
 };
