@@ -64,6 +64,9 @@ const styles = {
   chip: {
     margin: 4,
     display: 'inline-flex',
+    marginRight: '3px',
+    marginBottom: '5px',
+    alignItems: 'center',
   },
 };
 
@@ -235,7 +238,7 @@ export default class Generales extends React.Component {
             </table>
             <br />
             <br />
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
             {
               general.allergies ? general.allergies.map((texto, i) => (
                 <Chip
