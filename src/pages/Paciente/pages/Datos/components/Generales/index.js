@@ -50,13 +50,21 @@ export default class Generales extends React.Component {
                 disabled
               />
               <br />
-              {
-                general.allergies ? general.allergies.map((texto, i) => (
-                  <Chip key={i} style={{ float: 'left', marginRight: '3px' }}>
-                    {texto}
-                  </Chip>
-                )) : ''
-              }
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {
+                  general.allergies ? general.allergies.map((texto, i) => (
+                    <Chip key={i}
+                      style={{
+                        marginRight: '3px',
+                        marginBottom: '5px',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {texto}
+                    </Chip>
+                  )) : ''
+                }
+              </div>
               <br />
             </CardText>
           </Card>
