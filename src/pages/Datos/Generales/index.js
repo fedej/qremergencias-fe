@@ -111,7 +111,7 @@ export default class Generales extends React.Component {
 
     if (this.state.allergyBasic !== 'otro') {
       const alergia = basicAllergies.find(a => a.value === allergyBasic);
-      allergy = this.state.allergyBasic;
+      allergy = alergia.key;
       this.props.onQRUpdateRequiredChange(true);
     } else if (!isEmptyString(this.state.allergyDescription)) {
       allergy = this.state.allergyDescription.trim();
