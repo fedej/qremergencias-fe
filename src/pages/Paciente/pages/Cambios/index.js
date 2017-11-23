@@ -245,7 +245,7 @@ class CambiosDatosEmergencia extends React.Component {
             ) : (
               <div>
                 <div className={classnames('formCenter')}>
-                  <h2>¡Parece ser que aún no tenés cambios!</h2>
+                  <h2>¡Parece ser que aún no tenés cambios o el filtro no trajo resultados!</h2>
                 </div>
                 <div className={classnames('formCenter')}>
                   <h2>Aquí podrás ver el historial de cambios que se vayan realizando </h2>
